@@ -1,0 +1,23 @@
+{
+    "name": "gabriel/sima",
+    "description": "Sistema Integral de Médicos de Aragua (SIMA)",
+    "type": "project",
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "masterminds/html5": "^2.10",
+        "phpunit/phpunit": "^9.6"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gabriel Enrique Hernández López",
+            "email": "gabriel20212004@hotmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
