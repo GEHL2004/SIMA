@@ -1,0 +1,17 @@
+.justify-description {
+    text-align: justify;
+}
+
+.td-datatable {
+    white-space: normal !important;
+    word-wrap: break-word;
+    max-width: auto; /* Opcional: ancho máximo */
+}
+
+.btn{
+    transition: 0.2s ease-in-out;
+}
+
+.tabla-adaptativa{
+    width: auto !important;
+}

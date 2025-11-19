@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Bloquear acceso a carpetas sensibles (app, vendor, .vscode, storage)
+RewriteRule ^(app|vendor|\.vscode|storage)(/.*)?$ - [F,L]
+
+# Bloquear archivos sensibles
+<FilesMatch "\.(env|htaccess)$">
+    Require all denied
+</FilesMatch>
+
+# Front Controller
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php [L]
