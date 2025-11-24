@@ -60,7 +60,7 @@
                             <img src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/images/Escudo_Colegio_Medicos.png" width="180" height="180" style="opacity: 0.6;" />
                         </div>
                         <div class="">
-                            <img src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/images/Logo SIMA Transparente.png" width="200" height="200" style="opacity: 0.6;" />
+                            <!-- <img src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/images/Logo SIMA Transparente.png" width="200" height="200" style="opacity: 0.6;" /> -->
                         </div>
                     </div>
 

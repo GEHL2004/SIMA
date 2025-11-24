@@ -29,7 +29,7 @@
       <!-- Sidebar Menu Start -->
       <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/SIMA/home">
+          <a class="nav-link" class="text-center" aria-current="page" href="/SIMA/home">
             <i class="icon fa-solid fa-house"></i>
             <span class="item-name">Inicio</span>
           </a>
@@ -46,7 +46,7 @@
           </a>
           <ul class="sub-nav collapse" id="catalogos" data-bs-parent="#sidebar-menu">
             <li class="nav-item">
-              <a class="nav-link " href="#">
+              <a class="nav-link " href="/SIMA/categorias">
                 <i class="icon">
                   <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                     <g>
@@ -59,7 +59,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " href="#">
+              <a class="nav-link " href="/SIMA/tipos-practicas">
                 <i class="icon">
                   <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                     <g>
@@ -72,7 +72,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " href="#">
+              <a class="nav-link " href="/SIMA/sistemas-corporales">
                 <i class="icon svg-icon">
                   <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                     <g>
@@ -98,7 +98,7 @@
           </a>
           <ul class="sub-nav collapse" id="especialidades" data-bs-parent="#sidebar-menu">
             <li class="nav-item">
-              <a class="nav-link " href="#">
+              <a class="nav-link " href="/SIMA/especialidades">
                 <i class="icon">
                   <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                     <g>
@@ -111,7 +111,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " href="#">
+              <a class="nav-link " href="/SIMA/sub-especialidades">
                 <i class="icon">
                   <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                     <g>
@@ -127,7 +127,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" href="#medicos" role="button" aria-expanded="false" aria-controls="medicos">
-            <i class="fa-solid fa-user-doctor">M</i>
+            <i class="fa-solid fa-user-doctor"></i>
             <span class="item-name">Medicos</span>
             <i class="right-icon">
               <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -137,7 +137,7 @@
           </a>
           <ul class="sub-nav collapse" id="medicos" data-bs-parent="#sidebar-menu">
             <li class="nav-item">
-              <a class="nav-link " href="/SIMA/usuarios">
+              <a class="nav-link " href="/SIMA/medicos">
                 <i class="icon">
                   <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                     <g>
@@ -145,12 +145,12 @@
                     </g>
                   </svg>
                 </i>
-                <i class="sidenav-mini-icon"></i>
+                <i class="sidenav-mini-icon">M</i>
                 <span class="item-name">Medicos</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " href="/SIMA/auditoria">
+              <a class="nav-link " href="/SIMA/pagos">
                 <i class="icon">
                   <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                     <g>

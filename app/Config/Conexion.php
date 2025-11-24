@@ -38,25 +38,33 @@ class Conexion
 
     public function ejecutar(string $sql, array $parametros = [])
     {
-        $this->conexion->beginTransaction();
-        $sentencia = $this->conexion->prepare($sql);
-        foreach ($parametros as $indice => $valor) {
-            $sentencia->bindValue($indice, $valor);
+        try {
+            $this->conexion->beginTransaction();
+            $sentencia = $this->conexion->prepare($sql);
+            foreach ($parametros as $indice => $valor) {
+                $sentencia->bindValue($indice, $valor);
+            }
+            $sentencia->execute();
+            $ultimo_id_insertado = $this->conexion->lastInsertId();
+            $this->conexion->commit();
+            return $ultimo_id_insertado;
+        } catch (PDOException $e) {
+            die('error al ejecutar el codigo MySQL: ' . $e->getMessage());
         }
-        $sentencia->execute();
-        $ultimo_id_insertado = $this->conexion->lastInsertId();
-        $this->conexion->commit();
-        return $ultimo_id_insertado;
     }
 
     public function consultar(string $sql, array $parametros = [])
     {
-        $sentencia = $this->conexion->prepare($sql);
-        foreach ($parametros as $indice => $valor) {
-            $sentencia->bindValue($indice, $valor);
+        try {
+            $sentencia = $this->conexion->prepare($sql);
+            foreach ($parametros as $indice => $valor) {
+                $sentencia->bindValue($indice, $valor);
+            }
+            $sentencia->execute();
+            return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die('error al ejcutar la consulta MySQL: ' . $e->getMessage());
         }
-        $sentencia->execute();
-        return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function backup()
@@ -96,7 +104,7 @@ class Conexion
                 return false;
             }
         } catch (PDOException $e) {
-            die("Error de conexión a la base de datos: " . $e->getMessage());
+            die("Error al realizar el respaldo de base de datos: " . $e->getMessage());
         }
     }
 
@@ -119,8 +127,7 @@ class Conexion
             $this->conexion->exec("SET FOREIGN_KEY_CHECKS = 1");
             return true;
         } catch (PDOException $e) {
-            die("Error de conexión a la base de datos: " . $e->getMessage());
-            return "Error de conexión a la base de datos: " . $e->getMessage();
+            die("Error al restaurar la base de datos: " . $e->getMessage());
         }
     }
 
@@ -132,7 +139,7 @@ class Conexion
             $this->conexion->exec($sql);
             return true;
         } catch (PDOException $e) {
-            die("Error de conexión a la base de datos: " . $e->getMessage());
+            die("Error al restablecer de fabrica la base de datos: " . $e->getMessage());
         }
     }
 

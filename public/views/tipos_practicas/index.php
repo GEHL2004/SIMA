@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="text-center mb-2 mt-3">
-                <h1 class="text-primary">Listado de Categorias</h1>
+                <h1 class="text-primary">Listado de Tipos de Practica</h1>
             </div>
 
             <div class="row justify-content-center mb-2 mt-3">
@@ -13,7 +13,7 @@
                         <div class="card-body bg-light-subtle">
                             <div class="d-flex justify-content-lg-start justify-content-center align-items-center">
                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ModalRegistro">
-                                    <i class="fa-solid fa-user-plus"></i> Añadir Categoría
+                                    <i class="fa-solid fa-user-plus"></i> Añadir Tipo de Practica
                                 </button>
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="row" id="Categorias">
+            <div class="row" id="tipos-de-practica">
                 <div class="row justify-content-center">
                     <div class="col-11 table-responsive">
                         <table id="tabla" class="table table-sm table-bordered mb-0" style="width: auto !important;">
@@ -29,6 +29,7 @@
                                 <tr>
                                     <th width="3%" scope="col" class="text-center bg-body-tertiary">#</th>
                                     <th class="text-center bg-body-tertiary" scope="col">Nombre</th>
+                                    <th class="text-center bg-body-tertiary" scope="col">Código</th>
                                     <th width="10%" class="text-center bg-body-tertiary" scope="col">Acciones</th>
                                 </tr>
                             </thead>
@@ -37,97 +38,97 @@
                 </div>
             </div>
 
-            <!-- Modal para registrar una categoria -->
+            <!-- Modal para registrar una tipos de practicas -->
 
             <div class="modal fade" id="ModalRegistro" tabindex="-1" aria-labelledby="ModalRegistroLabel" aria-hidden="true">
-                <form action="/SIMA/categorias-store" method="POST" id="form-store">
+                <form action="/SIMA/tipos-practicas-store" method="POST" id="form-store">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="ModalRegistroLabel">Registro de la Categoría</h1>
+                                <h1 class="modal-title fs-5" id="ModalRegistroLabel">Registro de la Tipo de Practica</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row mb-2">
                                     <div class="col-lg-12">
-                                        <label for="nombre" class="mb-1">Nombre de la Categoría:</label>
-                                        <input type="text" class="form-control" name="nombre" id="nombre-store" placeholder="Categoría X....">
+                                        <label for="nombre" class="mb-1">Nombre de la Tipo de Practica:</label>
+                                        <input type="text" class="form-control" name="nombre" id="nombre-store" placeholder="Tipo de Practica X....">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-lg-12">
-                                        <label for="nombre" class="mb-1">Descripción de la Categoría:</label>
-                                        <textarea class="form-control" name="descripcion" id="descripcion-store" cols="1" rows="5" style="resize: none;" maxlength="500" placeholder="Descripción X...."></textarea>
+                                        <label for="nombre" class="mb-1">Código de la Tipo de Practica:</label>
+                                        <input type="text" class="form-control" name="codigo" id="codigo-store" maxlength="10" placeholder="Cod X....">
                                         <div style="text-align: right; font-size: 0.85em; color: #6c757d; margin-top: 5px;">
-                                            <span id="contador-store">0</span>/500 caracteres
+                                            <span id="contador-store">0</span>/10 caracteres
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success btn-sm">Registrar Categoría</button>
+                                <button type="submit" class="btn btn-success btn-sm">Registrar Tipo de Practica</button>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
 
-            <!-- Modal para actualizar la categoria -->
+            <!-- Modal para actualizar la tipos de practicas -->
 
             <div class="modal fade" id="ModalActualizacion" tabindex="-1" aria-labelledby="ModalActualizacionLabel" aria-hidden="true">
-                <form action="/SIMA/categorias-update" method="POST" id="form-update">
-                    <input type="text" name="id_categoria" id="id_categoria" hidden>
+                <form action="/SIMA/tipos-practicas-update" method="POST" id="form-update">
+                    <input type="text" name="id_tipo_practica" id="id_tipo_practica">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="ModalRegistroLabel">Actualización de la Categoría</h1>
+                                <h1 class="modal-title fs-5" id="ModalRegistroLabel">Actualización de la Tipo de Practica</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row mb-2">
                                     <div class="col-lg-12">
-                                        <label for="nombre" class="mb-1">Nombre de la Categoría:</label>
-                                        <input type="text" class="form-control" name="nombre" id="nombre-update" placeholder="Categoría X....">
+                                        <label for="nombre" class="mb-1">Nombre de la Tipo de Practica:</label>
+                                        <input type="text" class="form-control" name="nombre" id="nombre-update" placeholder="Tipo de Practica X....">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-lg-12">
-                                        <label for="nombre" class="mb-1">Descripción de la Categoría:</label>
-                                        <textarea class="form-control" name="descripcion" id="descripcion-update" cols="1" rows="5" style="resize: none;" maxlength="500" placeholder="Descripción X...."></textarea>
+                                        <label for="nombre" class="mb-1">Código de la Tipo de Practica:</label>
+                                        <input type="text" class="form-control" name="codigo" id="codigo-update" maxlength="10" placeholder="Cod X....">
                                         <div style="text-align: right; font-size: 0.85em; color: #6c757d; margin-top: 5px;">
-                                            <span id="contador-update">0</span>/500 caracteres
+                                            <span id="contador-update">0</span>/10 caracteres
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer d-flex justify-content-center">
-                                <button type="submit" class="btn btn-warning btn-sm">Actualizar Categoría</button>
+                                <button type="submit" class="btn btn-warning btn-sm">Actualizar Tipo de Practica</button>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
 
-            <!-- Modal de ver información de la categoria -->
+            <!-- Modal de ver información de la tipos de practicas -->
 
             <div class="modal fade" id="ModalVer" tabindex="-1" aria-labelledby="ModalVerLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="ModalRegistroLabel">Información de la Categoría</h1>
+                            <h1 class="modal-title fs-5" id="ModalRegistroLabel">Información de la Tipo de Practica</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row mb-2">
                                 <div class="col-lg-12">
-                                    <label for="nombre" class="mb-1">Nombre de la Categoría:</label>
+                                    <label for="nombre" class="mb-1">Nombre de la Tipo de Practica:</label>
                                     <input type="text" class="form-control" id="nombre-ver" disabled>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-lg-12">
-                                    <label for="nombre" class="mb-1">Descripción de la Categoría:</label>
-                                    <textarea class="form-control" id="descripcion-ver" cols="1" rows="5" style="resize: none;" disabled></textarea>
+                                    <label for="nombre" class="mb-1">Código de la Tipo de Practica:</label>
+                                    <input type="text" class="form-control" id="codigo-ver" disabled>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +144,7 @@
 
 <?php require_once "./public/views/layouts/footer.php"; ?>
 
-<script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/categorias.js"></script>
+<script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/tipos_practicas.js"></script>
 
 <script>
     var dataD = JSON.parse(<?php echo $dataJ ?>);
@@ -153,13 +154,13 @@
     dataD.forEach((elemento, index) => {
         acciones = `
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#ModalActualizacion" id-categoria="${elemento['id_categoria_especialidad']}" nombre="${elemento['nombre']}" descripcion="${elemento['descripcion']}">
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#ModalActualizacion" id-tipo-practica="${elemento['id_tipo_practica']}" nombre="${elemento['nombre']}" codigo="${elemento['codigo']}">
                     <i class="fa-regular fa-pen-to-square"></i>
                 </button>
-                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#ModalVer" nombre="${elemento['nombre']}" descripcion="${elemento['descripcion']}">
+                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#ModalVer" nombre="${elemento['nombre']}" codigo="${elemento['codigo']}">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento['id_categoria_especialidad']})">
+                <button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento['id_tipo_practica']})">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>`;
@@ -167,6 +168,7 @@
         data[i] = {
             contador: i + 1,
             Nombre: elemento["nombre"],
+            Codigo: elemento["codigo"],
             Acciones: acciones,
         };
         i++;
@@ -183,6 +185,12 @@
             {
                 data: "Nombre",
                 title: "Nombre",
+                className: "text-center td-datatable",
+            },
+            
+            {
+                data: "Codigo",
+                title: "Código",
                 className: "text-center td-datatable",
             },
             {

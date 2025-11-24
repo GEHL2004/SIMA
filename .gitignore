@@ -5,3 +5,4 @@ vendors
 *.lock
 storage/backup/
 /.vscode/
+pruebas.php

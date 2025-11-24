@@ -6,10 +6,8 @@ require_once 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-use App\Controllers\{AuthController, HomeController};
-use App\Controllers\Mantenimientos\AuditoriaController;
-use App\Controllers\Mantenimientos\ServiciosBaseDeDatosController;
-use App\Controllers\Mantenimientos\UsuariosController;
+use App\Controllers\{AuthController, HomeController, CategoriasController, TiposPracticaController, SistemasCorporalesController, EspecialidadesController, SubEspecialidadesController, MedicosController, PagosController};
+use App\Controllers\Mantenimientos\{AuditoriaController, ServiciosBaseDeDatosController, UsuariosController};
 
 $request_method = $_SERVER['REQUEST_METHOD'];
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -50,7 +48,19 @@ if (empty($_SESSION)) {
 
 //rutas tipo GET
 
-if ($request_method === 'GET' && strpos($route, '/auditoria-filtrar-usuario/') === 0) {
+if ($request_method === 'GET' && strpos($route, '/categorias-delete/') === 0) {
+    $id = intval(substr($route, strlen('/categorias-delete/')));
+    (new CategoriasController())->delete($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/tipos-practicas-delete/') === 0) {
+    $id = intval(substr($route, strlen('/tipos-practicas-delete/')));
+    (new TiposPracticaController())->delete($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/sistemas-corporales-delete/') === 0) {
+    $id = intval(substr($route, strlen('/sistemas-corporales-delete/')));
+    (new SistemasCorporalesController())->delete($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/auditoria-filtrar-usuario/') === 0) {
     $id = intval(substr($route, strlen('/auditoria-filtrar-usuario/')));
     (new AuditoriaController())->filtrar_usuario($id);
     exit;
@@ -86,7 +96,19 @@ if ($request_method === 'GET' && strpos($route, '/auditoria-filtrar-usuario/') =
 
 // rutas tipo POST
 
-else if ($request_method === 'POST' && $route === '/serviciosBD-backup') {
+else if ($request_method === 'POST' && $route === '/categorias-store') {
+    (new CategoriasController())->store($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/categorias-update') {
+    (new CategoriasController())->update($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/tipos-practicas-store') {
+    (new TiposPracticaController())->store($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/tipos-practicas-update') {
+    (new TiposPracticaController())->update($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/sistemas-corporales-store') {
+    (new SistemasCorporalesController())->store($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/sistemas-corporales-update') {
+    (new SistemasCorporalesController())->update($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/serviciosBD-backup') {
     (new ServiciosBaseDeDatosController())->backup();
 } else if ($request_method === 'POST' && $route === '/serviciosBD-restore') {
     (new ServiciosBaseDeDatosController())->restore($_REQUEST);
@@ -117,6 +139,34 @@ switch ($route) {
             header("Location: /SIMA/login");
             exit;
         }
+        break;
+
+    case '/categorias':
+        (new CategoriasController())->index();
+        break;
+
+    case '/tipos-practicas':
+        (new TiposPracticaController())->index();
+        break;
+
+    case '/sistemas-corporales':
+        (new SistemasCorporalesController())->index();
+        break;
+
+    case '/especialidades':
+        (new EspecialidadesController())->index();
+        break;
+
+    case '/sub-especialidades':
+        (new SubEspecialidadesController())->index();
+        break;
+
+    case '/medicos':
+        (new MedicosController())->index();
+        break;
+
+    case '/pagos':
+        (new PagosController())->index();
         break;
 
     case '/usuarios':

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-bs-theme="light" data-bs-theme-color="theme-color-default">
+<html lang="es" dir="ltr" data-bs-theme="light" data-bs-theme-color="theme-color-default">
 
 <head>
     <meta charset="utf-8">
@@ -7,7 +7,7 @@
     <meta name="description">
     <title>CMA</title>
     <link rel="icon" href="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/images/icon.ico" type="image/x-icon">
-    <!-- <link rel="stylesheet" href="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/css/bootstrap/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/css/core/libs.min.css" />
     <link rel="stylesheet" href="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/vendor/aos/dist/aos.css" />
     <link rel="stylesheet" href="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/css/hope-ui.min.css?v=5.0.0" />
