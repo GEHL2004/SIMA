@@ -29,6 +29,11 @@ class CategoriasController
         require_once "public/views/categorias/index.php";
     }
 
+    public function getAllCategorias(){
+        $data = $this->categorias->getAllCategorias();
+        return $data;
+    }
+
     public function store(array $request)
     {
         $bool = $this->categorias->store($request);

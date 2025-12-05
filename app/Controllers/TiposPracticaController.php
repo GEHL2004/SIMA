@@ -27,9 +27,13 @@ class TiposPracticaController
         // echo "</pre>";
         // die();
         require_once "public/views/tipos_practicas/index.php";
-
     }
 
+    public function getAllTiposPracticas()
+    {
+        $data = $this->tipos_practicas->getAllTiposPracticas();
+        return $data;
+    }
     public function store(array $request)
     {
         $bool = $this->tipos_practicas->store($request);

@@ -17,7 +17,15 @@ class TiposPractica
 
     public function index()
     {
-        $sql = "SELECT * FROM tipos_practica;";
+        $sql = "SELECT id_tipo_practica, nombre, codigo FROM tipos_practica;";
+        $parametros = [];
+        $result = $this->conn->consultar($sql, $parametros);
+        return $result;
+    }
+
+    public function getAllTiposPracticas()
+    {
+        $sql = "SELECT id_tipo_practica, nombre FROM tipos_practica;";
         $parametros = [];
         $result = $this->conn->consultar($sql, $parametros);
         return $result;

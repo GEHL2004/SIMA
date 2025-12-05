@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="text-center mb-2 mt-3">
-                <h1 class="text-primary">Listado de Especialidades</h1>
+                <h1 class="text-primary">Listado de Subespecialidades</h1>
             </div>
 
             <div class="row justify-content-center mb-3">
@@ -14,7 +14,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div></div>
                                 <div>
-                                    <a href="/SIMA/especialidades-create">
+                                    <a href="/SIMA/subespecialidades-create">
                                         <button type="button" class="btn btn-success btn-sm align-middle">
                                             <i class="fa-solid fa-plus"></i> Nuevo
                                         </button>
@@ -22,9 +22,11 @@
                                 </div>
                                 <div></div>
                                 <div>
-                                    <a href="/SIMA/especialidades-disable"><button type="button" class="btn btn-light btn-sm align-middle text-white" style="background-color: #052c65;">
+                                    <a href="/SIMA/subespecialidades-disable">
+                                        <button type="button" class="btn btn-light btn-sm align-middle text-white" style="background-color: #052c65;">
                                             <i class="fa-solid fa-check"></i> Habilitar
-                                        </button></a>
+                                        </button>
+                                    </a>
                                 </div>
                                 <div></div>
                             </div>
@@ -57,10 +59,10 @@
 <?php require_once "./public/views/layouts/footer.php"; ?>
 
 <script>
-    function disable(id_especialidad) {
+    function disable(id_subespecialidad) {
         Swal.fire({
             icon: "question",
-            title: "Está seguro de deshabilitar está especialidad?",
+            title: "Está seguro de deshabilitar está subespecialidad?",
             showDenyButton: true,
             confirmButtonText: "Si",
             confirmButtonColor: "#28A745",
@@ -68,8 +70,8 @@
             reverseButtons: "true",
         }).then((respuesta) => {
             if (respuesta.isConfirmed) {
-                // console.log("/SIMA/especialidades-disable/" + id_especialidad);
-                window.location.href = "/SIMA/especialidades-disable/" + id_especialidad;
+                // console.log("/SIMA/subespecialidades-disable/" + id_subespecialidad);
+                window.location.href = "/SIMA/subespecialidades-disable/" + id_subespecialidad;
             }
         });
     };
@@ -83,23 +85,24 @@
         var data = [];
         var i = 0;
         dataD.forEach((elemento, index) => {
+            console.log();
             acciones = `
             <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="/SIMA/especialidades-edit/${
-                    elemento["id_especialidad"]
+                <a href="/SIMA/subespecialidades-edit/${
+                    elemento["id_subespecialidad"] + '_' + (elemento["requiere_especialidad_base"] == true ? '3' : '2') 
                 }"}>
                     <button type="button" class="btn btn-warning btn-sm">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </button>
                 </a>
-                <a href="/SIMA/especialidades-show/${
-                    elemento["id_especialidad"]
+                <a href="/SIMA/subespecialidades-show/${
+                    elemento["id_subespecialidad"] + '_' + (elemento["requiere_especialidad_base"] == true ? '3' : '2') 
                 }">
                     <button type="button" class="btn btn-info btn-sm">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </a>
-                <button type="button" class="btn btn-danger btn-sm" onclick="disable(${ elemento["id_especialidad"] });">
+                <button type="button" class="btn btn-danger btn-sm" onclick="disable(${ elemento["id_subespecialidad"] });">
                     <i class="fa-solid fa-x"></i>
                 </button>
             </div>`;

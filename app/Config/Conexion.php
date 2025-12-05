@@ -14,25 +14,39 @@ class Conexion
     private $usuario;
     private $password;
     private $conexion;
+    private $puerto;
     private $conexionExitosa = false;
 
-    public function __construct()
+    public function __construct(bool $lanzarError = false)
     {
         $this->dbname = $_ENV['DB_DATABASE'] ?? '';
-        $this->servidor = $_ENV['DB_HOST'] ?? '';
-        $this->usuario = $_ENV['DB_USER'] ?? '';
+        $this->servidor = $_ENV['DB_HOST'] ?? 'localhost';
+        $this->usuario = $_ENV['DB_USER'] ?? 'root';
         $this->password = $_ENV['DB_PASSWORD'] ?? '';
-
+        $this->puerto = $_ENV['DB_PORT'] ?? '3306';
+        if (empty($this->dbname) || empty($this->servidor) || empty($this->usuario)) {
+            $this->conexionExitosa = false;
+            if ($lanzarError) {
+                throw new Exception("Configuración de base de datos incompleta");
+            }
+            error_log("Configuración de base de datos incompleta");
+            return;
+        }
         try {
-            $this->conexion = new PDO("mysql:host=$this->servidor;dbname=$this->dbname;charset=utf8mb4", $this->usuario, $this->password);
-            $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $ConfiguracionPDO = [
+                PDO::ATTR_PERSISTENT => false,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_TIMEOUT => 5
+            ];
+            $this->conexion = new PDO("mysql:host=$this->servidor;port=$this->puerto;dbname=$this->dbname;charset=utf8mb4", $this->usuario, $this->password, $ConfiguracionPDO);
             $this->conexionExitosa = true;
         } catch (PDOException $e) {
-            // En lugar de lanzar excepción, marcamos que la conexión falló
-            $this->conexionExitosa = false;
-            // Podemos opcionalmente loggear el error pero no lanzar excepción
-            error_log("Error en la conexión: " . $e->getMessage());
+            error_log("Error de base de datos [{$e->getCode()}]: " . $e->getMessage());
+            error_log("Intento de conexión a: {$this->servidor}/{$this->dbname}");
+            if ($lanzarError) {
+                throw new Exception("Error de conexión con la base de datos");
+            }
         }
     }
 
@@ -42,6 +56,7 @@ class Conexion
             $this->conexion->beginTransaction();
             $sentencia = $this->conexion->prepare($sql);
             foreach ($parametros as $indice => $valor) {
+                echo "$indice => $valor";
                 $sentencia->bindValue($indice, $valor);
             }
             $sentencia->execute();
@@ -49,7 +64,7 @@ class Conexion
             $this->conexion->commit();
             return $ultimo_id_insertado;
         } catch (PDOException $e) {
-            die('error al ejecutar el codigo MySQL: ' . $e->getMessage());
+            die('Error al ejecutar el codigo MySQL: ' . $e->getMessage());
         }
     }
 
@@ -63,7 +78,7 @@ class Conexion
             $sentencia->execute();
             return $sentencia->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            die('error al ejcutar la consulta MySQL: ' . $e->getMessage());
+            die('Error al ejcutar la consulta MySQL: ' . $e->getMessage());
         }
     }
 

@@ -29,6 +29,11 @@ class SistemasCorporalesController
         require_once "public/views/sistemas_corporales/index.php";
     }
 
+    public function getAllSistemasCorporales(){
+        $data = $this->sistemas_corporales->getAllSistemasCorporales();
+        return $data;
+    }
+
     public function store(array $request)
     {
         $bool = $this->sistemas_corporales->store($request);

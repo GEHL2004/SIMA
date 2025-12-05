@@ -162,9 +162,9 @@ body {
     --bs-body-font-size: 1rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
-    --bs-body-color: #8a92a6;
+    --bs-body-color: #707583;
     --bs-body-color-rgb: 138, 146, 166;
-    --bs-body-bg: #f5f6fa;
+    --bs-body-bg: #f5f6fa; /*AAAAAAAAACAAAAAAAAAAAAAAAA*/
     --bs-body-bg-rgb: 245, 246, 250;
     --bs-emphasis-color: #000;
     --bs-emphasis-color-rgb: 0, 0, 0;

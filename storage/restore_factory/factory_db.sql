@@ -157,7 +157,6 @@ CREATE TABLE especialidades (
     id_tipo_practica INT NOT NULL,
     id_sistema_corporal INT NOT NULL,
     descripcion TEXT NOT NULL,
-    duracion_residencia INT NOT NULL,
     activa BOOLEAN DEFAULT TRUE NOT NULL,
     id_creador INT NOT NULL,
     creado_el TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -167,10 +166,12 @@ CREATE TABLE subespecialidades (
     id_subespecialidad INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     codigo VARCHAR(20) UNIQUE NOT NULL,
-    id_especialidad INT NOT NULL,
+    id_especialidad INT NULL,
+    id_categoria_especialidad INT NULL,
+    id_tipo_practica INT NULL,
+    id_sistema_corporal INT NULL,
     descripcion TEXT NOT NULL,
     requiere_especialidad_base BOOLEAN DEFAULT TRUE NOT NULL,
-    duracion_residencia INT NOT NULL,
     activa BOOLEAN DEFAULT TRUE NOT NULL,
     id_creador INT NOT NULL,
     creado_el TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -250,6 +251,12 @@ ALTER TABLE especialidades ADD FOREIGN KEY (id_tipo_practica) REFERENCES tipos_p
 ALTER TABLE especialidades ADD FOREIGN KEY (id_sistema_corporal) REFERENCES sistemas_corporales (id_sistema_corporal);
 
 ALTER TABLE subespecialidades ADD FOREIGN KEY (id_especialidad) REFERENCES especialidades (id_especialidad);
+
+ALTER TABLE subespecialidades ADD FOREIGN KEY (id_categoria_especialidad) REFERENCES categorias_especialidades (id_categoria_especialidad);
+
+ALTER TABLE subespecialidades ADD FOREIGN KEY (id_tipo_practica) REFERENCES tipos_practica (id_tipo_practica);
+
+ALTER TABLE subespecialidades ADD FOREIGN KEY (id_sistema_corporal) REFERENCES sistemas_corporales (id_sistema_corporal);
 
 ALTER TABLE medicos ADD FOREIGN KEY (id_grado_academico) REFERENCES grados_academicos(id_grado_academico);
 

@@ -4,7 +4,8 @@
         <div class="right-panel">
             © <script>
                 document.write(new Date().getFullYear())
-            </script> Sistema Integral de Médicos de Aragua (SIMA).
+            </script> Colegio de Medicos de Aragua (CMA).
+            <!-- Sistema Integral de Médicos de Aragua (SIMA). -->
         </div>
     </div>
 </footer>

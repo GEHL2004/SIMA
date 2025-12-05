@@ -23,6 +23,14 @@ class Categorias
         return $result;
     }
 
+    public function getAllCategorias()
+    {
+        $sql = "SELECT id_categoria_especialidad, nombre FROM categorias_especialidades;";
+        $parametros = [];
+        $result = $this->conn->consultar($sql, $parametros);
+        return $result;
+    }
+
     public function store(array $data)
     {
         try {

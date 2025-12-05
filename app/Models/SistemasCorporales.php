@@ -17,7 +17,15 @@ class SistemasCorporales
 
     public function index()
     {
-        $sql = "SELECT * FROM sistemas_corporales;";
+        $sql = "SELECT id_sistema_corporal, nombre, descripcion FROM sistemas_corporales;";
+        $parametros = [];
+        $result = $this->conn->consultar($sql, $parametros);
+        return $result;
+    }
+
+    public function getAllSistemasCorporales()
+    {
+        $sql = "SELECT id_sistema_corporal, nombre FROM sistemas_corporales;";
         $parametros = [];
         $result = $this->conn->consultar($sql, $parametros);
         return $result;

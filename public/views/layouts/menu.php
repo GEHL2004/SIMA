@@ -110,7 +110,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " href="/SIMA/sub-especialidades">
+              <a class="nav-link " href="/SIMA/subespecialidades">
                 <i class="icon">
                   <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                     <g>
@@ -119,7 +119,7 @@
                   </svg>
                 </i>
                 <i class="sidenav-mini-icon"> SE </i>
-                <span class="item-name">Sub-Especialidades</span>
+                <span class="item-name">Subespecialidades</span>
               </a>
             </li>
           </ul>
@@ -149,6 +149,32 @@
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link " href="#">
+                <i class="icon">
+                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                    <g>
+                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                    </g>
+                  </svg>
+                </i>
+                <i class="sidenav-mini-icon"> C </i>
+                <span class="item-name"> Consultas </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="collapse" href="#pagos" role="button" aria-expanded="false" aria-controls="medicos">
+            <i class="fa-solid fa-sack-dollar"></i>
+            <span class="item-name">Pagos</span>
+            <i class="right-icon">
+              <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </i>
+          </a>
+          <ul class="sub-nav collapse" id="pagos" data-bs-parent="#sidebar-menu">
+            <li class="nav-item">
               <a class="nav-link " href="/SIMA/pagos">
                 <i class="icon">
                   <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
@@ -157,8 +183,21 @@
                     </g>
                   </svg>
                 </i>
-                <i class="sidenav-mini-icon"> P </i>
-                <span class="item-name"> Pagos </span>
+                <i class="sidenav-mini-icon">P</i>
+                <span class="item-name">Pagos</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="#">
+                <i class="icon">
+                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                    <g>
+                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                    </g>
+                  </svg>
+                </i>
+                <i class="sidenav-mini-icon"> C </i>
+                <span class="item-name"> Consultas </span>
               </a>
             </li>
           </ul>
@@ -222,9 +261,6 @@
   <div class="sidebar-footer"></div>
 </aside>
 
-
-
-
 <main class="main-content">
   <div class="position-relative iq-banner">
     <!--Nav Start-->
@@ -244,7 +280,6 @@
           <!--logo End-->
           <h4 class="logo-title">CMA</h4>
         </a>
-
 
         <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
           <i class="icon">

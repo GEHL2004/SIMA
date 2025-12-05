@@ -60,6 +60,46 @@ if ($request_method === 'GET' && strpos($route, '/categorias-delete/') === 0) {
     $id = intval(substr($route, strlen('/sistemas-corporales-delete/')));
     (new SistemasCorporalesController())->delete($id);
     exit;
+} else if ($request_method === 'GET' && strpos($route, '/especialidades-edit/') === 0) {
+    $id = intval(substr($route, strlen('/especialidades-edit/')));
+    (new EspecialidadesController())->edit($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/especialidades-show/') === 0) {
+    $id = intval(substr($route, strlen('/especialidades-show/')));
+    (new EspecialidadesController())->show($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/especialidades-delete/') === 0) {
+    $id = intval(substr($route, strlen('/especialidades-delete/')));
+    (new EspecialidadesController())->delete($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/especialidades-disable/') === 0) {
+    $id = intval(substr($route, strlen('/especialidades-disable/')));
+    (new EspecialidadesController())->disable($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/especialidades-enable/') === 0) {
+    $id = intval(substr($route, strlen('/especialidades-enable/')));
+    (new EspecialidadesController())->enable($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/subespecialidades-edit/') === 0) {
+    $cadena = substr($route, strlen('/subespecialidades-edit/'));
+    (new SubEspecialidadesController())->edit($cadena);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/subespecialidades-show/') === 0) {
+    $cadena = substr($route, strlen('/subespecialidades-show/'));
+    (new SubEspecialidadesController())->show($cadena);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/subespecialidades-delete/') === 0) {
+    $id = intval(substr($route, strlen('/subespecialidades-delete/')));
+    (new SubEspecialidadesController())->delete($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/subespecialidades-disable/') === 0) {
+    $id = intval(substr($route, strlen('/subespecialidades-disable/')));
+    (new SubEspecialidadesController())->disable($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/subespecialidades-enable/') === 0) {
+    $id = intval(substr($route, strlen('/subespecialidades-enable/')));
+    (new SubEspecialidadesController())->enable($id);
+    exit;
 } else if ($request_method === 'GET' && strpos($route, '/auditoria-filtrar-usuario/') === 0) {
     $id = intval(substr($route, strlen('/auditoria-filtrar-usuario/')));
     (new AuditoriaController())->filtrar_usuario($id);
@@ -108,6 +148,14 @@ else if ($request_method === 'POST' && $route === '/categorias-store') {
     (new SistemasCorporalesController())->store($_REQUEST);
 } else if ($request_method === 'POST' && $route === '/sistemas-corporales-update') {
     (new SistemasCorporalesController())->update($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/especialidades-store') {
+    (new EspecialidadesController())->store($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/especialidades-update') {
+    (new EspecialidadesController())->update($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/subespecialidades-store') {
+    (new SubEspecialidadesController())->store($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/subespecialidades-update') {
+    (new SubEspecialidadesController())->update($_REQUEST);
 } else if ($request_method === 'POST' && $route === '/serviciosBD-backup') {
     (new ServiciosBaseDeDatosController())->backup();
 } else if ($request_method === 'POST' && $route === '/serviciosBD-restore') {
@@ -157,8 +205,24 @@ switch ($route) {
         (new EspecialidadesController())->index();
         break;
 
-    case '/sub-especialidades':
+    case '/especialidades-create':
+        (new EspecialidadesController())->create();
+        break;
+
+    case '/especialidades-disable':
+        (new EspecialidadesController())->disable_specialties();
+        break;
+
+    case '/subespecialidades':
         (new SubEspecialidadesController())->index();
+        break;
+
+    case '/subespecialidades-create':
+        (new SubEspecialidadesController())->create();
+        break;
+
+    case '/subespecialidades-disable':
+        (new SubEspecialidadesController())->disable_sub_specialties();
         break;
 
     case '/medicos':
@@ -196,7 +260,6 @@ switch ($route) {
     case '/monitor-bd':
         (new ServiciosBaseDeDatosController())->monitorBD();
         break;
-
 
     default:
         http_response_code(404);
