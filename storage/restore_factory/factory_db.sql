@@ -227,11 +227,19 @@ CREATE TABLE documentos_medicos(
     nombre_documento TEXT NOT NULL
 );
 
-CREATE TABLE tiempos_especialidades(
-	id_tiempo_especialidad INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CREATE TABLE medicos_especialidades(
+	id_medico_especialidad INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     id_medico INT NOT NULL,
-    tipo_especialista INT NOT NULL,
-    fecha DATE NOT NULL
+    id_especialidad INT NOT NULL,
+    fecha_obtencion DATE NOT NULL
+);
+
+CREATE TABLE medicos_subespecialidades(
+	id_medico_subespecialidad INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_medico INT NOT NULL,
+    id_especialidad INT NULL,
+    id_subespecialidad INT NOT NULL,
+    fecha_obtencion DATE NOT NULL
 );
 
 /* RELACIONES ENTRE ENTIDADES*/
@@ -272,4 +280,12 @@ ALTER TABLE medicos_detalles ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_m
 
 ALTER TABLE documentos_medicos ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
 
-ALTER TABLE tiempos_especialidades ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
+ALTER TABLE medicos_especialidades ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
+
+ALTER TABLE medicos_especialidades ADD FOREIGN KEY (id_especialidad) REFERENCES especialidades(id_especialidad);
+
+ALTER TABLE medicos_subespecialidades ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
+
+ALTER TABLE medicos_subespecialidades ADD FOREIGN KEY (id_especialidad) REFERENCES especialidades(id_especialidad);
+
+ALTER TABLE medicos_subespecialidades ADD FOREIGN KEY (id_subespecialidad) REFERENCES subespecialidades(id_subespecialidad);

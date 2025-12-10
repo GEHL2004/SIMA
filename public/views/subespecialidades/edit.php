@@ -116,7 +116,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="respuesta_secreta" class="form-label">Descripción de la Especialidad: <span class="text-danger">*</span></label>
-                                <textarea name="descripcion" class="form-control rounded-4 border border-dark-subtle" id="descripcion" cols="1" rows="8" maxlength="1000" style="resize: none;" required><?php echo $data[0]['nombre_SE']; ?></textarea>
+                                <textarea name="descripcion" class="form-control rounded-4 border border-dark-subtle" id="descripcion" cols="1" rows="8" maxlength="1000" style="resize: none;" required><?php echo $data[0]['descripcion']; ?></textarea>
                                 <div style="text-align: right; font-size: 0.85em; color: #6c757d; margin-top: 5px;">
                                     <span id="contador1">0</span>/1000 caracteres
                                 </div>

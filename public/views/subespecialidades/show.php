@@ -111,7 +111,7 @@
                         </div>
                         <div class="col-12 mb-5">
                             <label for="descripcion" class="form-label">Descripción de la Especialidad: </label>
-                            <textarea name="descripcion" class="form-control rounded-4 border border-dark-subtle" id="descripcion" cols="1" rows="8" maxlength="1000" style="resize: none;" disabled><?php echo $data[0]['nombre_SE']; ?></textarea>
+                            <textarea name="descripcion" class="form-control rounded-4 border border-dark-subtle" id="descripcion" cols="1" rows="8" maxlength="1000" style="resize: none;" disabled><?php echo $data[0]['descripcion']; ?></textarea>
                         </div>
                     </div>
                 </div>
