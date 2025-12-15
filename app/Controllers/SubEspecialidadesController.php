@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Controllers\EspecialidadesRequeridasParaSubespecialidadesController AS ERPSEC;
+use App\Controllers\EspecialidadesRequeridasParaSubespecialidadesController as ERPSEC;
 use App\Controllers\Mantenimientos\AuditoriaController;
 use App\Models\SubEspecialidades;
 
@@ -53,11 +53,9 @@ class SubEspecialidadesController
         $request['descripcion'] = trim($request['descripcion']);
         $request['codigo'] = trim($request['codigo']);
         $bool = $this->subespecialidades->store($request);
-        $this->ERPSEC->store($request['especialidades'], $bool['id_subespecialidad']);
-        // echo "<pre>";
-        // print_r($bool);
-        // echo "<pre>";
-        // die();
+        if ($bool['error'] == 0) {
+            $this->ERPSEC->store($request['especialidades'], $bool['id_subespecialidad']);
+        }
         if ($bool['error'] == 1) {
             AlertasController::error('Nombre Duplicado', 'EL nombre de la subespecialidad ingresada ya se encuentra registrada, verifiquelo y vuelva a intentar.');
         } else if ($bool['error'] == 2) {
@@ -98,7 +96,9 @@ class SubEspecialidadesController
         // echo "<pre>";
         // die();
         $bool = $this->subespecialidades->update($request);
-        $this->ERPSEC->update($request['especialidades'], $request['id_subespecialidad']);
+        if ($bool['error'] == 0) {
+            $this->ERPSEC->update($request['especialidades'], $request['id_subespecialidad']);
+        }
         if ($bool['error'] == 1) {
             AlertasController::error('Nombre Duplicado', 'EL nombre ingresado para actualizar la subespecialidad ya se encuentra registrado, verifiquelo y vuelva a intentar.');
         } else if ($bool['error'] == 2) {
