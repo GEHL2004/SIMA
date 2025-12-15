@@ -89,14 +89,14 @@
             acciones = `
             <div class="btn-group" role="group" aria-label="Basic example">
                 <a href="/SIMA/subespecialidades-edit/${
-                    elemento["id_subespecialidad"] + '_' + (elemento["requiere_especialidad_base"] == true ? '3' : '2') 
+                    elemento["id_subespecialidad"] 
                 }"}>
                     <button type="button" class="btn btn-warning btn-sm">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </button>
                 </a>
                 <a href="/SIMA/subespecialidades-show/${
-                    elemento["id_subespecialidad"] + '_' + (elemento["requiere_especialidad_base"] == true ? '3' : '2') 
+                    elemento["id_subespecialidad"] 
                 }">
                     <button type="button" class="btn btn-info btn-sm">
                         <i class="fa-solid fa-magnifying-glass"></i>

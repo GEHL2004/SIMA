@@ -17,7 +17,7 @@ class SubEspecialidades
 
     public function index()
     {
-        $sql = "SELECT SE.id_subespecialidad, SE.nombre, SE.codigo, SE.activa, (SELECT COUNT(*) FROM medicos M WHERE M.id_subespecialidad = SE.id_subespecialidad) AS conteo_de_medicos, SE.requiere_especialidad_base
+        $sql = "SELECT SE.id_subespecialidad, SE.nombre, SE.codigo, SE.activa, (SELECT COUNT(*) FROM medicos M WHERE M.id_subespecialidad = SE.id_subespecialidad) AS conteo_de_medicos
                 FROM subespecialidades SE
                 WHERE activa = TRUE;";
         $parametros = [];
@@ -49,11 +49,11 @@ class SubEspecialidades
         if (!empty($return)) {
             return ['error' => 2, 'id_subespecialidad' => null];
         }
-        $sql = "INSERT INTO subespecialidades(nombre, codigo, id_especialidad, id_categoria_especialidad, id_tipo_practica, id_sistema_corporal, descripcion, requiere_especialidad_base, id_creador)
-                    VALUES (:nombre, :codigo, :id_especialidad, :id_categoria_especialidad, :id_tipo_practica, :id_sistema_corporal, :descripcion, :requiere_especialidad_base, :id_creador);";
-        $parametros = [':nombre' => $data['nombre'], ':codigo' => $data['codigo'], ':id_especialidad' => $data['especialidad'], ':id_categoria_especialidad' => $data['categoria'], ':id_tipo_practica' => $data['tipo_practica'], ':id_sistema_corporal' => $data['sistema_corporal'], ':descripcion' => $data['descripcion'], ':requiere_especialidad_base' => $data['RequiereEspecialidad'], ':id_creador' => $_SESSION['id_usuario']];
-        $return = $this->conn->ejecutar($sql, $parametros);
-        return ['error' => 0, 'id_subespecialidad' => $return];
+        $sql = "INSERT INTO subespecialidades(nombre, codigo, descripcion, id_creador)
+                    VALUES (:nombre, :codigo, :descripcion, :id_creador);";
+        $parametros = [':nombre' => $data['nombre'], ':codigo' => $data['codigo'], ':descripcion' => $data['descripcion'], ':id_creador' => $_SESSION['id_usuario']];
+        $id_insertado = $this->conn->ejecutar($sql, $parametros);
+        return ['error' => 0, 'id_subespecialidad' => $id_insertado];
     }
 
     public function update(array $data)
@@ -74,34 +74,23 @@ class SubEspecialidades
         // print_r($data);
         // echo "<pre>";
         // die();
-        $sql = "UPDATE subespecialidades SET nombre = :nombre, codigo = :codigo, id_especialidad = :id_especialidad, id_categoria_especialidad = :id_categoria_especialidad, id_tipo_practica = :id_tipo_practica, id_sistema_corporal = :id_sistema_corporal, descripcion = :descripcion, requiere_especialidad_base = :requiere_especialidad_base, activa = :activa, id_creador = :id_creador
+        $sql = "UPDATE subespecialidades SET nombre = :nombre, codigo = :codigo, descripcion = :descripcion, id_creador = :id_creador
                 WHERE id_subespecialidad = :id_subespecialidad;";
-        $parametros = [':nombre' => $data['nombre'], ':codigo' => $data['codigo'], ':id_especialidad' => $data['especialidad'], ':id_categoria_especialidad' => $data['categoria'], ':id_tipo_practica' => $data['tipo_practica'], ':id_sistema_corporal' => $data['sistema_corporal'], ':descripcion' => $data['descripcion'], ':requiere_especialidad_base' => $data['RequiereEspecialidad'], ':activa' => true, ':id_creador' => $_SESSION['id_usuario'], ':id_subespecialidad' => $data['id_subespecialidad']];
+        $parametros = [':nombre' => $data['nombre'], ':codigo' => $data['codigo'], ':descripcion' => $data['descripcion'], ':id_creador' => $_SESSION['id_usuario'], ':id_subespecialidad' => $data['id_subespecialidad']];
         $return = $this->conn->ejecutar($sql, $parametros);
         return ['error' => 0, 'id_subespecialidad' => $return];
     }
 
-    public function show(int $id_subespecialidad, int $tipo)
+    public function show(int $id_subespecialidad)
     {
-        $sql = '';
-        if ($tipo == 1) {
-            $sql .= 'SELECT * FROM subespecialidades;';
-        } else if ($tipo == 2) {
-            $sql .= 'SELECT SE.id_subespecialidad, SE.nombre AS nombre_SE, SE.id_especialidad, CE.id_categoria_especialidad, CE.nombre AS nombre_CE, TP.id_tipo_practica, TP.nombre AS nombre_TP, SC.id_sistema_corporal, SC.nombre AS nombre_SC, SE.codigo, SE.descripcion, SE.requiere_especialidad_base, SE.activa, SE.id_creador, SE.creado_el
-                    FROM subespecialidades SE
-                    LEFT JOIN categorias_especialidades AS CE ON CE.id_categoria_especialidad = SE.id_categoria_especialidad
-                    LEFT JOIN tipos_practica AS TP ON TP.id_tipo_practica = SE.id_tipo_practica
-                    LEFT JOIN sistemas_corporales AS SC ON SC.id_sistema_corporal = SE.id_sistema_corporal
-                    WHERE SE.id_subespecialidad = :id_subespecialidad;';
-        } else if ($tipo == 3) {
-            $sql .= 'SELECT SE.id_subespecialidad, SE.nombre AS nombre_SE, E.id_especialidad, E.nombre AS nombre_E, CE.id_categoria_especialidad, CE.nombre AS nombre_CE, TP.id_tipo_practica, TP.nombre AS nombre_TP, SC.id_sistema_corporal, SC.nombre AS nombre_SC, SE.codigo, SE.descripcion, SE.requiere_especialidad_base, SE.activa, SE.id_creador, SE.creado_el
-                    FROM subespecialidades SE
-                    LEFT JOIN especialidades AS E ON E.id_especialidad = SE.id_especialidad
-                    LEFT JOIN categorias_especialidades AS CE ON CE.id_categoria_especialidad = E.id_categoria_especialidad
-                    LEFT JOIN tipos_practica AS TP ON TP.id_tipo_practica = E.id_tipo_practica
-                    LEFT JOIN sistemas_corporales AS SC ON SC.id_sistema_corporal = E.id_sistema_corporal
-                    WHERE SE.id_subespecialidad = :id_subespecialidad;';
-        }
+        $sql = 'SELECT ERPSE.id_especialidad_requerida_para_subespecialidad, SE.id_subespecialidad, SE.nombre AS nombre_SE, E.id_especialidad, E.nombre AS nombre_E, CE.id_categoria_especialidad, CE.nombre AS nombre_CE, TP.id_tipo_practica, TP.nombre AS nombre_TP, SC.id_sistema_corporal, SC.nombre AS nombre_SC, SE.codigo, SE.descripcion, SE.activa, SE.id_creador, SE.creado_el
+                FROM subespecialidades SE
+                INNER JOIN especialidades_requeridas_para_subespecialidades AS ERPSE ON ERPSE.id_subespecialidad = SE.id_subespecialidad
+                INNER JOIN especialidades AS E ON E.id_especialidad = ERPSE.id_especialidad
+                INNER JOIN categorias_especialidades AS CE ON CE.id_categoria_especialidad = E.id_categoria_especialidad
+                INNER JOIN tipos_practica AS TP ON TP.id_tipo_practica = E.id_tipo_practica
+                INNER JOIN sistemas_corporales AS SC ON SC.id_sistema_corporal = E.id_sistema_corporal
+                WHERE SE.id_subespecialidad = :id_subespecialidad;';
         $parametros = [':id_subespecialidad' => $id_subespecialidad];
         $result = $this->conn->consultar($sql, $parametros);
         return $result;

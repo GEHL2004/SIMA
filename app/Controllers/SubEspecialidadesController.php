@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Controllers\EspecialidadesRequeridasParaSubespecialidadesController AS ERPSEC;
 use App\Controllers\Mantenimientos\AuditoriaController;
 use App\Models\SubEspecialidades;
 
@@ -11,19 +12,15 @@ class SubEspecialidadesController
     private $subespecialidades;
     private $especialidades;
     private $audi;
-    private $categorias;
-    private $tipos_practicas;
-    private $sistemas_corporales;
-    private const CLAVES = ['nombre', 'codigo', 'RequiereEspecialidad', 'especialidad', 'categoria', 'tipo_practica', 'sistema_corporal', 'descripcion'];
+    private $ERPSEC;
+
 
     public function __construct()
     {
         $this->subespecialidades = new SubEspecialidades();
         $this->especialidades = new EspecialidadesController();
         $this->audi = new AuditoriaController();
-        $this->categorias = new CategoriasController();
-        $this->tipos_practicas = new TiposPracticaController();
-        $this->sistemas_corporales = new SistemasCorporalesController();
+        $this->ERPSEC = new ERPSEC();
     }
 
     public function index()
@@ -41,9 +38,8 @@ class SubEspecialidadesController
     public function create()
     {
         $especialidades = $this->especialidades->getAllEspecialidades();
-        $categorias = $this->categorias->getAllCategorias();
-        $tipos_practicas = $this->tipos_practicas->getAllTiposPracticas();
-        $sistemas_corporales = $this->sistemas_corporales->getAllSistemasCorporales();
+        $especialidadesJ = json_encode($especialidades);
+        $especialidadesJ = json_encode($especialidadesJ);
         // echo "<pre>";
         // print_r($especialidades);
         // echo "<pre>";
@@ -56,16 +52,12 @@ class SubEspecialidadesController
         $request['nombre'] = trim($request['nombre']);
         $request['descripcion'] = trim($request['descripcion']);
         $request['codigo'] = trim($request['codigo']);
-        foreach (self::CLAVES as $valor) {
-            if (!array_key_exists($valor, $request)) {
-                $request[$valor] = null;
-            }
-        }
+        $bool = $this->subespecialidades->store($request);
+        $this->ERPSEC->store($request['especialidades'], $bool['id_subespecialidad']);
         // echo "<pre>";
-        // print_r($request);
+        // print_r($bool);
         // echo "<pre>";
         // die();
-        $bool = $this->subespecialidades->store($request);
         if ($bool['error'] == 1) {
             AlertasController::error('Nombre Duplicado', 'EL nombre de la subespecialidad ingresada ya se encuentra registrada, verifiquelo y vuelva a intentar.');
         } else if ($bool['error'] == 2) {
@@ -78,15 +70,16 @@ class SubEspecialidadesController
         die();
     }
 
-    public function edit(string $cadena)
+    public function edit(int $id_subespecialidad)
     {
-        $id_subespecialidad = explode('_', $cadena)[0];
-        $tipo = explode('_', $cadena)[1];
         $especialidades = $this->especialidades->getAllEspecialidades();
-        $categorias = $this->categorias->getAllCategorias();
-        $tipos_practicas = $this->tipos_practicas->getAllTiposPracticas();
-        $sistemas_corporales = $this->sistemas_corporales->getAllSistemasCorporales();
-        $data = $this->subespecialidades->show($id_subespecialidad, $tipo);
+        $especialidadesJ = json_encode($especialidades);
+        $especialidadesJ = json_encode($especialidadesJ);
+        $dataERPSEC = $this->ERPSEC->getEspecialidadesRequeridasParaSubespecialidades($id_subespecialidad);
+        // $dataERPSECJ = json_encode($dataERPSEC);
+        // $dataERPSECJ = json_encode($dataERPSECJ);
+        $data = $this->subespecialidades->show($id_subespecialidad);
+        $contador = 0;
         // echo "<pre>";
         // print_r($data);
         // echo "<pre>";
@@ -99,20 +92,13 @@ class SubEspecialidadesController
         $request['nombre'] = trim($request['nombre']);
         $request['descripcion'] = trim($request['descripcion']);
         $request['codigo'] = trim($request['codigo']);
-        foreach (self::CLAVES as $valor) {
-            if (!array_key_exists($valor, $request)) {
-                $request[$valor] = null;
-            }
-        }
-        $data_antigua = $this->subespecialidades->show($request['id_subespecialidad'], 1);
-        $request['nombre'] = trim($request['nombre']);
-        $request['descripcion'] = trim($request['descripcion']);
-        $request['codigo'] = trim($request['codigo']);
+        $data_antigua = $this->subespecialidades->show($request['id_subespecialidad']);
         // echo "<pre>";
         // print_r($request);
         // echo "<pre>";
         // die();
         $bool = $this->subespecialidades->update($request);
+        $this->ERPSEC->update($request['especialidades'], $request['id_subespecialidad']);
         if ($bool['error'] == 1) {
             AlertasController::error('Nombre Duplicado', 'EL nombre ingresado para actualizar la subespecialidad ya se encuentra registrado, verifiquelo y vuelva a intentar.');
         } else if ($bool['error'] == 2) {
@@ -125,15 +111,9 @@ class SubEspecialidadesController
         die();
     }
 
-    public function show(string $cadena)
+    public function show(int $id_subespecialidad)
     {
-        $id_subespecialidad = explode('_', $cadena)[0];
-        $tipo = explode('_', $cadena)[1];
-        $especialidades = $this->especialidades->getAllEspecialidades();
-        $categorias = $this->categorias->getAllCategorias();
-        $tipos_practicas = $this->tipos_practicas->getAllTiposPracticas();
-        $sistemas_corporales = $this->sistemas_corporales->getAllSistemasCorporales();
-        $data = $this->subespecialidades->show($id_subespecialidad, $tipo);
+        $data = $this->subespecialidades->show($id_subespecialidad);
         // echo "<pre>";
         // print_r($data);
         // echo "<pre>";
@@ -143,11 +123,12 @@ class SubEspecialidadesController
 
     public function delete(int $id_subespecialidad)
     {
-        $data = $this->subespecialidades->show($id_subespecialidad, 1);
+        $data = $this->subespecialidades->show($id_subespecialidad);
         // echo "<pre>";
         // print_r($data);
         // echo "<pre>";
         // die();
+        $this->ERPSEC->delete($id_subespecialidad);
         $bool = $this->subespecialidades->delete($id_subespecialidad);
         if ($bool['error'] == 1) {
             AlertasController::error('ERROR', 'NO se pudo eliminar esta subespecialidad.');
@@ -173,7 +154,7 @@ class SubEspecialidadesController
 
     public function disable(int $id_subespecialidad)
     {
-        $data = $this->subespecialidades->show($id_subespecialidad, 1);
+        $data = $this->subespecialidades->show($id_subespecialidad);
         // echo "<pre>";
         // print_r($data);
         // echo "<pre>";
@@ -191,7 +172,7 @@ class SubEspecialidadesController
 
     public function enable(int $id_subespecialidad)
     {
-        $data = $this->subespecialidades->show($id_subespecialidad, 1);
+        $data = $this->subespecialidades->show($id_subespecialidad);
         // echo "<pre>";
         // print_r($data);
         // echo "<pre>";

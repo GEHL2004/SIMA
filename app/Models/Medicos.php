@@ -16,7 +16,7 @@ class Medicos
 
     public function index()
     {
-        $sql = "";
+        $sql = "SELECT id_medico, CONCAT_WS(' ', nombres, apellidos) AS nombres_apellidos, numero_colegio FROM medicos;";
         $parametros = [];
         $result = $this->conn->consultar($sql, $parametros);
         return $result;

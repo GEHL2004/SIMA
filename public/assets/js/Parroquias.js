@@ -1,6 +1,6 @@
 // PRIMER METODO
 function traerParroquias(select) {
-    fetch(`/AraguaTurismo/BuscadorDeSitios/${select.value}`, {
+    fetch(`/SIMA/BuscadorDeSitios/${select.value}`, {
         method: "GET",
         headers: {
             "content-type": "application/json",

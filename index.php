@@ -7,7 +7,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 use App\Controllers\{AuthController, HomeController, CategoriasController, TiposPracticaController, SistemasCorporalesController, EspecialidadesController, SubEspecialidadesController, MedicosController, PagosController};
-use App\Controllers\Mantenimientos\{AuditoriaController, ServiciosBaseDeDatosController, UsuariosController};
+use App\Controllers\Mantenimientos\{AuditoriaController, MunicipiosController, ServiciosBaseDeDatosController, UsuariosController};
 
 $request_method = $_SERVER['REQUEST_METHOD'];
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -48,7 +48,11 @@ if (empty($_SESSION)) {
 
 //rutas tipo GET
 
-if ($request_method === 'GET' && strpos($route, '/categorias-delete/') === 0) {
+if ($request_method === 'GET' && strpos($route, '/BuscadorDeSitios/') === 0) {
+    $id = intval(substr($route, strlen('/BuscadorDeSitios/')));
+    (new MunicipiosController())->getParroquias($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/categorias-delete/') === 0) {
     $id = intval(substr($route, strlen('/categorias-delete/')));
     (new CategoriasController())->delete($id);
     exit;
@@ -81,12 +85,12 @@ if ($request_method === 'GET' && strpos($route, '/categorias-delete/') === 0) {
     (new EspecialidadesController())->enable($id);
     exit;
 } else if ($request_method === 'GET' && strpos($route, '/subespecialidades-edit/') === 0) {
-    $cadena = substr($route, strlen('/subespecialidades-edit/'));
-    (new SubEspecialidadesController())->edit($cadena);
+    $id = intval(substr($route, strlen('/subespecialidades-edit/')));
+    (new SubEspecialidadesController())->edit($id);
     exit;
 } else if ($request_method === 'GET' && strpos($route, '/subespecialidades-show/') === 0) {
-    $cadena = substr($route, strlen('/subespecialidades-show/'));
-    (new SubEspecialidadesController())->show($cadena);
+    $id = intval(substr($route, strlen('/subespecialidades-show/')));
+    (new SubEspecialidadesController())->show($id);
     exit;
 } else if ($request_method === 'GET' && strpos($route, '/subespecialidades-delete/') === 0) {
     $id = intval(substr($route, strlen('/subespecialidades-delete/')));
@@ -99,6 +103,18 @@ if ($request_method === 'GET' && strpos($route, '/categorias-delete/') === 0) {
 } else if ($request_method === 'GET' && strpos($route, '/subespecialidades-enable/') === 0) {
     $id = intval(substr($route, strlen('/subespecialidades-enable/')));
     (new SubEspecialidadesController())->enable($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-edit/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-edit/')));
+    (new MedicosController())->edit($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-show/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-show/')));
+    (new MedicosController())->show($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-delete/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-delete/')));
+    (new MedicosController())->delete($id);
     exit;
 } else if ($request_method === 'GET' && strpos($route, '/auditoria-filtrar-usuario/') === 0) {
     $id = intval(substr($route, strlen('/auditoria-filtrar-usuario/')));
@@ -156,6 +172,10 @@ else if ($request_method === 'POST' && $route === '/categorias-store') {
     (new SubEspecialidadesController())->store($_REQUEST);
 } else if ($request_method === 'POST' && $route === '/subespecialidades-update') {
     (new SubEspecialidadesController())->update($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/medicos-store') {
+    (new MedicosController())->store($_REQUEST, $_FILES);
+} else if ($request_method === 'POST' && $route === '/medicos-update') {
+    (new MedicosController())->update($_REQUEST, $_FILES);
 } else if ($request_method === 'POST' && $route === '/serviciosBD-backup') {
     (new ServiciosBaseDeDatosController())->backup();
 } else if ($request_method === 'POST' && $route === '/serviciosBD-restore') {
@@ -227,6 +247,10 @@ switch ($route) {
 
     case '/medicos':
         (new MedicosController())->index();
+        break;
+
+    case '/medicos-create':
+        (new MedicosController())->create();
         break;
 
     case '/pagos':

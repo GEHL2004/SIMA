@@ -98,7 +98,7 @@ INSERT INTO parroquias (id_municipio, nombre_parroquia) VALUES
 (8, 'Palo Negro'),
 (8, 'San Martin de Porres'),
 (9, 'El Limon'),
-(9, 'Cana de Azucar'),
+(9, 'Caña de Azucar'),
 (10, 'Ocumare de la Costa'),
 (11, 'San Casimiro'),
 (11, 'Guiripa'),
@@ -166,15 +166,16 @@ CREATE TABLE subespecialidades (
     id_subespecialidad INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     codigo VARCHAR(20) UNIQUE NOT NULL,
-    id_especialidad INT NULL,
-    id_categoria_especialidad INT NULL,
-    id_tipo_practica INT NULL,
-    id_sistema_corporal INT NULL,
     descripcion TEXT NOT NULL,
-    requiere_especialidad_base BOOLEAN DEFAULT TRUE NOT NULL,
     activa BOOLEAN DEFAULT TRUE NOT NULL,
     id_creador INT NOT NULL,
     creado_el TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE especialidades_requeridas_para_subespecialidades(
+	id_especialidad_requerida_para_subespecialidad INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    id_especialidad INT NOT NULL,
+    id_subespecialidad INT NOT NULL
 );
 
 CREATE TABLE grados_academicos(
@@ -185,7 +186,7 @@ CREATE TABLE grados_academicos(
 INSERT INTO grados_academicos(nombre_grado) VALUES
 ('Médico General'),
 ('Médico Especialista'),
-('Médico Sub Especialista'),
+('Médico Subespecialista'),
 ('Doctorado'),
 ('Formación Continua');
 
@@ -258,13 +259,9 @@ ALTER TABLE especialidades ADD FOREIGN KEY (id_tipo_practica) REFERENCES tipos_p
 
 ALTER TABLE especialidades ADD FOREIGN KEY (id_sistema_corporal) REFERENCES sistemas_corporales (id_sistema_corporal);
 
-ALTER TABLE subespecialidades ADD FOREIGN KEY (id_especialidad) REFERENCES especialidades (id_especialidad);
+ALTER TABLE especialidades_requeridas_para_subespecialidades ADD FOREIGN KEY (id_especialidad) REFERENCES especialidades (id_especialidad);
 
-ALTER TABLE subespecialidades ADD FOREIGN KEY (id_categoria_especialidad) REFERENCES categorias_especialidades (id_categoria_especialidad);
-
-ALTER TABLE subespecialidades ADD FOREIGN KEY (id_tipo_practica) REFERENCES tipos_practica (id_tipo_practica);
-
-ALTER TABLE subespecialidades ADD FOREIGN KEY (id_sistema_corporal) REFERENCES sistemas_corporales (id_sistema_corporal);
+ALTER TABLE especialidades_requeridas_para_subespecialidades ADD FOREIGN KEY (id_subespecialidad) REFERENCES subespecialidades (id_subespecialidad);
 
 ALTER TABLE medicos ADD FOREIGN KEY (id_grado_academico) REFERENCES grados_academicos(id_grado_academico);
 

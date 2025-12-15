@@ -1,17 +1,11 @@
 const form = document.getElementById("form");
 const nombre = document.getElementById("nombre");
 const codigo = document.getElementById("codigo");
-const selectRequiereEspecialidad = document.getElementById("RequiereEspecialidad");
-const especialidad = document.getElementById("especialidad");
-const especialidadContainer = document.getElementById("especialidadContainer");
-const noEspecialidadContainer = document.getElementById("noEspecialidadContainer");
-const categoria = document.getElementById("categoria");
-const tipo_practica = document.getElementById("tipo_practica");
-const sistema_corporal = document.getElementById("sistema_corporal");
-const descripcion = document.getElementById("descripcion");
 const contador1 = document.getElementById("contador1");
 const contador2 = document.getElementById("contador2");
-const TRANSITION_DURATION = 300; // 0.3s
+let documentoCount = 0;
+let cedulaValida = false;
+let especialidadesSeleccionadas = new Set(); // Para rastrear especialidades ya seleccionadas
 
 // Agregamos el evento 'input' (se dispara al escribir, borrar o pegar)
 
@@ -23,66 +17,185 @@ codigo.addEventListener("input", function () {
     contador2.textContent = this.value.length;
 });
 
-/**
- * Función genérica para mostrar un contenedor con fade-in.
- * @param {HTMLElement} container - El contenedor a mostrar.
- */
-function showContainer(container) {
-    // 1. Cambiar display a block
-    container.style.display = 'block';
-    // 2. Forzar reflow para que la transición funcione
-    void container.offsetWidth;
-    // 3. Añadir la clase para animar opacity
-    container.classList.add('visible');
-}
-
-/**
- * Función genérica para ocultar un contenedor con fade-out y resetear valores.
- * @param {HTMLElement} container - El contenedor a ocultar.
- * @param {HTMLElement[]} fieldsToReset - Array de campos de formulario a resetear.
- */
-function hideContainer(container, fieldsToReset = []) {
-    // 1. Animar opacity (fade-out)
-    container.classList.remove('visible');
-
-    // 2. Esperar a que termine la transición para ocultar display y resetear campos
-    setTimeout(() => {
-        container.style.display = 'none';
-        // Resetear los valores de los campos
-        fieldsToReset.forEach(field => {
-            if (field) { // Asegurarse de que el elemento existe
-                field.value = "";
-                // Opcional: Si usas select, podrías forzar a seleccionar la opción deshabilitada
-                // field.selectedIndex = 0; 
+// Función para actualizar opciones de especialidades excluyendo las ya seleccionadas
+function actualizarOpcionesEspecialidades() {
+    // Obtener todos los selects de especialidades
+    const selectsEspecialidades = document.querySelectorAll('.especialidad-select');
+    
+    // Crear un array con los IDs ya seleccionados (excepto vacíos)
+    const idsSeleccionados = [];
+    selectsEspecialidades.forEach(select => {
+        if (select.value) {
+            idsSeleccionados.push(select.value);
+        }
+    });
+    
+    // Actualizar cada select
+    selectsEspecialidades.forEach(select => {
+        const valorActual = select.value;
+        const selectName = select.getAttribute('name');
+        let selectId = '';
+        
+        // Extraer el ID del nombre del campo
+        if (selectName) {
+            const match = selectName.match(/\[(\d+)\]/);
+            if (match) {
+                selectId = match[1];
+            }
+        }
+        
+        // Guardar opciones originales si aún no están guardadas
+        if (!select.dataset.originalOptions) {
+            select.dataset.originalOptions = select.innerHTML;
+        }
+        
+        // Parsear las opciones originales
+        const parser = new DOMParser();
+        const originalDoc = parser.parseFromString(select.dataset.originalOptions, 'text/html');
+        const originalOptions = originalDoc.querySelectorAll('option');
+        
+        // Limpiar el select
+        select.innerHTML = '';
+        
+        // Agregar opción por defecto
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = '- Seleccione -';
+        defaultOption.disabled = true;
+        defaultOption.selected = !valorActual;
+        select.appendChild(defaultOption);
+        
+        // Agregar cada especialidad, excluyendo las ya seleccionadas en otros selects
+        originalOptions.forEach(option => {
+            if (option.value && option.value !== '') {
+                const esSeleccionadoEnOtro = idsSeleccionados.includes(option.value) && option.value !== valorActual;
+                
+                if (!esSeleccionadoEnOtro) {
+                    const newOption = document.createElement('option');
+                    newOption.value = option.value;
+                    newOption.textContent = option.textContent;
+                    newOption.selected = (option.value === valorActual);
+                    select.appendChild(newOption);
+                }
             }
         });
-    }, TRANSITION_DURATION);
+    });
+    
+    // Actualizar el Set de especialidades seleccionadas
+    especialidadesSeleccionadas = new Set(idsSeleccionados);
+
+    console.log(especialidadesSeleccionadas);
 }
 
-
-selectRequiereEspecialidad.addEventListener('change', (event) => {
-    const value = event.target.value;
-
-    if (value == 1) { // Seleccionó "SI" (Requiere Especialidad)
-        // MOSTRAR: Especialidad
-        showContainer(especialidadContainer);
-
-        // OCULTAR: Categoría/Práctica/Sistema y resetear sus valores
-        hideContainer(noEspecialidadContainer, [categoria, tipo_practica, sistema_corporal]);
-        
-    } else if (value == 0) { // Seleccionó "NO" (NO Requiere Especialidad)
-        // MOSTRAR: Categoría/Práctica/Sistema
-        showContainer(noEspecialidadContainer);
-
-        // OCULTAR: Especialidad y resetear su valor
-        hideContainer(especialidadContainer, [especialidad]);
-        
-    } else { // Si vuelve a seleccionar "- Seleccione -" o similar
-        // OCULTAR AMBOS
-        hideContainer(especialidadContainer, [especialidad]);
-        hideContainer(noEspecialidadContainer, [categoria, tipo_practica, sistema_corporal]);
+function validarEspecialidadIndividual(input) {
+    const select = input.closest('.row').querySelector('.especialidad-select');
+    if (select.value && input.value) {
+        select.classList.remove('is-invalid');
+        select.classList.add('is-valid');
+    } else if (!select.value && input.value) {
+        select.classList.add('is-invalid');
     }
+}
+
+// Validar especialidades
+function validarEspecialidades() {
+    const especialidadesSelects = document.querySelectorAll('.especialidad-select');
+    let todasValidas = true;
+    
+    // Verificar duplicados
+    const valoresSeleccionados = [];
+    let tieneDuplicados = false;
+    
+    especialidadesSelects.forEach(select => {
+        if (select.value) {
+            if (valoresSeleccionados.includes(select.value)) {
+                select.classList.add('is-invalid');
+                tieneDuplicados = true;
+                todasValidas = false;
+            } else {
+                valoresSeleccionados.push(select.value);
+            }
+        }
+    });
+    
+    if (tieneDuplicados) {
+        warning('Especialidades duplicadas', 'No puede seleccionar la misma especialidad más de una vez.');
+        return false;
+    }
+    
+    // Validar cada grupo de especialidad
+    especialidadesSelects.forEach((select, index) => {
+        if (!select.value) {
+            select.classList.add('is-invalid');
+            todasValidas = false;
+        } else {
+            select.classList.remove('is-invalid');
+        }
+    });
+    
+    if (!todasValidas) {
+        warning('Campos vacíos', 'Por favor complete o elimine todas las especialidades creadas.');
+    }
+    
+    return todasValidas;
+}
+
+// Gestión de especialidades
+document.getElementById('btn-agregar-especialidad').addEventListener('click', function() {
+    if (especialidadCount >= especialidades.length) {
+        warning('Limite alcanzado', 'Ha alcanzado el límite máximo de ' + especialidades.length + ' especialidades.');
+        return;
+    }
+    
+    especialidadCount++;
+    const container = document.getElementById('especialidades-container');
+    
+    // Crear el elemento de especialidad
+    const especialidadDiv = document.createElement('div');
+    especialidadDiv.className = 'specialty-item';
+    especialidadDiv.id = `especialidad-${especialidadCount}`;
+    
+    especialidadDiv.innerHTML = `
+    <div class="row g-3 align-items-center mt-2">
+        <div class="col-lg-12">
+            <label class="form-label">Especialidad <span class="required-asterisk text-danger">*</span></label>
+            <div class="input-group">
+                <select class="form-select especialidad-select rounded-start-pill" name="especialidades[]" required onchange="actualizarOpcionesEspecialidades()">
+                    <option value="" selected disabled>- Seleccione -</option>
+                    ${especialidades.map(esp => `<option value="${esp.id}">${esp.nombre}</option>`).join('')}
+                </select>
+                <button type="button" class="btn btn-danger rounded-end-pill" onclick="eliminarEspecialidad(${especialidadCount})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    `;
+    
+    container.appendChild(especialidadDiv);
+    
+    // Actualizar opciones de todos los selects
+    actualizarOpcionesEspecialidades();
 });
+
+// Función para eliminar una especialidad
+function eliminarEspecialidad(id) {
+    const elemento = document.getElementById(`especialidad-${id}`);
+    if (elemento) {
+        // Remover del Set de especialidades seleccionadas
+        const select = elemento.querySelector('.especialidad-select');
+        if (select.value) {
+            especialidadesSeleccionadas.delete(select.value);
+        }
+        
+        elemento.remove();
+        especialidadCount--;
+        
+        // Actualizar opciones de los selects restantes
+        actualizarOpcionesEspecialidades();
+        
+    }
+}
 
 // Validación del formulario
 
@@ -100,16 +213,6 @@ form.addEventListener("submit", (evnt) => {
                 condicion: validar_campo_vacio('codigo'),
                 mensaje: 'El campo "Código de la subespecialidad" está vacío. Por favor, complételo para continuar.',
                 elemento: codigo
-            },
-            {
-                condicion: selectRequiereEspecialidad.value === '' || selectRequiereEspecialidad.value === null,
-                mensaje: 'Debe seleccionar si la subespecialidad requiere especialidad o no. Por favor, complete este campo.',
-                elemento: selectRequiereEspecialidad
-            },
-            {
-                condicion: selectRequiereEspecialidad.value == 1 && validar_campo_vacio('especialidad'),
-                mensaje: 'Cuando se selecciona "Sí requiere especialidad", debe especificar la especialidad correspondiente. Por favor, seleccione una especialidad.',
-                elemento: especialidad || selectRequiereEspecialidad // Cambié a especialidad si existe ese elemento
             },
             {
                 condicion: validar_campo_vacio('descripcion'),
@@ -135,6 +238,10 @@ form.addEventListener("submit", (evnt) => {
                 condicion: descripcion.value.length > 1000,
                 mensaje: 'La descripción no puede exceder los 1000 caracteres. Por favor, reduzca la longitud de la descripción.',
                 elemento: descripcion
+            },
+            {
+                condicion: especialidadCount == 0,
+                mensaje: 'La subespecialidad debe depender minimo 1 especialidad, agregue y seleccione una especialidad.'
             }
         ];
     
@@ -149,7 +256,7 @@ form.addEventListener("submit", (evnt) => {
             }
         }
         
-        return true; // Todas las validaciones pasaron
+        return validarEspecialidades(); // Todas las validaciones pasaron
     }
     
     // Uso en tu evento

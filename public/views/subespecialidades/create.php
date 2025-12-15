@@ -1,18 +1,5 @@
 <?php require_once "./public/views/layouts/header.php"; ?>
 
-<style>
-    .especialidad-container {
-        opacity: 0;
-        display: none;
-        transition: opacity 0.3s ease-in-out;
-    }
-
-    .especialidad-container.visible {
-        opacity: 1;
-        display: block;
-    }
-</style>
-
 <div class="conatiner-fluid content-inner py-0">
     <div class="row">
         <div class="col-md-12 col-lg-12">
@@ -52,69 +39,23 @@
                                     <span id="contador2">0</span>/20 caracteres
                                 </div>
                             </div>
+
                             <div class="col-12 col-lg-12">
-                                <label for="RequiereEspecialidad" class="form-label">¿Requiere previa especialización?: <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text rounded-start-pill border border-dark-subtle"><i class="fa-solid fa-list"></i></span>
-                                    <select class="form-select rounded-end-pill border border-dark-subtle" name="RequiereEspecialidad" id="RequiereEspecialidad" required>
-                                        <option value="null" selected disabled>- Seleccione -</option>
-                                        <option value="1">SI</option>
-                                        <option value="0">NO</option>
-                                    </select>
+                                <label><i class="fas fa-stethoscope me-2"></i>Selección de especialidades</label>
+                                <div class="alert alert-info mt-2">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    La subespecialidad debe depender minimo 1 especialidad o hasta <?php echo count($especialidades); ?> especialidades.
+                                </div>
+                                <div id="especialidades-container">
+                                    <!-- Las especialidades se agregarán aquí dinámicamente -->
+                                </div>
+                                <div class="d-flex justify-content-center mt-3">
+                                    <button type="button" class="btn btn-success rounded-pill" id="btn-agregar-especialidad">
+                                        <i class="fas fa-plus me-1"></i> Agregar Especialidad
+                                    </button>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-12 especialidad-container" id="especialidadContainer">
-                                <label for="especialidad" class="form-label">Especialidad requerida: <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text rounded-start-pill border border-dark-subtle"><i class="fa-solid fa-list"></i></span>
-                                    <select class="form-select rounded-end-pill border border-dark-subtle" name="especialidad" id="especialidad" required>
-                                        <option value="" selected disabled>- Seleccione -</option>
-                                        <?php foreach ($especialidades as $i => $valor) { ?>
-                                            <option value="<?php echo $valor['id_especialidad']; ?>"><?php echo $valor['nombre']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="noEspecialidadContainer" class="col-12 col-lg-12 especialidad-container">
-                                <div class="row">
-                                    <div class="col-12 col-lg-6 mt-3 px-2">
-                                        <label for="categoria" class="form-label">Categoría: <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text rounded-start-pill border border-dark-subtle"><i class="fa-solid fa-list"></i></span>
-                                            <select class="form-select rounded-end-pill border border-dark-subtle" name="categoria" id="categoria" required>
-                                                <option value="" selected disabled>- Seleccione -</option>
-                                                <?php foreach ($categorias as $i => $valor) { ?>
-                                                    <option value="<?php echo $valor['id_categoria_especialidad']; ?>"><?php echo $valor['nombre']; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-6 mt-3 px-2">
-                                        <label for="tipo_practica" class="form-label">Tipo de Práctica: <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text rounded-start-pill border border-dark-subtle"><i class="fa-solid fa-table-list"></i></span>
-                                            <select class="form-select rounded-end-pill border border-dark-subtle" name="tipo_practica" id="tipo_practica" required>
-                                                <option value="" selected disabled>- Seleccione -</option>
-                                                <?php foreach ($tipos_practicas as $i => $valor) { ?>
-                                                    <option value="<?php echo $valor['id_tipo_practica']; ?>"><?php echo $valor['nombre']; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-6 mt-3 px-2">
-                                        <label for="sistema_corporal" class="form-label">Sistema Corporal: <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text rounded-start-pill border border-dark-subtle"><i class="fa-solid fa-person"></i></span>
-                                            <select class="form-select rounded-end-pill border border-dark-subtle" name="sistema_corporal" id="sistema_corporal" required>
-                                                <option value="" selected disabled>- Seleccione -</option>
-                                                <?php foreach ($sistemas_corporales as $i => $valor) { ?>
-                                                    <option value="<?php echo $valor['id_sistema_corporal']; ?>"><?php echo $valor['nombre']; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col-12">
                                 <label for="descripcion" class="form-label">Descripción de la Especialidad: <span class="text-danger">*</span></label>
                                 <textarea name="descripcion" class="form-control rounded-4 border border-dark-subtle" id="descripcion" cols="1" rows="8" maxlength="1000" style="resize: none;" required></textarea>
@@ -144,5 +85,18 @@
 </div>
 
 <?php require_once "./public/views/layouts/footer.php"; ?>
+
+<script>
+    let especialidadCount = 0;
+    var especialidadesD = JSON.parse(<?php echo $especialidadesJ ?>);
+    // Carga de la tabla index
+    const especialidades = [];
+    especialidadesD.forEach((elemento, index) => {
+        especialidades.push({
+            id: elemento.id_especialidad,
+            nombre: elemento.nombre
+        });
+    });
+</script>
 
 <script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/subespecialidades.js"></script>
