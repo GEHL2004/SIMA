@@ -1,0 +1,319 @@
+.form-card {
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.step-indicator {
+    font-size: 0.9rem;
+}
+
+.step-indicator .step {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.step-indicator .step.active {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.step-indicator .step.completed {
+    background-color: #198754;
+    color: white;
+}
+
+.section-title {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+.specialty-item {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #0d6efd;
+}
+
+.phone-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.phone-input-group .telefono-inicio {
+    flex: 0.13;
+}
+
+.phone-input-group .telefono-restante {
+    flex: 1;
+}
+
+.form-section {
+    display: none;
+}
+
+.form-section.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.btn-add-specialty {
+    margin-top: 10px;
+}
+
+.remove-specialty-btn {
+    margin-top: 32px;
+}
+
+.required-asterisk {
+    color: #dc3545;
+}
+
+.form-text-help {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.cedula-valid {
+    border-color: #198754 !important;
+}
+
+.cedula-invalid {
+    border-color: #dc3545 !important;
+}
+
+/* Estilos para el buscador de especialidades */
+.especialidad-search-container {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.especialidad-search-input {
+    padding-right: 40px;
+}
+
+.especialidad-search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.especialidad-options-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+    display: none;
+}
+
+.especialidad-options-list.show {
+    display: block;
+}
+
+.especialidad-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.especialidad-option:hover {
+    background-color: #f8f9fa;
+}
+
+.especialidad-option.selected {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* Estilos para los radio buttons */
+.tipo-especialidad-group {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.radio-tipo-especialidad {
+    display: flex;
+    gap: 20px;
+}
+
+.radio-tipo-especialidad .form-check {
+    margin-bottom: 0;
+}
+
+/* Estilos para el item de especialidad */
+.especialidad-item {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #0d6efd;
+    position: relative;
+}
+
+.especialidad-item.subespecialidad {
+    border-left-color: #6f42c1;
+}
+
+.especialidad-item .tipo-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+}
+
+.especialidad-item .especialidad-tipo {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+/* Mejoras para el buscador */
+.especialidad-search-wrapper {
+    position: relative;
+}
+
+.no-results {
+    padding: 10px;
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.especialidad-option .badge-tipo {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    margin-left: 5px;
+    background-color: #6c757d;
+    color: white;
+}
+
+.especialidad-option .badge-tipo.especialidad {
+    background-color: #0d6efd;
+}
+
+.especialidad-option .badge-tipo.subespecialidad {
+    background-color: #6f42c1;
+}
+
+/* Estilos para los títulos en la lista de opciones */
+.especialidad-option-title {
+    font-weight: 600;
+    color: #495057;
+    background-color: #f8f9fa;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Mejoras para los badges */
+.bg-purple {
+    background-color: #6f42c1 !important;
+}
+
+/* Estilos para la información seleccionada */
+.selected-especialidad-info .alert-light {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+}
+
+/* Mejoras en la lista de opciones */
+.especialidad-option {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f8f9fa;
+    transition: background-color 0.2s;
+}
+
+.especialidad-option:last-child {
+    border-bottom: none;
+}
+
+.especialidad-option:hover {
+    background-color: #e9ecef;
+}
+
+.especialidad-option .badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+}
+
+/* Para mejor visualización en móviles */
+@media (max-width: 768px) {
+    .especialidad-item .row {
+        flex-direction: column;
+    }
+
+    .especialidad-item .col-md-2 {
+        margin-top: 10px;
+    }
+
+    .remove-specialty-btn {
+        margin-top: 0;
+    }
+}
+
+/* Estilos para cursos y diplomados */
+.curso-item,
+.diplomado-item {
+    background-color: #f8f9fa;
+    border-left: 4px solid #20c997 !important;
+}
+
+.diplomado-item {
+    border-left-color: #fd7e14 !important;
+}
+
+/* Mejoras para selects múltiples */
+select[multiple] {
+    min-height: 120px;
+}
+
+select[multiple] option {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+select[multiple] option:checked {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* Resumen adicional */
+#resumen-cursos,
+#resumen-diplomados,
+#resumen-deportes {
+    margin-bottom: 0.5rem;
+}

@@ -6,3 +6,7 @@ vendors
 storage/backup/
 /.vscode/
 pruebas.php
+public/assets/images/medicos/
+public/assets/images/personal/
+public/assets/images/images_graficos/
+public/assets/documents/

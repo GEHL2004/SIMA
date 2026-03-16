@@ -85,7 +85,6 @@
         var data = [];
         var i = 0;
         dataD.forEach((elemento, index) => {
-            console.log();
             acciones = `
             <div class="btn-group" role="group" aria-label="Basic example">
                 <a href="/SIMA/subespecialidades-edit/${
@@ -102,7 +101,7 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </a>
-                <button type="button" class="btn btn-danger btn-sm" onclick="disable(${ elemento["id_subespecialidad"] });">
+                <button type="button" class="btn btn-danger btn-sm" onclick="disable(${ elemento["id_subespecialidad"] });" ${elemento['conteo_de_medicos'] > 0 ? 'disabled' : ''}>
                     <i class="fa-solid fa-x"></i>
                 </button>
             </div>`;

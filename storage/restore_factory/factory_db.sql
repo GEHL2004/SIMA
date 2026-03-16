@@ -40,31 +40,64 @@ CREATE TABLE auditorias(
     creado_el TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE estados (
+	id_estado INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nombre_estado VARCHAR(100) NOT NULL,
+    creado_el TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO estados (nombre_estado) VALUES
+('Amazonas'),
+('Anzoátegui'),
+('Apure'),
+('Aragua'),
+('Barinas'),
+('Bolívar'),
+('Carabobo'),
+('Cojedes'),
+('Delta Amacuro'),
+('Distrito Capital'),
+('Falcón'),
+('Guárico'),
+('Lara'),
+('Mérida'),
+('Miranda'),
+('Monagas'),
+('Nueva Esparta'),
+('Portuguesa'),
+('Sucre'),
+('Táchira'),
+('Trujillo'),
+('La Guaira'),
+('Yaracuy'),
+('Zulia');
+
 CREATE TABLE municipios (
 	id_municipio INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_estado INT NOT NULL,
 	nombre_municipio VARCHAR(100) NOT NULL,
 	creado_el TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO municipios(nombre_municipio) VALUES
-('Atanasio Girardot'),
-('Bolivar'),
-('Camatagua'),
-('Francisco Linares Alcentara'),
-('Jose Angel Lamas'),
-('Jose Felix Ribas'),
-('Jose Rafael Revenga'),
-('Libertador'),
-('Mario Briceno Iragorry'),
-('Ocumare de la Costa de Oro'),
-('San Casimiro'),
-('San Sebastien'),
-('Santiago Marino'),
-('Santos Michelena'),
-('Sucre'),
-('Tovar'),
-('Urdaneta'),
-('Zamora');
+INSERT INTO municipios(id_estado, nombre_municipio) VALUES
+(4, 'Atanasio Girardot'),
+(4, 'Bolivar'),
+(4, 'Camatagua'),
+(4, 'Francisco Linares Alcentara'),
+(4, 'Jose Angel Lamas'),
+(4, 'Jose Felix Ribas'),
+(4, 'Jose Rafael Revenga'),
+(4, 'Libertador'),
+(4, 'Mario Briceno Iragorry'),
+(4, 'Ocumare de la Costa de Oro'),
+(4, 'San Casimiro'),
+(4, 'San Sebastien'),
+(4, 'Santiago Mariño'),
+(4, 'Santos Michelena'),
+(4, 'Sucre'),
+(4, 'Tovar'),
+(4, 'Urdaneta'),
+(4, 'Zamora');
 
 CREATE TABLE parroquias (
 	id_parroquia INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -187,13 +220,59 @@ INSERT INTO grados_academicos(nombre_grado) VALUES
 ('Médico General'),
 ('Médico Especialista'),
 ('Médico Subespecialista'),
+('Maestria'),
 ('Doctorado'),
 ('Formación Continua');
 
+CREATE TABLE deportes (
+    id_deporte INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    categoria VARCHAR(50) NOT NULL,
+    es_olimpico BOOLEAN DEFAULT FALSE,
+    popularidad VARCHAR(15) NOT NULL,
+    deporte_nacional BOOLEAN NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO deportes (nombre, categoria, es_olimpico, popularidad, deporte_nacional) VALUES
+('Béisbol', 'Colectivo', TRUE, 'Alta', TRUE),
+('Fútbol Campo', 'Colectivo', TRUE, 'Alta', FALSE),
+('Baloncesto', 'Colectivo', TRUE, 'Alta', FALSE),
+('Voleibol', 'Colectivo', TRUE, 'Alta', FALSE),
+('Softbol', 'Colectivo', FALSE, 'Media', FALSE),
+('Atletismo', 'Individual', TRUE, 'Media', FALSE),
+('Natación', 'Individual', TRUE, 'Media', FALSE),
+('Boxeo', 'Individual', TRUE, 'Media', FALSE),
+('Tae Kwon Do', 'Individual', TRUE, 'Media', FALSE),
+('Judo', 'Individual', TRUE, 'Media', FALSE),
+('Ciclismo', 'Individual', TRUE, 'Media', FALSE),
+('Bolas Criollas', 'Colectivo', FALSE, 'Media', TRUE),
+('Coleo', 'Individual', FALSE, 'Media', TRUE),
+('Dominó', 'Por equipos', FALSE, 'Alta', FALSE),
+('Surf', 'Individual', TRUE, 'Media', FALSE),
+('Halterofilia', 'Individual', TRUE, 'Media', FALSE),
+('Tenis', 'Individual', TRUE, 'Media', FALSE),
+('Turf', 'Individual', FALSE, 'Alta', FALSE),
+('Fútbol sala', 'Colectivo', FALSE, 'Alta', FALSE),
+('Golf', 'Individual', TRUE, 'Baja', FALSE),
+('Hipismo', 'Individual', FALSE, 'Media', FALSE),
+('Pádel', 'Colectivo', FALSE, 'Media', FALSE),
+('Ajedrez', 'Individual', TRUE, 'Media', FALSE),
+('Squash', 'Individual', FALSE, 'Baja', FALSE),
+('Hockey sobre patines', 'Colectivo', TRUE, 'Media', FALSE),
+('Kárate', 'Individual', TRUE, 'Media', FALSE),
+('Esgrima', 'Individual', TRUE, 'Baja', FALSE),
+('Tiro con arco', 'Individual', TRUE, 'Baja', FALSE),
+('Ráquetbol', 'Individual', FALSE, 'Baja', FALSE),
+('Clavados', 'Individual', TRUE, 'Media', FALSE);
+
 CREATE TABLE medicos(
 	id_medico INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	cedula VARCHAR(15) NOT NULL UNIQUE,
-    correo VARCHAR(300) NOT NULL,
+	cedula VARCHAR(15) NULL UNIQUE,
+    rif VARCHAR(15) NULL UNIQUE,
+    impre VARCHAR(20) NULL UNIQUE,
+    correo VARCHAR(300) NULL,
+    nacionalidad VARCHAR(500),
 	nombres VARCHAR(300) NOT NULL,
     apellidos VARCHAR(300) NOT NULL,
     telefono_inicio VARCHAR(4) NOT NULL,
@@ -201,10 +280,8 @@ CREATE TABLE medicos(
     id_parroquia INT NOT NULL,
     direccion TEXT NOT NULL,
     numero_colegio VARCHAR(100) NOT NULL UNIQUE,
-    nombre_foto VARCHAR(100) NOT NULL,
+    nombre_foto VARCHAR(100),
     id_grado_academico INT NULL,
-    id_especialidad INT NOT NULL,
-    id_subespecialidad INT NULL,
     id_creador INT NOT NULL,
 	creado_el TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -213,6 +290,7 @@ CREATE TABLE medicos_detalles(
 	id_medico_detalles INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     id_medico INT NOT NULL,
     fecha_nacimiento DATE NOT NULL,
+    lugar_nacimiento VARCHAR(500) NOT NULL,
     tipo_sangre VARCHAR(15) NOT NULL,
     universidad_graduado VARCHAR(500) NOT NULL,
     fecha_egreso_universidad DATE NOT NULL,
@@ -222,25 +300,59 @@ CREATE TABLE medicos_detalles(
     estado INT NOT NULL
 );
 
+CREATE TABLE cambios_estados_medicos(
+	id_cambio_estado_medico INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    id_medico INT NOT NULL,
+    estado INT NOT NULL,
+    fecha_colocacion DATE NULL,
+    fecha_final DATE NULL,
+    creado_el TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE documentos_medicos(
 	id_documento INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     id_medico INT NOT NULL,
-    nombre_documento TEXT NOT NULL
+    nombre_documento_original LONGTEXT NOT NULL,
+    nombre_documento_directorio LONGTEXT NOT NULL,
+    estado BOOLEAN NOT NULL
 );
 
 CREATE TABLE medicos_especialidades(
 	id_medico_especialidad INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     id_medico INT NOT NULL,
     id_especialidad INT NOT NULL,
+    universidad_obtenido VARCHAR(500) NOT NULL,
     fecha_obtencion DATE NOT NULL
 );
 
 CREATE TABLE medicos_subespecialidades(
 	id_medico_subespecialidad INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     id_medico INT NOT NULL,
-    id_especialidad INT NULL,
     id_subespecialidad INT NOT NULL,
+    universidad_obtenido VARCHAR(500) NOT NULL,
     fecha_obtencion DATE NOT NULL
+);
+
+CREATE TABLE medicos_cursos(
+	id_medico_curso INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_medico INT NOT NULL,
+    nombre_curso VARCHAR(500) NOT NULL,
+    universidad_obtenido VARCHAR(500) NOT NULL,
+    fecha_obtencion DATE NOT NULL
+);
+
+CREATE TABLE medicos_diplomados(
+	id_medico_diplomado INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_medico INT NOT NULL,
+    nombre_diplomado VARCHAR(500) NOT NULL,
+    universidad_obtenido VARCHAR(500) NOT NULL,
+    fecha_obtencion DATE NOT NULL
+);
+
+CREATE TABLE medicos_deportes(
+	id_medico_deporte INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_medico INT NOT NULL,
+    id_deporte INT NOT NULL
 );
 
 /* RELACIONES ENTRE ENTIDADES*/
@@ -250,6 +362,8 @@ CREATE TABLE medicos_subespecialidades(
 /* V  V  V  V  V  V  V  V  V*/
 
 ALTER TABLE auditorias ADD FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario);
+
+ALTER TABLE municipios ADD FOREIGN KEY (id_estado) REFERENCES estados (id_estado);
 
 ALTER TABLE parroquias ADD FOREIGN KEY (id_municipio) REFERENCES municipios (id_municipio);
 
@@ -265,15 +379,13 @@ ALTER TABLE especialidades_requeridas_para_subespecialidades ADD FOREIGN KEY (id
 
 ALTER TABLE medicos ADD FOREIGN KEY (id_grado_academico) REFERENCES grados_academicos(id_grado_academico);
 
-ALTER TABLE medicos ADD FOREIGN KEY (id_especialidad) REFERENCES especialidades(id_especialidad);
-
-ALTER TABLE medicos ADD FOREIGN KEY (id_subespecialidad) REFERENCES subespecialidades(id_subespecialidad);
-
 ALTER TABLE medicos ADD FOREIGN KEY (id_creador) REFERENCES usuarios(id_usuario);
 
 ALTER TABLE medicos ADD FOREIGN KEY (id_parroquia) REFERENCES parroquias(id_parroquia);
 
 ALTER TABLE medicos_detalles ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
+
+ALTER TABLE cambios_estados_medicos ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
 
 ALTER TABLE documentos_medicos ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
 
@@ -283,6 +395,12 @@ ALTER TABLE medicos_especialidades ADD FOREIGN KEY (id_especialidad) REFERENCES 
 
 ALTER TABLE medicos_subespecialidades ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
 
-ALTER TABLE medicos_subespecialidades ADD FOREIGN KEY (id_especialidad) REFERENCES especialidades(id_especialidad);
-
 ALTER TABLE medicos_subespecialidades ADD FOREIGN KEY (id_subespecialidad) REFERENCES subespecialidades(id_subespecialidad);
+
+ALTER TABLE medicos_cursos ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
+
+ALTER TABLE medicos_diplomados ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
+
+ALTER TABLE medicos_deportes ADD FOREIGN KEY (id_deporte) REFERENCES deportes(id_deporte);
+
+ALTER TABLE medicos_deportes ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);

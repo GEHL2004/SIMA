@@ -99,7 +99,7 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </a>
-                <button type="button" class="btn btn-danger btn-sm" onclick="disable(${ elemento["id_especialidad"] });">
+                <button type="button" class="btn btn-danger btn-sm" onclick="disable(${ elemento["id_especialidad"] });" ${elemento['conteo_de_medicos'] > 0 ? 'disabled' : ''}>
                     <i class="fa-solid fa-x"></i>
                 </button>
             </div>`;

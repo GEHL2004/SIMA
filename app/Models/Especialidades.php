@@ -17,7 +17,7 @@ class Especialidades
 
     public function index()
     {
-        $sql = "SELECT E.id_especialidad, E.nombre, E.codigo, E.activa, E.id_categoria_especialidad, (SELECT COUNT(*) FROM medicos M WHERE M.id_especialidad = E.id_especialidad) AS conteo_de_medicos
+        $sql = "SELECT E.id_especialidad, E.nombre, E.codigo, E.activa, (SELECT COUNT(*) FROM medicos M INNER JOIN medicos_especialidades AS ME ON ME.id_medico = M.id_medico WHERE ME.id_especialidad = E.id_especialidad) AS conteo_de_medicos
                 FROM especialidades E
                 WHERE activa = TRUE;";
         $parametros = [];
@@ -37,7 +37,7 @@ class Especialidades
 
     public function getAllEspecialidades()
     {
-        $sql = "SELECT E.id_especialidad, E.nombre
+        $sql = "SELECT E.id_especialidad, E.nombre, 'especialidad' as tipo
                 FROM especialidades E
                 WHERE activa = TRUE;";
         $parametros = [];

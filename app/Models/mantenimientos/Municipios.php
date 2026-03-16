@@ -16,20 +16,23 @@ class Municipios{
     }
 
     public function getMunicipios(){
-        $sql = "SELECT id_municipio, nombre_municipio FROM municipios;";
+        $sql = "SELECT id_municipio, nombre_municipio 
+                FROM municipios;";
         $parametros = [];
         $result = $this->conn->consultar($sql, $parametros);
         return $result;
     }
 
     public function getParroquias(int $id){
-        $sql = "SELECT nombre_parroquia, id_parroquia FROM parroquias WHERE id_municipio = :id_municipio;";
+        $sql = "SELECT nombre_parroquia, id_parroquia, id_municipio
+                FROM parroquias WHERE id_municipio = :id_municipio;";
         $parametros = [':id_municipio' => $id];
         return $this->conn->consultar($sql, $parametros);
     }
 
     public function update(array $data){
-        $sql1 = "SELECT nombre_municipio FROM municipios WHERE nombre_municipio = :nombre_municipio AND id_municipio != :id_municipio";
+        $sql1 = "SELECT nombre_municipio 
+                    FROM municipios WHERE nombre_municipio = :nombre_municipio AND id_municipio != :id_municipio";
         $parametros1 = [':nombre_municipio' => $data['municipio'], ':id_municipio' => $data['ID']];
         $conculta = $this->conn->consultar($sql1, $parametros1);
         if(empty($conculta)){
@@ -41,6 +44,23 @@ class Municipios{
         }else{
             return false;
         }
+    }
+
+    public function searchMunicipio(string $nombre_municipio){
+        $sql = "SELECT id_municipio, nombre_municipio
+                FROM municipios 
+                WHERE nombre_municipio = :nombre_municipio;";
+        $parametros = [':nombre_municipio' => $nombre_municipio];
+        return $this->conn->consultar($sql, $parametros);
+    }
+
+    public function searchParroquias(string $nombre_parroquia){
+        $sql = "SELECT nombre_parroquia, id_parroquia, id_municipio
+                FROM parroquias 
+                WHERE nombre_parroquia = :nombre_parroquia;";
+        $parametros = [':nombre_parroquia' => $nombre_parroquia];
+        $result = $this->conn->consultar($sql, $parametros);
+        return $result;
     }
         
 }

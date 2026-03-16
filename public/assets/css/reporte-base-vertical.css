@@ -1,0 +1,65 @@
+* {
+    font-family: "Times New Roman", Times, serif;
+}
+
+/* 1. Definir los márgenes físicos */
+@page {
+    margin: 3.5cm 2.54cm 2.54cm 2.54cm;
+}
+
+/* 2. Ajuste para el encabezado */
+header {
+    position: fixed;
+    top: -1.8cm;
+    /* Sube el header hacia el área del margen superior */
+    left: 0;
+    right: 0;
+    height: 2.5cm;
+    /* Resetear el line-height 1.5 del body para el header */
+}
+
+/* 3. Definir el formato del contenido (Normas APA) */
+body {
+    margin: 0;
+    padding: 3.1cm 0 0 0;
+    /* Fuente clásica APA */
+    font-size: 12pt;
+    line-height: 1.5;
+    /* APA pide doble espacio, pero 1.5 es común si es un reporte */
+    text-align: left;
+    /* APA prefiere alineación a la izquierda, no justificado */
+}
+
+/* 4. Ajuste para el footer (si lo usas) */
+footer {
+    position: fixed;
+    bottom: 0px;
+    /* Ajusta según el margen inferior de @page */
+    left: 0;
+    right: 0;
+    height: 50px;
+    font-size: 10pt;
+}
+
+#watermark {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 20%;
+    left: -3%;
+    opacity: 0.05;
+    /** Crucial para que no tape el texto **/
+    z-index: -1000;
+}
+
+/* Asegúrate de que el contenido principal tenga un z-index superior si es necesario */
+main {
+    position: relative;
+    z-index: 1;
+}
+
+/* Solo estilos adicionales esenciales */
+.logo-header {
+    height: 125px;
+    object-fit: contain;
+}

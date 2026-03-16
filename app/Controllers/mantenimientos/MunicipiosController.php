@@ -50,4 +50,24 @@ class MunicipiosController
         header('Content-Type: application/json');
         echo $dataJSON;
     }
+
+    public function getParroquiasSinJSON(int $id)
+    {
+        $municipios = new Municipios();
+        $data = $municipios->getParroquias($id);
+        return $data;
+    }
+
+    public function searchMunicipio(string $nombre_municipio){
+        $municipios = new Municipios();
+        $data = $municipios->searchMunicipio($nombre_municipio);
+        return $data;
+    }
+
+    public function searchParroquias(string $nombre_parroquia){
+        $municipios = new Municipios();
+        $data = $municipios->searchParroquias($nombre_parroquia);
+        return $data;
+    }
+    
 }

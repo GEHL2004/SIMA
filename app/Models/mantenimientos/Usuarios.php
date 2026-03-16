@@ -148,11 +148,11 @@ class Usuarios
         return $result;
     }
 
-    public function buscar_usuario($user)
+    public function buscar_usuario($cedula)
     {
         $sql = "SELECT * FROM usuarios
-                WHERE nombre_user = :nombre_user;";
-        $parametros = [':nombre_user' => $user];
+                WHERE cedula = :cedula;";
+        $parametros = [':cedula' => $cedula];
         $result = $this->conn->consultar($sql, $parametros);
         return $result;
     }

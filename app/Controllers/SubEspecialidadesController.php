@@ -35,6 +35,12 @@ class SubEspecialidadesController
         require_once "public/views/subespecialidades/index.php";
     }
 
+    public function getAllSubespecialidades()
+    {
+        $data = $this->subespecialidades->getAllSubespecialidades();
+        return $data;
+    }
+
     public function create()
     {
         $especialidades = $this->especialidades->getAllEspecialidades();
@@ -128,13 +134,16 @@ class SubEspecialidadesController
         // print_r($data);
         // echo "<pre>";
         // die();
-        $this->ERPSEC->delete($id_subespecialidad);
-        $bool = $this->subespecialidades->delete($id_subespecialidad);
-        if ($bool['error'] == 1) {
-            AlertasController::error('ERROR', 'NO se pudo eliminar esta subespecialidad.');
-        } else {
+        $bool2 = $this->ERPSEC->delete($id_subespecialidad);
+        if(!$bool2){
+            die('Error al eliminar las especialidades requeridas para la subespecialidad.');
+        }
+        $bool1 = $this->subespecialidades->delete($id_subespecialidad);
+        if ($bool1['error'] == 0 && $bool2) {
             $this->audi->store(['ID' => $_SESSION["id_usuario"], 'accion' => 'El usuario ' . $_SESSION["nombres_apellidos"] . ' eliminó la subespecialidad llamada: ' . $data[0]['nombre']]);
             AlertasController::success('Eliminación exitosa.');
+        } else {
+            AlertasController::error('ERROR', 'NO se pudo eliminar esta subespecialidad.');
         }
         header('Location: ' . $_ENV['BASE_PATH'] . '/subespecialidades-disable');
         die();

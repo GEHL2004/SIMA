@@ -192,10 +192,9 @@ class UsuariosController
         die();
     }
 
-    public function rucuperarPassword1($correo)
+    public function rucuperarPassword1($cedula)
     {
-        // $data = $this->user->buscar_usuario($correo);
-        die();
+        $data = $this->user->buscar_usuario($cedula);
         $bool = ['bool' => false];
         if (!empty($data)) {
             $bool['bool'] = true;

@@ -1,7 +1,7 @@
 function cargar_tabla(datos) {
     try {
         var table = $(datos["id_tabla"]).DataTable({
-            data: datos["data"],
+            data: datos["data"] ,
             columns: datos["columns"],
             autoWidth: false,
             language: {

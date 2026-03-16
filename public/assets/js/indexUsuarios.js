@@ -117,8 +117,8 @@ if (nivel_acceso == 1) {
                             }" id-nivel="${
                 elemento["nivel"]
             }" onclick="actualizarUsuario(this);">
-                                s="fa-regular fa-pen-to-square"></i>
-                            </button><i clas
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            </button>
                             <a href="/SIMA/usuarios-show/${
                                 elemento["id_usuario"]
                             }"}>

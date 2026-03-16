@@ -17,7 +17,7 @@ class SubEspecialidades
 
     public function index()
     {
-        $sql = "SELECT SE.id_subespecialidad, SE.nombre, SE.codigo, SE.activa, (SELECT COUNT(*) FROM medicos M WHERE M.id_subespecialidad = SE.id_subespecialidad) AS conteo_de_medicos
+        $sql = "SELECT SE.id_subespecialidad, SE.nombre, SE.codigo, SE.activa, (SELECT COUNT(*) FROM medicos M INNER JOIN medicos_subespecialidades MSB ON MSB.id_medico = M.id_medico WHERE MSB.id_subespecialidad = SE.id_subespecialidad) AS conteo_de_medicos
                 FROM subespecialidades SE
                 WHERE activa = TRUE;";
         $parametros = [];
@@ -30,6 +30,16 @@ class SubEspecialidades
         $sql = "SELECT SE.id_subespecialidad, SE.nombre, SE.codigo, SE.activa
                 FROM subespecialidades SE
                 WHERE activa = FALSE;";
+        $parametros = [];
+        $result = $this->conn->consultar($sql, $parametros);
+        return $result;
+    }
+
+    public function getAllSubespecialidades()
+    {
+        $sql = "SELECT SE.id_subespecialidad, SE.nombre, 'subespecialidad' as tipo
+                FROM subespecialidades SE
+                WHERE activa = TRUE;";
         $parametros = [];
         $result = $this->conn->consultar($sql, $parametros);
         return $result;

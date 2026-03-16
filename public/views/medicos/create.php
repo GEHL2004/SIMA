@@ -1,109 +1,6 @@
 <?php require_once "./public/views/layouts/header.php"; ?>
 
-<style>
-    .form-card {
-        border-radius: 15px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        border: none;
-    }
-
-    .step-indicator {
-        font-size: 0.9rem;
-    }
-
-    .step-indicator .step {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 10px;
-    }
-
-    .step-indicator .step.active {
-        background-color: #0d6efd;
-        color: white;
-    }
-
-    .step-indicator .step.completed {
-        background-color: #198754;
-        color: white;
-    }
-
-    .section-title {
-        border-bottom: 2px solid #e9ecef;
-        padding-bottom: 10px;
-        margin-bottom: 25px;
-        color: #2c3e50;
-    }
-
-    .specialty-item {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 15px;
-        border-left: 4px solid #0d6efd;
-    }
-
-    .phone-input-group {
-        display: flex;
-        gap: 10px;
-    }
-
-    .phone-input-group .telefono-inicio {
-        flex: 0.13;
-    }
-
-    .phone-input-group .telefono-restante {
-        flex: 1;
-    }
-
-    .form-section {
-        display: none;
-    }
-
-    .form-section.active {
-        display: block;
-        animation: fadeIn 0.5s ease;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    .btn-add-specialty {
-        margin-top: 10px;
-    }
-
-    .remove-specialty-btn {
-        margin-top: 32px;
-    }
-
-    .required-asterisk {
-        color: #dc3545;
-    }
-
-    .form-text-help {
-        font-size: 0.875rem;
-        color: #6c757d;
-        margin-top: 0.25rem;
-    }
-
-    .cedula-valid {
-        border-color: #198754 !important;
-    }
-
-    .cedula-invalid {
-        border-color: #dc3545 !important;
-    }
-</style>
+<link rel="stylesheet" href="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/css/form-medicos.css">
 
 <div class="conatiner-fluid content-inner py-0">
     <div class="row">
@@ -171,6 +68,36 @@
                                 </div>
 
                                 <div class="col-lg-4">
+                                    <label for="rif" class="form-label">RIF</label>
+                                    <input type="text" class="form-control" id="rif" name="rif" maxlength="12" placeholder="J-12345678-9">
+                                    <div class="invalid-feedback" id="rif-feedback">
+                                        Formato inválido. Use: J-12345678-9 (letra J, V, E, G, P seguida de guión, 7-9 dígitos, guión y 1 dígito)
+                                    </div>
+                                    <div class="valid-feedback" id="rif-valid-feedback">
+                                        Formato de RIF válido.
+                                    </div>
+                                    <div class="form-text-help">
+                                        Formato: J-12345678-9 (opcional, letras válidas: J, V, E, G, P)
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <label for="nacionalidad" class="form-label">Nacionalidad <span class="required-asterisk">*</span></label>
+                                    <input type="text" class="form-control" id="nacionalidad" name="nacionalidad" value="Venezolano" required>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese la nacionalidad.
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <label for="lugar_nacimiento" class="form-label">Lugar de Nacimiento <span class="required-asterisk">*</span></label>
+                                    <input type="text" class="form-control" id="lugar_nacimiento" name="lugar_nacimiento" required>
+                                    <div class="invalid-feedback">
+                                        Por favor ingrese el lugar de nacimiento.
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
                                     <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento <span class="required-asterisk">*</span></label>
                                     <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
                                     <div class="invalid-feedback">
@@ -197,10 +124,13 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <label for="correo" class="form-label">Correo Electrónico <span class="required-asterisk">*</span></label>
-                                    <input type="email" class="form-control" id="correo" name="correo" required>
+                                    <label for="correo" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="correo" name="correo">
                                     <div class="invalid-feedback">
                                         Por favor ingrese un correo electrónico válido.
+                                    </div>
+                                    <div class="form-text-help">
+                                        Campo opcional
                                     </div>
                                 </div>
 
@@ -280,6 +210,20 @@
                                 </div>
 
                                 <div class="col-lg-6">
+                                    <label for="impre" class="form-label">Número de IMPRE</label>
+                                    <input type="text" class="form-control" id="impre" name="impre" maxlength="20" pattern="\d{6,20}">
+                                    <div class="invalid-feedback" id="impre-feedback">
+                                        El IMPRE debe tener entre 6 y 20 dígitos numéricos.
+                                    </div>
+                                    <div class="valid-feedback" id="impre-valid-feedback">
+                                        Formato de IMPRE válido.
+                                    </div>
+                                    <div class="form-text-help">
+                                        Ingrese entre 6 y 20 dígitos (solo números, campo opcional)
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
                                     <label for="matricula_ministerio" class="form-label">Matrícula del Ministerio <span class="required-asterisk">*</span></label>
                                     <input type="number" class="form-control" id="matricula_ministerio" name="matricula_ministerio" required>
                                     <div class="invalid-feedback">
@@ -312,13 +256,28 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <label for="id_grado_academico" class="form-label">Grado Académico</label>
+                                    <label for="id_grado_academico" class="form-label">Grado Académico <span class="required-asterisk">*</span></label>
                                     <select class="form-select" id="id_grado_academico" name="id_grado_academico">
                                         <option value="" selected disabled>- Seleccione -</option>
                                         <?php foreach ($grados as $clave => $valor) { ?>
                                             <option value="<?php echo $valor['id_grado_academico']; ?>"><?php echo $valor['nombre_grado']; ?></option>
                                         <?php } ?>
                                     </select>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="estado" class="form-label">Estado del Médico <span class="required-asterisk">*</span></label>
+                                    <select class="form-select" id="estado" name="estado" required>
+                                        <option value="" selected disabled>- Seleccione -</option>
+                                        <option value="1">Activo</option>
+                                        <option value="2">Desincorporado</option>
+                                        <option value="3">Jubilado</option>
+                                        <option value="4">Fallecido</option>
+                                        <option value="5">Traslado</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Por favor seleccione el estado del médico.
+                                    </div>
                                 </div>
 
                                 <div class="col-12">
@@ -329,12 +288,62 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="estado" name="estado" value="1" checked>
-                                        <label class="form-check-label" for="estado">
-                                            Médico Activo
-                                        </label>
+                                <!-- Campo oculto para el creador -->
+                                <input type="hidden" id="id_creador" name="id_creador" value="<?php echo $_SESSION['id_usuario'] ?? 0; ?>">
+                            </div>
+
+                            <!-- Sección para Cursos -->
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0"><i class="fas fa-certificate me-2"></i>Cursos</h5>
+                                    <span class="badge bg-secondary" id="contador-cursos">0 cursos</span>
+                                </div>
+
+                                <div id="cursos-container">
+                                    <!-- Los cursos se agregarán aquí dinámicamente -->
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    <button type="button" class="btn btn-outline-success" id="btn-agregar-curso">
+                                        <i class="fas fa-plus me-1"></i> Agregar Curso
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Sección para Diplomados -->
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0"><i class="fas fa-award me-2"></i>Diplomados</h5>
+                                    <span class="badge bg-secondary" id="contador-diplomados">0 diplomados</span>
+                                </div>
+
+                                <div id="diplomados-container">
+                                    <!-- Los diplomados se agregarán aquí dinámicamente -->
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    <button type="button" class="btn btn-outline-success" id="btn-agregar-diplomado">
+                                        <i class="fas fa-plus me-1"></i> Agregar Diplomado
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Sección para Deportes -->
+                            <div class="mt-4">
+                                <h5 class="mb-3"><i class="fas fa-futbol me-2"></i>Deportes que Practica</h5>
+                                <div class="row g-3">
+                                    <div class="col-lg-12">
+                                        <label for="deportes" class="form-label">Seleccionar Deportes</label>
+                                        <select class="form-select" id="deportes" name="deportes[]" multiple size="4">
+                                            <?php foreach ($deportes as $deporte) { ?>
+                                                <option value="<?php echo $deporte['id_deporte']; ?>">
+                                                    <?php echo $deporte['nombre']; ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
+                                        <div class="form-text-help">
+                                            Mantenga presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples deportes
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -349,31 +358,38 @@
                             </div>
                         </div>
 
-                        <!-- Paso 3: Especialidades -->
+                        <!-- Paso 3: Especialidades y Subespecialidades -->
                         <div class="form-section" id="step3">
-                            <h3 class="section-title"><i class="fas fa-stethoscope me-2"></i>Especialidades</h3>
+                            <h3 class="section-title"><i class="fas fa-stethoscope me-2"></i>Especialidades y Subespecialidades</h3>
 
                             <div class="alert alert-info">
                                 <i class="fas fa-info-circle me-2"></i>
-                                El médico puede tener 0, 1 o hasta 10 especialidades. Cada especialidad debe incluir la fecha de obtención.
+                                El médico puede tener 0, 1 o hasta <?php echo count($especialiades_subespecialdiades); ?> especialidades/subespecialidades. Cada una debe incluir la fecha de obtención y el tipo.
                             </div>
 
                             <div id="especialidades-container">
-                                <!-- Las especialidades se agregarán aquí dinámicamente -->
+                                <!-- Las especialidades/subespecialidades se agregarán aquí dinámicamente -->
                             </div>
 
-                            <div class="d-flex justify-content-between mt-3">
-                                <button type="button" class="btn btn-success" id="btn-agregar-especialidad">
-                                    <i class="fas fa-plus me-1"></i> Agregar Especialidad
-                                </button>
+                            <div class="">
+                                <div class="row text-center">
+                                    <div class="col-lg-4 my-lg-0 my-2">
+                                        <button type="button" class="btn btn-success" id="btn-agregar-especialidad">
+                                            <i class="fas fa-plus me-1"></i> Agregar Especialidad/Subespecialidad
+                                        </button>
 
-                                <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(3)">
-                                        <i class="fas fa-arrow-left me-1"></i> Anterior
-                                    </button>
-                                    <button type="button" class="btn btn-primary" onclick="nextStep(4)" id="btn-next-step3">
-                                        Siguiente <i class="fas fa-arrow-right ms-1"></i>
-                                    </button>
+                                    </div>
+                                    <div class="col-lg-4 my-lg-0 my-2">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="prevStep(3)">
+                                            <i class="fas fa-arrow-left me-1"></i> Anterior
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-4 my-lg-0 my-2">
+                                        <button type="button" class="btn btn-primary" onclick="nextStep(4)" id="btn-next-step3">
+                                            Siguiente <i class="fas fa-arrow-right ms-1"></i>
+                                        </button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -402,7 +418,7 @@
 
                                                 <div>
                                                     <label class="form-label">O agregar múltiples documentos:</label>
-                                                    <input type="file" class="form-control" id="documentos-multiples" name="documentos_multiples[]" multiple>
+                                                    <input type="file" class="form-control" id="documentos-multiples" name="documentos_multiples[]" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple>
                                                     <div class="form-text-help">
                                                         Seleccione múltiples archivos manteniendo presionada la tecla Ctrl (Windows) o Cmd (Mac)
                                                     </div>
@@ -422,7 +438,9 @@
                                                 <h6>Información Personal:</h6>
                                                 <p id="resumen-nombre" class="mb-1"><strong>Nombre:</strong> <span class="text-muted">No ingresado</span></p>
                                                 <p id="resumen-cedula" class="mb-1"><strong>Cédula:</strong> <span class="text-muted">No ingresada</span></p>
-                                                <p id="resumen-correo" class="mb-1"><strong>Correo:</strong> <span class="text-muted">No ingresado</span></p>
+                                                <p id="resumen-rif" class="mb-1"><strong>RIF:</strong> <span class="text-muted">No proporcionado</span></p>
+                                                <p id="resumen-impre" class="mb-1"><strong>IMPRE:</strong> <span class="text-muted">No proporcionado</span></p>
+                                                <p id="resumen-correo" class="mb-1"><strong>Correo:</strong> <span class="text-muted">No proporcionado</span></p>
                                                 <p id="resumen-municipio" class="mb-1"><strong>Municipio:</strong> <span class="text-muted">No seleccionado</span></p>
                                             </div>
 
@@ -431,6 +449,9 @@
                                                 <p id="resumen-colegio" class="mb-1"><strong>N° Colegio:</strong> <span class="text-muted">No ingresado</span></p>
                                                 <p id="resumen-universidad" class="mb-1"><strong>Universidad:</strong> <span class="text-muted">No ingresada</span></p>
                                                 <p id="resumen-especialidades" class="mb-1"><strong>Especialidades:</strong> <span class="text-muted">0</span></p>
+                                                <p id="resumen-cursos" class="mb-1"><strong>Cursos:</strong> <span class="text-muted">0</span></p>
+                                                <p id="resumen-diplomados" class="mb-1"><strong>Diplomados:</strong> <span class="text-muted">0</span></p>
+                                                <p id="resumen-deportes" class="mb-1"><strong>Deportes:</strong> <span class="text-muted">0</span></p>
                                             </div>
 
                                             <div class="mb-3">
@@ -468,12 +489,14 @@
 <?php require_once "./public/views/layouts/footer.php"; ?>
 
 <script>
-    var especialidadesD = JSON.parse(<?php echo $especialidadesJ ?>);
-    // Carga de la tabla index
-    const especialidades = [];
-    especialidadesD.forEach((elemento, index) => {
-        especialidades.push({id: elemento.id_especialidad, nombre: elemento.nombre});
-    });
+    const iq_navbar_header = document.getElementById("iq-navbar-header");
+    iq_navbar_header.style.height = "15px";
+
+    // Convertir al formato que necesita JavaScript
+    const todasEspecialidades = JSON.parse(<?php echo $especialiades_subespecialdiadesJ; ?>);
+
+    // Ordenar alfabéticamente para mejor búsqueda
+    todasEspecialidades.sort((a, b) => a.nombre.localeCompare(b.nombre));
 </script>
 
-<script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/medicos-create.js"></script>
+<script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/form-medicos.js"></script>

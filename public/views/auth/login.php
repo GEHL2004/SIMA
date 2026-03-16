@@ -38,17 +38,13 @@
                                                     <input type="password" class="form-control" name="password" id="password" aria-describedby="password" placeholder="">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 d-flex justify-content-end mb-2">
-                                                <a href="#">Has olvidado tu contraseña?</a>
+                                            <div class="col-lg-12 d-flex justify-content-end mt-2 mb-3">
+                                                <a href="#" id="password_olvidado">Has olvidado tu contraseña?</a>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center">
                                             <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                                         </div>
-
-                                        <p class="mt-3 text-center">
-                                            No tengo una cuenta? <a href="#" class="text-underline">Haz clic aquí para registrarte.</a>
-                                        </p>
                                     </form>
                                 </div>
                             </div>
@@ -85,6 +81,7 @@
     <script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/alertas.js"></script>
     <script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/Validaciones.js"></script>
     <script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/login.js"></script>
+    <script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/recuperacionContraseña.js"></script>
 </body>
 
 </html>

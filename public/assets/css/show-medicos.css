@@ -1,0 +1,159 @@
+/* --- Variables y Configuración Base --- */
+:root {
+    --primary: #0d6efd;
+    --purple: #6f42c1;
+    --success: #198754;
+    --warning: #ffc107;
+    --gray-soft: #f8f9fa;
+    --border-color: #dee2e6;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Perfil Flexible --- */
+.medico-foto-perfil {
+    /* Tamaño fluido: mínimo 110px, ideal 15vw, máximo 150px */
+    width: clamp(110px, 15vw, 150px);
+    height: clamp(110px, 15vw, 150px);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    margin-inline: auto; /* Centrado automático en móvil */
+    transition: var(--transition);
+}
+
+@media (min-width: 768px) {
+    .medico-foto-perfil { margin-inline: 0; }
+}
+
+.medico-foto-perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-foto-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+    text-align: center;
+    padding: 10px;
+}
+
+/* --- Navegación (Tabs) con Scroll Táctil --- */
+.nav-tabs {
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    flex-wrap: nowrap; /* Evita saltos de línea */
+    overflow-x: auto;  /* Permite scroll lateral en móviles */
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Oculta scrollbar en Firefox */
+}
+
+.nav-tabs::-webkit-scrollbar { display: none; } /* Oculta scrollbar en Chrome/Safari */
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #6c757d;
+    font-weight: 600;
+    padding: 12px 20px;
+    white-space: nowrap; /* Mantiene el texto en una sola línea */
+    transition: var(--transition);
+}
+
+.nav-tabs .nav-link:hover {
+    color: #495057;
+    border-bottom-color: #adb5bd;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    background: transparent;
+}
+
+/* --- Tablas y Contenedores --- */
+.table-responsive {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.table th {
+    font-weight: 600;
+    color: #495057;
+    background-color: var(--gray-soft);
+    white-space: nowrap;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0,0,0, 0.03);
+}
+
+/* --- Cards de Resumen Flexibles --- */
+.card.text-center .card-title {
+    /* Fuente que se ajusta al ancho de pantalla */
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 300;
+}
+
+.card.border-primary { border-color: var(--primary) !important; }
+.card.border-purple  { border-color: var(--purple) !important; }
+.card.border-success { border-color: var(--success) !important; }
+.card.border-warning { border-color: var(--warning) !important; }
+
+/* --- Badges y Listas --- */
+.badge-purple, .bg-purple { background-color: var(--purple) !important; color: #fff !important; }
+
+.list-group-item {
+    border-inline: none; /* Elimina bordes laterales */
+    border-radius: 0 !important;
+    padding: 0.75rem 1.25rem;
+    transition: background-color 0.2s;
+}
+
+.list-group-item:hover { background-color: var(--gray-soft); }
+
+.deportes-container .badge {
+    font-size: 0.85rem;
+    padding: 0.4em 0.8em;
+    margin: 2px;
+    border-radius: 50rem; /* Pill shape */
+}
+
+/* --- Animaciones --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.tab-pane { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* --- Media Queries Estratégicos --- */
+@media (max-width: 576px) {
+    .card-body { padding: 0.75rem !important; }
+    .nav-tabs .nav-link { padding: 10px 12px; font-size: 0.85rem; }
+}
+
+/* --- Modo Impresión (Optimizado) --- */
+@media print {
+    .no-print, .nav-tabs, .btn-group, .card-footer, .btn { display: none !important; }
+    
+    body { background-color: #fff; font-size: 12pt; }
+    
+    .card { border: 1px solid #eee !important; box-shadow: none !important; margin-bottom: 1cm; }
+    
+    .tab-pane { 
+        display: block !important; 
+        opacity: 1 !important; 
+        position: static !important;
+    }
+}

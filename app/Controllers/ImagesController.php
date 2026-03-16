@@ -8,8 +8,8 @@ class ImagesController
 {
     const DIRECTORIOS = [
         'graficos' => '/images_graficos',
-        'fotosNoticias' => '/noticias',
         'personal' => '/personal',
+        'medicos' => '/medicos',
     ];
 
     const PERMISOS_DIRECTORIO = 0775;
@@ -24,17 +24,19 @@ class ImagesController
 
     /**
      * Guarda una única imagen con validaciones de seguridad
+     * @param array $file Array del archivo subido ($_FILES['nombre'])
+     * @param string $directorio Clave del directorio (ej: 'graficos')
+     * @param string|null $nombrePersonalizado Nombre base personalizado (sin extensión)
      */
-    public function guardarImagen(array $file, string $directorio): array
+    public function guardarImagen(array $file, string $directorio, ?string $nombrePersonalizado = null): array
     {
-
         try {
             // Validaciones iniciales
             $this->validarArchivo($file);
             $this->validarDirectorioClave($directorio);
 
             $rutaDirectorio = $this->validarYCrearDirectorio($directorio);
-            $nombreArchivoSeguro = $this->generarNombreSeguro($file);
+            $nombreArchivoSeguro = $this->generarNombreSeguro($file, $nombrePersonalizado);
             $rutaCompleta = $rutaDirectorio . '/' . $nombreArchivoSeguro;
 
             // Validar tipo MIME
@@ -50,7 +52,8 @@ class ImagesController
                 'success' => true,
                 'message' => 'Imagen guardada exitosamente',
                 'archivo' => $nombreArchivoSeguro,
-                'ruta' => $rutaCompleta
+                'ruta' => $rutaCompleta,
+                'nombre_original' => $file['name']
             ];
         } catch (\Exception $e) {
             return [
@@ -63,8 +66,11 @@ class ImagesController
 
     /**
      * Guarda múltiples imágenes
+     * @param array $files Array de archivos múltiples
+     * @param string $directorio Clave del directorio
+     * @param array|null $nombresPersonalizados Array de nombres personalizados (opcional, debe coincidir con el índice)
      */
-    public function guardarMultiplesImagenes(array $files, string $directorio): array
+    public function guardarMultiplesImagenes(array $files, string $directorio, ?array $nombresPersonalizados = null): array
     {
         $resultados = [];
 
@@ -86,9 +92,12 @@ class ImagesController
                 'size' => $files['size'][$index]
             ];
 
+            // Obtener nombre personalizado si existe
+            $nombrePersonalizado = isset($nombresPersonalizados[$index]) ? $nombresPersonalizados[$index] : null;
+
             // Solo procesar si no hay error de subida
             if ($archivoIndividual['error'] === UPLOAD_ERR_OK) {
-                $resultados[] = $this->guardarImagen($archivoIndividual, $directorio);
+                $resultados[] = $this->guardarImagen($archivoIndividual, $directorio, $nombrePersonalizado);
             } else {
                 $resultados[] = [
                     'success' => false,
@@ -159,7 +168,7 @@ class ImagesController
         }
 
         if ($file['size'] > $MAX_FILE_SIZE) {
-            throw new \Exception('El archivo excede el tamaño máximo permitido de 10MB'); // Actualizado aquí
+            throw new \Exception('El archivo excede el tamaño máximo permitido de 10MB');
         }
 
         if ($file['size'] === 0) {
@@ -205,8 +214,11 @@ class ImagesController
 
     /**
      * Genera un nombre de archivo seguro y único
+     * @param array $file Array del archivo subido
+     * @param string|null $nombrePersonalizado Nombre base personalizado (opcional)
+     * @return string Nombre del archivo con extensión
      */
-    private function generarNombreSeguro(array $file): string
+    private function generarNombreSeguro(array $file, ?string $nombrePersonalizado = null): string
     {
         $tipoMime = $this->obtenerTipoMimeReal($file['tmp_name']);
 
@@ -215,9 +227,45 @@ class ImagesController
         }
 
         $extension = self::MIME_TYPES_PERMITIDOS[$tipoMime];
-        $nombreUnico = bin2hex(random_bytes(16)); // Nombre único criptográficamente seguro
 
-        return $nombreUnico . '.' . $extension;
+        // Generar parte única criptográficamente segura
+        $parteUnica = bin2hex(random_bytes(8)); // 16 caracteres hex
+
+        // Construir el nombre final
+        if ($nombrePersonalizado !== null && $nombrePersonalizado !== '') {
+            // Limpiar el nombre personalizado
+            $nombreLimpio = $this->limpiarNombreArchivo($nombrePersonalizado);
+            $nombreFinal = $nombreLimpio . '_' . $parteUnica . '.' . $extension;
+        } else {
+            // Usar nombre original como base (limpio)
+            $nombreOriginal = pathinfo($file['name'], PATHINFO_FILENAME);
+            $nombreLimpio = $this->limpiarNombreArchivo($nombreOriginal);
+            $nombreFinal = $nombreLimpio . '_' . $parteUnica . '.' . $extension;
+        }
+
+        return $nombreFinal;
+    }
+
+    /**
+     * Limpia un nombre de archivo para hacerlo seguro
+     * @param string $nombre Nombre a limpiar
+     * @return string Nombre limpio
+     */
+    private function limpiarNombreArchivo(string $nombre): string
+    {
+        // Convertir a minúsculas y reemplazar espacios/acentos
+        $nombre = mb_strtoupper($nombre, 'UTF-8');
+        $nombre = str_replace(' ', '_', $nombre);
+
+        // Reemplazar caracteres especiales
+        $nombre = preg_replace('/[^a-z0-9_-]/', '', $nombre);
+
+        // Limitar longitud
+        if (strlen($nombre) > 50) {
+            $nombre = substr($nombre, 0, 50);
+        }
+
+        return $nombre;
     }
 
     /**
@@ -289,22 +337,50 @@ class ImagesController
         }
     }
 
-    public function guardarImagenProvenienteJSON($file)
+    /**
+     * Método alternativo para guardar imágenes desde JSON
+     * @param array $file Datos del archivo
+     * @param string|null $nombrePersonalizado Nombre personalizado (opcional)
+     */
+    public function guardarImagenProvenienteJSON($file, ?string $nombrePersonalizado = null)
     {
         try {
-            $ruta = "../" . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC'] . "/assets/images/images_graficos/" . $file['image']['name'];
-            move_uploaded_file($file['image']['tmp_name'], $ruta);
-            $data = array('success' => 'success');
-            $data = json_encode($data);
+            // Validar que existe la estructura esperada
+            if (!isset($file['image'])) {
+                throw new \Exception('Estructura de datos inválida');
+            }
+
+            $directorio = 'graficos'; // Directorio por defecto para este método
+            $resultado = $this->guardarImagen($file['image'], $directorio, $nombrePersonalizado);
+
+            if ($resultado['success']) {
+                $data = array(
+                    'success' => true,
+                    'message' => 'Imagen guardada exitosamente',
+                    'archivo' => $resultado['archivo'],
+                    'ruta' => $resultado['ruta']
+                );
+            } else {
+                $data = array(
+                    'success' => false,
+                    'error' => $resultado['error'],
+                    'archivo' => $resultado['archivo']
+                );
+            }
+
             header('Content-Type: application/json');
             echo json_encode($data);
-            die();
-        } catch (Error $e) {
-            $data = array('error' => $e, 'file' => $file);
-            $data = json_encode($data);
+            exit;
+        } catch (\Exception $e) {
+            $data = array(
+                'success' => false,
+                'error' => $e->getMessage(),
+                'file' => isset($file['image']['name']) ? $file['image']['name'] : 'Desconocido'
+            );
+
             header('Content-Type: application/json');
             echo json_encode($data);
-            die();
+            exit;
         }
     }
 }

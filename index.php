@@ -6,8 +6,8 @@ require_once 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-use App\Controllers\{AuthController, HomeController, CategoriasController, TiposPracticaController, SistemasCorporalesController, EspecialidadesController, SubEspecialidadesController, MedicosController, PagosController};
-use App\Controllers\Mantenimientos\{AuditoriaController, MunicipiosController, ServiciosBaseDeDatosController, UsuariosController};
+use App\Controllers\{AuthController, HomeController, CategoriasController, TiposPracticaController, SistemasCorporalesController, EspecialidadesController, SubEspecialidadesController, MedicosController, MedicosReportesController, MedicosReportesDeportesController, MedicosReportesEspecialidadesController, MedicosReportesEstadosController, MedicosReportesGradosAcademicosController, MedicosReportesMunicpiosController, MedicosReportesParroquiasController, MedicosReportesSubespecialidadesController};
+use App\Controllers\Mantenimientos\{AuditoriaController, DeportesController, MunicipiosController, ServiciosBaseDeDatosController, UsuariosController};
 
 $request_method = $_SERVER['REQUEST_METHOD'];
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -15,6 +15,7 @@ $route = str_replace("/SIMA", '', $request_uri);
 
 date_default_timezone_set('America/Caracas');
 setlocale(LC_TIME, 'Spanish');
+set_time_limit(30);
 
 // echo "<pre>";
 // print_r($_SESSION);
@@ -113,8 +114,68 @@ if ($request_method === 'GET' && strpos($route, '/BuscadorDeSitios/') === 0) {
     (new MedicosController())->show($id);
     exit;
 } else if ($request_method === 'GET' && strpos($route, '/medicos-delete/') === 0) {
-    $id = intval(substr($route, strlen('/medicos-delete/')));
-    (new MedicosController())->delete($id);
+    $cadena = substr($route, strlen('/medicos-delete/'));
+    (new MedicosController())->changeStatus($cadena);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-individual/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-generar-reporte-individual/')));
+    (new MedicosReportesController())->generarReporteMedicoIndividual($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-ver-reporte-municipios/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-ver-reporte-municipios/')));
+    (new MedicosReportesController())->vistaReporteMedicoPorMunicipios($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-municipios/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-generar-reporte-municipios/')));
+    (new MedicosReportesController())->generarReporteMedicoPorMunicipios($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-ver-reporte-parroquias/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-ver-reporte-parroquias/')));
+    (new MedicosReportesController())->vistaReporteMedicoPorParroquias($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-parroquias/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-generar-reporte-parroquias/')));
+    (new MedicosReportesController())->generarReporteMedicoPorParroquias($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-ver-reporte-especialidades/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-ver-reporte-especialidades/')));
+    (new MedicosReportesController())->vistaReporteMedicoPorEspecialidad($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-especialidades/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-generar-reporte-especialidades/')));
+    (new MedicosReportesController())->generarReporteMedicoPorEspecialidad($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-ver-reporte-subespecialidades/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-ver-reporte-subespecialidades/')));
+    (new MedicosReportesController())->vistaReporteMedicoPorSubespecialidad($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-subespecialidades/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-generar-reporte-subespecialidades/')));
+    (new MedicosReportesController())->generarReporteMedicoPorSubespecialidad($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-ver-reporte-grados-academicos/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-ver-reporte-grados-academicos/')));
+    (new MedicosReportesController())->vistaReporteMedicoPorGradoAcademico($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-grados-academicos/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-generar-reporte-grados-academicos/')));
+    (new MedicosReportesController())->generarReporteMedicoPorGradoAcademico($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-ver-reporte-estados/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-ver-reporte-estados/')));
+    (new MedicosReportesController())->vistaReporteMedicoPorEstado($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-estados/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-generar-reporte-estados/')));
+    (new MedicosReportesController())->generarReporteMedicoPorEstado($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-ver-reporte-deportes/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-ver-reporte-deportes/')));
+    (new MedicosReportesController())->vistaReporteMedicoPorDeporte($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-deportes/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-generar-reporte-deportes/')));
+    (new MedicosReportesController())->generarReporteMedicoPorDeporte($id);
     exit;
 } else if ($request_method === 'GET' && strpos($route, '/auditoria-filtrar-usuario/') === 0) {
     $id = intval(substr($route, strlen('/auditoria-filtrar-usuario/')));
@@ -148,6 +209,10 @@ if ($request_method === 'GET' && strpos($route, '/BuscadorDeSitios/') === 0) {
     $id = intval(substr($route, strlen('/usuarios-delete/')));
     (new UsuariosController())->delete($id);
     exit;
+} else if ($request_method === 'GET' && strpos($route, '/deportes-delete/') === 0) {
+    $id = intval(substr($route, strlen('/deportes-delete/')));
+    (new DeportesController())->delete($id);
+    exit;
 }
 
 // rutas tipo POST
@@ -176,12 +241,18 @@ else if ($request_method === 'POST' && $route === '/categorias-store') {
     (new MedicosController())->store($_REQUEST, $_FILES);
 } else if ($request_method === 'POST' && $route === '/medicos-update') {
     (new MedicosController())->update($_REQUEST, $_FILES);
+} else if ($request_method === 'POST' && $route === '/medicos-carga-masiva') {
+    (new MedicosController())->carga_masiva($_FILES);
 } else if ($request_method === 'POST' && $route === '/serviciosBD-backup') {
     (new ServiciosBaseDeDatosController())->backup();
 } else if ($request_method === 'POST' && $route === '/serviciosBD-restore') {
     (new ServiciosBaseDeDatosController())->restore($_REQUEST);
 } else if ($request_method === 'POST' && $route === '/serviciosBD-restore_factory') {
     (new ServiciosBaseDeDatosController())->restore_factory($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/deportes-store') {
+    (new DeportesController())->store($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/deportes-update') {
+    (new DeportesController())->update($_REQUEST);
 }
 
 // rutas normales
@@ -207,6 +278,10 @@ switch ($route) {
             header("Location: /SIMA/login");
             exit;
         }
+        break;
+
+    case '/dataHomeActualziada':
+        (new HomeController())->dataActualizada();
         break;
 
     case '/categorias':
@@ -253,8 +328,36 @@ switch ($route) {
         (new MedicosController())->create();
         break;
 
-    case '/pagos':
-        (new PagosController())->index();
+    case '/medicos-municipios':
+        (new MedicosReportesMunicpiosController())->index();
+        break;
+
+    case '/medicos-parroquias':
+        (new MedicosReportesParroquiasController())->index();
+        break;
+
+    case '/medicos-especialidades':
+        (new MedicosReportesEspecialidadesController())->index();
+        break;
+
+    case '/medicos-subespecialidades':
+        (new MedicosReportesSubespecialidadesController())->index();
+        break;
+
+    case '/medicos-grados-academicos':
+        (new MedicosReportesGradosAcademicosController())->index();
+        break;
+
+    case '/medicos-estados':
+        (new MedicosReportesEstadosController())->index();
+        break;
+
+    case '/medicos-deportes':
+        (new MedicosReportesDeportesController())->index();
+        break;
+
+    case '/medicos-carga-masiva':
+        (new MedicosController())->vista_carga_masiva();
         break;
 
     case '/usuarios':
@@ -283,6 +386,10 @@ switch ($route) {
 
     case '/monitor-bd':
         (new ServiciosBaseDeDatosController())->monitorBD();
+        break;
+
+    case '/deportes':
+        (new DeportesController())->index();
         break;
 
     default:

@@ -11,7 +11,6 @@
         </div>
       </div>
       <!--logo End-->
-
       <h4 class="logo-title">CMA</h4>
     </a>
     <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
@@ -33,227 +32,343 @@
             <span class="item-name">Inicio</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#catalogos" role="button" aria-expanded="false" aria-controls="catalogos">
-            <i class="fa-solid fa-list"></i>
-            <span class="item-name">Catalogos</span>
-            <i class="right-icon">
-              <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </i>
-          </a>
-          <ul class="sub-nav collapse" id="catalogos" data-bs-parent="#sidebar-menu">
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/categorias">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> C </i>
-                <span class="item-name"> Categorias </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/tipos-practicas">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> TP </i>
-                <span class="item-name">Tipos de Practica</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/sistemas-corporales">
-                <i class="icon svg-icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> SC </i>
-                <span class="item-name">Sistemas Corporales</span>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#especialidades" role="button" aria-expanded="false" aria-controls="especialidades">
-            <i class="fa-solid fa-glasses"></i>
-            <span class="item-name">Especialidades</span>
-            <i class="right-icon">
-              <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </i>
-          </a>
-          <ul class="sub-nav collapse" id="especialidades" data-bs-parent="#sidebar-menu">
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/especialidades">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> E </i>
-                <span class="item-name"> Especialidades </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/subespecialidades">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> SE </i>
-                <span class="item-name">Subespecialidades</span>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#medicos" role="button" aria-expanded="false" aria-controls="medicos">
-            <i class="fa-solid fa-user-doctor"></i>
-            <span class="item-name">Medicos</span>
-            <i class="right-icon">
-              <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </i>
-          </a>
-          <ul class="sub-nav collapse" id="medicos" data-bs-parent="#sidebar-menu">
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/medicos">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon">M</i>
-                <span class="item-name">Medicos</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="#">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> C </i>
-                <span class="item-name"> Consultas </span>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#pagos" role="button" aria-expanded="false" aria-controls="medicos">
-            <i class="fa-solid fa-sack-dollar"></i>
-            <span class="item-name">Pagos</span>
-            <i class="right-icon">
-              <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </i>
-          </a>
-          <ul class="sub-nav collapse" id="pagos" data-bs-parent="#sidebar-menu">
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/pagos">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon">P</i>
-                <span class="item-name">Pagos</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="#">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> C </i>
-                <span class="item-name"> Consultas </span>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#mantenimientos" role="button" aria-expanded="false" aria-controls="mantenimientos">
-            <i class="icon fa-solid fa-toolbox"></i>
-            <span class="item-name">Mantenimientos</span>
-            <i class="right-icon">
-              <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </i>
-          </a>
-          <ul class="sub-nav collapse" id="mantenimientos" data-bs-parent="#sidebar-menu">
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/usuarios">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> GU </i>
-                <span class="item-name">Gestión de <br> Usuarios</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/auditoria">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> A </i>
-                <span class="item-name"> Auditorias </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="/SIMA/servicios-bd">
-                <i class="icon">
-                  <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                    <g>
-                      <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                    </g>
-                  </svg>
-                </i>
-                <i class="sidenav-mini-icon"> BD </i>
-                <span class="item-name">Servicios de <br> Bases de Datos</span>
-              </a>
-            </li>
-          </ul>
-        </li>
+
+
+
+
+
+        <?php if (isset($_SESSION["nivel_acceso"])) { ?>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#catalogos" role="button" aria-expanded="false" aria-controls="catalogos">
+              <i class="fa-solid fa-list"></i>
+              <span class="item-name">Catalogos</span>
+              <i class="right-icon">
+                <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </i>
+            </a>
+            <ul class="sub-nav collapse" id="catalogos" data-bs-parent="#sidebar-menu">
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/categorias">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> C </i>
+                  <span class="item-name"> Categorias </span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/tipos-practicas">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> TP </i>
+                  <span class="item-name">Tipos de Practica</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/sistemas-corporales">
+                  <i class="icon svg-icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> SC </i>
+                  <span class="item-name">Sistemas Corporales</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        <?php } ?>
+
+        <?php if (isset($_SESSION["nivel_acceso"])) { ?>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#especialidades" role="button" aria-expanded="false" aria-controls="especialidades">
+              <i class="fa-solid fa-glasses"></i>
+              <span class="item-name">Especialidades</span>
+              <i class="right-icon">
+                <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </i>
+            </a>
+            <ul class="sub-nav collapse" id="especialidades" data-bs-parent="#sidebar-menu">
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/especialidades">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> E </i>
+                  <span class="item-name"> Especialidades </span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/subespecialidades">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> SE </i>
+                  <span class="item-name">Subespecialidades</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        <?php } ?>
+
+
+
+        <?php if (isset($_SESSION["nivel_acceso"])) { ?>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#medicos" role="button" aria-expanded="false" aria-controls="medicos">
+              <i class="fa-solid fa-user-doctor"></i>
+              <span class="item-name">Medicos</span>
+              <i class="right-icon">
+                <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </i>
+            </a>
+            <ul class="sub-nav collapse" id="medicos" data-bs-parent="#sidebar-menu">
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon">M</i>
+                  <span class="item-name">Medicos</span>
+                </a>
+              </li>
+              <?php if ($_SESSION["nivel_acceso"] != 4) { ?>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos-carga-masiva">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon">CM</i>
+                  <span class="item-name">Carga Masiva</span>
+                </a>
+              </li>
+              <?php } ?>
+            </ul>
+          </li>
+        <?php } ?>
+
+
+
+
+
+
+        <?php if (isset($_SESSION["nivel_acceso"])) { ?>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#pagos" role="button" aria-expanded="false" aria-controls="medicos">
+              <i class="fa-solid fa-file-lines"></i>
+              <span class="item-name">Consultas/Reportes</span>
+              <i class="right-icon">
+                <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </i>
+            </a>
+            <ul class="sub-nav collapse" id="pagos" data-bs-parent="#sidebar-menu">
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos-municipios">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon">M</i>
+                  <span class="item-name">Municipios</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos-parroquias">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> P </i>
+                  <span class="item-name">Parroquias</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos-especialidades">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> E </i>
+                  <span class="item-name">Especialidades</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos-subespecialidades">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> SB </i>
+                  <span class="item-name">Subespecialidades</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos-grados-academicos">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> GA </i>
+                  <span class="item-name">Grados Academicos</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos-estados">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> E </i>
+                  <span class="item-name">Estado</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos-deportes">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> D </i>
+                  <span class="item-name">Deportes</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        <?php } ?>
+        <?php if (isset($_SESSION["nivel_acceso"])) { ?>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#mantenimientos" role="button" aria-expanded="false" aria-controls="mantenimientos">
+              <i class="icon fa-solid fa-toolbox"></i>
+              <span class="item-name">Mantenimientos</span>
+              <i class="right-icon">
+                <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </i>
+            </a>
+            <ul class="sub-nav collapse" id="mantenimientos" data-bs-parent="#sidebar-menu">
+              <?php if ($_SESSION["nivel_acceso"] == 1 || $_SESSION["nivel_acceso"] == 2) { ?>
+                <li class="nav-item">
+                  <a class="nav-link " href="/SIMA/auditoria">
+                    <i class="icon">
+                      <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                        <g>
+                          <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                        </g>
+                      </svg>
+                    </i>
+                    <i class="sidenav-mini-icon"> A </i>
+                    <span class="item-name"> Auditorias </span>
+                  </a>
+                </li>
+              <?php } ?>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/deportes">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon"> D </i>
+                  <span class="item-name"> Deportes </span>
+                </a>
+              </li>
+              <?php if ($_SESSION["nivel_acceso"] == 1 || $_SESSION["nivel_acceso"] == 2) { ?>
+                <li class="nav-item">
+                  <a class="nav-link " href="/SIMA/usuarios">
+                    <i class="icon">
+                      <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                        <g>
+                          <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                        </g>
+                      </svg>
+                    </i>
+                    <i class="sidenav-mini-icon"> GU </i>
+                    <span class="item-name">Gestión de <br> Usuarios</span>
+                  </a>
+                </li>
+              <?php } ?>
+              <?php if ($_SESSION["nivel_acceso"] == 1) { ?>
+                <li class="nav-item">
+                  <a class="nav-link " href="/SIMA/servicios-bd">
+                    <i class="icon">
+                      <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                        <g>
+                          <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                        </g>
+                      </svg>
+                    </i>
+                    <i class="sidenav-mini-icon"> BD </i>
+                    <span class="item-name">Servicios de <br> Bases de Datos</span>
+                  </a>
+                </li>
+              <?php } ?>
+            </ul>
+          </li>
+        <?php } ?>
+
+
+
+
+
       </ul>
       <!-- Sidebar Menu End -->
     </div>
@@ -327,7 +442,7 @@
       </div>
     </nav>
     <!-- Nav Header Component Start -->
-    <div class="iq-navbar-header" style="height: 60px;">
+    <div class="iq-navbar-header" id="iq-navbar-header" style="height: 60px;">
 
     </div>
     <!-- Nav Header Component End -->

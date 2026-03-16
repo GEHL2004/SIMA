@@ -89,5 +89,19 @@ class Auditoria
         $this->conn->ejecutar($sql, $parametros);
         return true;
     }
-}
 
+    public function obtenerActividadesRecientes()
+    {
+        $sql = "SELECT 
+                    a.accion,
+                    DATE_FORMAT(a.fecha, '%d/%m/%Y') as fecha,
+                    a.hora,
+                    TIMESTAMPDIFF(MINUTE, CONCAT(a.fecha, ' ', a.hora), NOW()) as minutos_antes
+                FROM auditorias a
+                ORDER BY a.fecha DESC, a.hora DESC
+                LIMIT 10";
+        $parametros = [];
+        $result = $this->conn->consultar($sql, $parametros);
+        return $result;
+    }
+}

@@ -30,7 +30,7 @@ class ReportesPDFController{
         // echo $this->html;
         // die();
         $op = $this->pdf->getOptions();
-        $op->set(array('isRemoteEnabled' => true));
+        $op->set(array('isRemoteEnabled' => true, 'isPhpEnabled' => true));
         $this->pdf->setOptions($op);
         $this->pdf->loadHtml($this->html);
         $this->pdf->setPaper($tamañoHoja, $orientacion);
