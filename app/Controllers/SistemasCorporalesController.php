@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\Mantenimientos\AuditoriaController;
 use App\Models\SistemasCorporales;
+use App\Config\PermisosHelper;
 
 class SistemasCorporalesController
 {
@@ -19,13 +20,16 @@ class SistemasCorporalesController
 
     public function index()
     {
+        // Verificar permiso de ver
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::VER)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::VER);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data = $this->sistemas_corporales->index();
         $dataJ = json_encode($data);
         $dataJ = json_encode($dataJ);
-        // echo "<pre>";
-        // print_r($data_solicitudes);
-        // echo "</pre>";
-        // die();
         require_once "public/views/sistemas_corporales/index.php";
     }
 
@@ -36,6 +40,13 @@ class SistemasCorporalesController
 
     public function store(array $request)
     {
+        // Verificar permiso de registrar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::REGISTRAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::REGISTRAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $bool = $this->sistemas_corporales->store($request);
         if ($bool['error'] == 1) {
             AlertasController::warning('Información duplicada.', 'El nombre de este sistema corporal ya se encuentra registrado en el sistema, verifique y vuelvalo a intentar.');
@@ -49,6 +60,13 @@ class SistemasCorporalesController
 
     public function update(array $request)
     {
+        // Verificar permiso de actualizar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::ACTUALIZAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::ACTUALIZAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data_antigua = $this->sistemas_corporales->show($request['id_sistema_corporal']);
         $bool = $this->sistemas_corporales->update($request);
         if ($bool['error'] == 1) {
@@ -63,6 +81,13 @@ class SistemasCorporalesController
 
     public function delete(int $id_sistema_corporal)
     {
+        // Verificar permiso de eliminar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::ELIMINAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::ELIMINAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data_a_eliminar = $this->sistemas_corporales->show($id_sistema_corporal);
         $bool = $this->sistemas_corporales->delete($id_sistema_corporal);
         if ($bool['error'] == 1) {

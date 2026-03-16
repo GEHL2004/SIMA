@@ -1,4 +1,12 @@
 <?php require_once "./public/views/layouts/header.php"; ?>
+<?php
+use App\Config\PermisosHelper;
+
+// Verificar permisos para mostrar/ocultar botones
+$puedeRegistrar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::REGISTRAR);
+$puedeActualizar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::ACTUALIZAR);
+$puedeEliminar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::ELIMINAR);
+?>
 
 <div class="conatiner-fluid content-inner py-3">
     <div class="row">
@@ -10,9 +18,11 @@
                     </h2>
                 </div>
                 <div class="col-auto">
-                    <a href="/SIMA/medicos-create" class="btn btn-success btn-lg shadow-sm">
-                        <i class="fa-solid fa-plus-circle me-2"></i>Registrar Médico
-                    </a>
+                    <?php if ($puedeRegistrar): ?>
+                        <a href="/SIMA/medicos-create" class="btn btn-success btn-lg shadow-sm">
+                            <i class="fa-solid fa-plus-circle me-2"></i>Registrar Médico
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -37,6 +47,9 @@
 
 <script>
     var dataD = JSON.parse(<?php echo $dataJ ?>);
+    // Permisos del usuario para JavaScript
+    var puedeActualizar = <?php echo $puedeActualizar ? 'true' : 'false'; ?>;
+    var puedeEliminar = <?php echo $puedeEliminar ? 'true' : 'false'; ?>;
 </script>
 
 <script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/medicos-index.js"></script>

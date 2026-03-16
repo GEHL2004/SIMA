@@ -1,4 +1,14 @@
-<?php require_once "./public/views/layouts/header.php"; ?>
+<?php require_once "./public/views/layouts/header.php"; 
+
+use App\Config\PermisosHelper;
+
+// Verificar permisos para mostrar/ocultar botones
+$puedeRegistrar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_DEPORTES, PermisosHelper::REGISTRAR);
+$puedeActualizar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_DEPORTES, PermisosHelper::ACTUALIZAR);
+$puedeEliminar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_DEPORTES, PermisosHelper::ELIMINAR);
+$puedeHabilitar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_DEPORTES, PermisosHelper::HABILITAR);
+
+?>
 
 <div class="conatiner-fluid content-inner py-0">
     <div class="row">
@@ -12,7 +22,7 @@
                         <div class="card-body bg-light-subtle">
                             <div class="d-flex justify-content-end align-items-center">
                                 <div>
-                                    <button type="button" class="btn btn-success btn-sm align-middle" data-bs-toggle="modal" data-bs-target="#modalCreate">
+                                    <button type="button" class="btn btn-success btn-sm align-middle" data-bs-toggle="modal" data-bs-target="#modalCreate" <?php echo $puedeRegistrar ? '' : 'disabled'; ?>>
                                         <i class="fa-solid fa-plus"></i> Nuevo
                                     </button>
                                     </a>
@@ -237,6 +247,11 @@
     var dataD = JSON.parse(<?php echo $dataJ; ?>);
     var id_usuario = <?php echo $_SESSION['id_usuario']; ?>;
     var nivel_acceso = <?php echo $_SESSION['nivel_acceso']; ?>;
+
+    // Permisos del usuario para JavaScript
+    var puedeActualizar = <?php echo $puedeActualizar ? 'true' : 'false'; ?>;
+    var puedeEliminar = <?php echo $puedeEliminar ? 'true' : 'false'; ?>;
+    var puedeHabilitar = <?php echo $puedeHabilitar ? 'true' : 'false'; ?>;
 </script>
 
 <script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/deportes.js"></script>

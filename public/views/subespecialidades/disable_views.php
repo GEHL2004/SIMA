@@ -1,4 +1,11 @@
 <?php require_once "./public/views/layouts/header.php"; ?>
+<?php
+use App\Config\PermisosHelper;
+
+// Verificar permisos para mostrar/ocultar botones
+$puedeHabilitar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_SUBESPECIALIDADES, PermisosHelper::HABILITAR);
+$puedeEliminar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_SUBESPECIALIDADES, PermisosHelper::ELIMINAR);
+?>
 
 <div class="conatiner-fluid content-inner py-0">
     <div class="row">
@@ -80,19 +87,31 @@
             var dataD = JSON.parse(<?php echo $dataJ; ?>);
             var id_usuario = <?php echo $_SESSION['id_usuario']; ?>;
             var nivel_acceso = <?php echo $_SESSION['nivel_acceso']; ?>;
+            
+            // Permisos del usuario para JavaScript
+            var puedeHabilitar = <?php echo $puedeHabilitar ? 'true' : 'false'; ?>;
+            var puedeEliminar = <?php echo $puedeEliminar ? 'true' : 'false'; ?>;
 
             var data = [];
             var i = 0;
             dataD.forEach((elemento, index) => {
-                acciones = `
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-success btn-sm" onclick="enable(${ elemento["id_subespecialidad"] });">
-                    <i class="fa-solid fa-check"></i>
-                </button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${ elemento["id_subespecialidad"] });">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </div>`;
+                let acciones = '<div class="btn-group" role="group" aria-label="Basic example">';
+                
+                // Botón Habilitar
+                if (puedeHabilitar) {
+                    acciones += `<button type="button" class="btn btn-success btn-sm" onclick="enable(${ elemento['id_subespecialidad'] });">
+                        <i class="fa-solid fa-check"></i>
+                    </button>`;
+                }
+                
+                // Botón Eliminar
+                if (puedeEliminar) {
+                    acciones += `<button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${ elemento['id_subespecialidad'] });">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>`;
+                }
+                
+                acciones += '</div>';
 
                 data[i] = {
                     contador: i + 1,

@@ -143,3 +143,8 @@
 </script>
 
 <script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/home.js"></script>
+
+<?php if (!empty($_SESSION['mensaje'])) {
+    echo $_SESSION['mensaje'];
+    unset($_SESSION['mensaje']);
+} ?>

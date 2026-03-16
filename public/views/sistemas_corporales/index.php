@@ -1,4 +1,12 @@
 <?php require_once "./public/views/layouts/header.php"; ?>
+<?php
+use App\Config\PermisosHelper;
+
+// Verificar permisos para mostrar/ocultar botones
+$puedeRegistrar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::REGISTRAR);
+$puedeActualizar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::ACTUALIZAR);
+$puedeEliminar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_SISTEMAS_CORPORALES, PermisosHelper::ELIMINAR);
+?>
 
 <div class="conatiner-fluid content-inner py-0">
     <div class="row">
@@ -12,9 +20,11 @@
                     <div class="card mb-2 mt-3">
                         <div class="card-body bg-light-subtle">
                             <div class="d-flex justify-content-lg-start justify-content-center align-items-center">
+                            <?php if ($puedeRegistrar): ?>
                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ModalRegistro">
                                     <i class="fa-solid fa-user-plus"></i> Añadir Sistema Corporal
                                 </button>
+                            <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -147,22 +157,31 @@
 
 <script>
     var dataD = JSON.parse(<?php echo $dataJ ?>);
+    // Permisos del usuario para JavaScript
+    var puedeActualizar = <?php echo $puedeActualizar ? 'true' : 'false'; ?>;
+    var puedeEliminar = <?php echo $puedeEliminar ? 'true' : 'false'; ?>;
     // Carga de la tabla index
     var data = [];
     var i = 0;
     dataD.forEach((elemento, index) => {
-        acciones = `
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#ModalActualizacion" id-sistema-corporal="${elemento['id_sistema_corporal']}" nombre="${elemento['nombre']}" descripcion="${elemento['descripcion']}">
+        let acciones = '<div class="btn-group" role="group" aria-label="Basic example">';
+        
+        // Botón Editar
+            acciones += `<button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#ModalActualizacion" id-sistema-corporal="${elemento['id_sistema_corporal']}" nombre="${elemento['nombre']}" descripcion="${elemento['descripcion']}" ${puedeActualizar ? '' : 'disabled'}>
                     <i class="fa-regular fa-pen-to-square"></i>
-                </button>
-                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#ModalVer" nombre="${elemento['nombre']}" descripcion="${elemento['descripcion']}">
+                </button>`;
+        
+        // Botón Ver (siempre visible)
+        acciones += `<button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#ModalVer" nombre="${elemento['nombre']}" descripcion="${elemento['descripcion']}">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento['id_sistema_corporal']})">
+                </button>`;
+        
+        // Botón Eliminar
+            acciones += `<button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento['id_sistema_corporal']})" ${puedeEliminar ? '' : 'disabled'}>
                     <i class="fa-solid fa-trash"></i>
-                </button>
-            </div>`;
+                </button>`;
+        
+        acciones += '</div>';
 
         data[i] = {
             contador: i + 1,

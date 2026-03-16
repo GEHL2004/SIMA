@@ -3,40 +3,52 @@
 var data = [];
 var i = 0;
 var estado = "";
-dataD.forEach((elemento, index) => {
 
-    if(elemento['estado'] == 1){
-        estado = 'Activo';
-    } else if(elemento['estado'] == 2){
-        estado = 'Desincorporado';
-    } else if(elemento['estado'] == 3){
-        estado = 'Jubilado';
-    } else if(elemento['estado'] == 4){
-        estado = 'Fallecido';
-    } else if(elemento['estado'] == 5){
-        estado = 'Traslado';
-    } else if(elemento['estado'] == 6){
-        estado = '';
-    } else if(elemento['estado'] == 7){
-        estado = '';
+// Verificar si la variable de permisos existe, si no inicializarla
+if (typeof puedeActualizar === "undefined") {
+    puedeActualizar = true; // Por defecto permitir si no está definido
+}
+
+dataD.forEach((elemento, index) => {
+    if (elemento["estado"] == 1) {
+        estado = "Activo";
+    } else if (elemento["estado"] == 2) {
+        estado = "Desincorporado";
+    } else if (elemento["estado"] == 3) {
+        estado = "Jubilado";
+    } else if (elemento["estado"] == 4) {
+        estado = "Fallecido";
+    } else if (elemento["estado"] == 5) {
+        estado = "Traslado";
+    } else if (elemento["estado"] == 6) {
+        estado = "";
+    } else if (elemento["estado"] == 7) {
+        estado = "";
     }
 
-    acciones = `
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="/SIMA/medicos-edit/${elemento["id_medico"]}"}>
-                <button type="button" class="btn btn-warning btn-sm" style="border-top-right-radius: 0%; border-bottom-right-radius: 0%;">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                </button>
-            </a>
-            <a href="/SIMA/medicos-show/${elemento["id_medico"]}">
-                <button type="button" class="btn btn-info btn-sm" style="border-radius: 0%;">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </a>
-            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento["id_medico"]});">
-                <i class="fa-solid fa-x"></i>
+    let acciones =
+        '<div class="btn-group" role="group" aria-label="Basic example">';
+
+    // Botón Editar (solo si tiene permiso de actualizar)
+    acciones += `<a href="/SIMA/medicos-edit/${elemento["id_medico"]}">
+            <button type="button" class="btn btn-warning btn-sm" style="border-top-right-radius: 0%; border-bottom-right-radius: 0%;" ${puedeActualizar ? '' : 'disabled'} >
+                <i class="fa-regular fa-pen-to-square"></i>
             </button>
-        </div>`;
+        </a>`;
+
+    // Botón Ver (siempre visible)
+    acciones += `<a href="/SIMA/medicos-show/${elemento["id_medico"]}">
+        <button type="button" class="btn btn-info btn-sm" style="border-radius: 0%;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </a>`;
+
+    // Botón Eliminar (solo si tiene permiso de eliminar)
+    acciones += `<button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento["id_medico"]});" ${puedeEliminar ? '' : 'disabled'} >
+                <i class="fa-solid fa-x"></i>
+            </button>`;
+
+    acciones += "</div>";
 
     data[i] = {
         contador: i + 1,
@@ -81,7 +93,6 @@ const datos = {
 };
 
 cargar_tabla(datos);
-
 
 // Funcionamiento de Eliminar Médico
 
@@ -135,6 +146,6 @@ async function actualizarUsuario(button) {
     //     window.location.href = "/SIMA/medicos-change-status/" + id_medico + "_" + estado;
     // }
     if (estado) {
-        success('ESTADO ACTUALIZADO!!!!!!!!');
+        success("ESTADO ACTUALIZADO!!!!!!!!");
     }
 }

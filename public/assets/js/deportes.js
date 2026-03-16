@@ -125,13 +125,13 @@ document.addEventListener("DOMContentLoaded", () => {
     dataD.forEach((elemento, index) => {
         acciones = `
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-warning btn-sm" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdit" data='${elemento.data}' id-deporte="${elemento["id_deporte"]}" onclick="cargar_modal(this, 1);">
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit" data='${elemento.data}' id-deporte="${elemento["id_deporte"]}" onclick="cargar_modal(this, 1);" ${puedeActualizar ? '' : 'disabled'}>
                     <i class="fa-regular fa-pen-to-square"></i>
                 </button>
                 <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalShow" data='${elemento.data}' id-deporte="${elemento["id_deporte"]}" onclick="cargar_modal(this, 2);">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento["id_deporte"]});" ${elemento["conteo_de_medicos"] > 0 ? "eliminard" : ""}>
+                <button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento["id_deporte"]});" ${elemento["conteo_de_medicos"] > 0 ? "eliminard" : ""} ${puedeEliminar ? '' : 'disabled'}>
                     <i class="fa-solid fa-x"></i>
                 </button>
             </div>`;

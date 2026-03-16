@@ -1,4 +1,12 @@
-<?php include_once "./public/views/layouts/header.php"; ?>
+<?php include_once "./public/views/layouts/header.php"; 
+
+use App\config\PermisosHelper;
+
+$puedeRegistrar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_USUARIOS, PermisosHelper::REGISTRAR);
+$puedeActualizar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_USUARIOS, PermisosHelper::ACTUALIZAR);
+$puedeEliminar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_USUARIOS, PermisosHelper::ELIMINAR);
+
+?>
 
 <div class="conatiner-fluid content-inner py-0">
     <div class="row">
@@ -14,7 +22,8 @@
                         <div class="card-body bg-light-subtle">
                             <div class="d-flex justify-content-lg-start justify-content-center align-items-center">
                                 <a href="/SIMA/usuarios-create">
-                                    <button type="button" class="btn btn-success btn-sm">
+                                    <button type="button" class="btn btn-success btn-sm" <?php echo $puedeRegistrar ? '' : 'disabled'; ?>>
+                                    
                                         <i class="fa-solid fa-user-plus"></i> Nuevo
                                     </button>
                                 </a>
@@ -52,6 +61,8 @@
     var dataD = JSON.parse(<?php echo $dataJ; ?>);
     var id_usuario = <?php echo $_SESSION['id_usuario']; ?>;
     var nivel_acceso = <?php echo $_SESSION['nivel_acceso']; ?>;
+    var puedeActualizar = <?php echo $puedeActualizar ? 'true' : 'false'; ?>;
+    var puedeEliminar = <?php echo $puedeEliminar ? 'true' : 'false'; ?>;
 </script>
 
 <script src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/js/indexUsuarios.js"></script>

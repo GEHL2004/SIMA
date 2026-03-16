@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\Mantenimientos\AuditoriaController;
 use App\Models\TiposPractica;
+use App\Config\PermisosHelper;
 
 class TiposPracticaController
 {
@@ -19,13 +20,16 @@ class TiposPracticaController
 
     public function index()
     {
+        // Verificar permiso de ver
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_TIPOS_PRACTICA, PermisosHelper::VER)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_TIPOS_PRACTICA, PermisosHelper::VER);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data = $this->tipos_practicas->index();
         $dataJ = json_encode($data);
         $dataJ = json_encode($dataJ);
-        // echo "<pre>";
-        // print_r($data_solicitudes);
-        // echo "</pre>";
-        // die();
         require_once "public/views/tipos_practicas/index.php";
     }
 
@@ -36,6 +40,13 @@ class TiposPracticaController
     }
     public function store(array $request)
     {
+        // Verificar permiso de registrar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_TIPOS_PRACTICA, PermisosHelper::REGISTRAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_TIPOS_PRACTICA, PermisosHelper::REGISTRAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $bool = $this->tipos_practicas->store($request);
         if ($bool['error'] == 1) {
             AlertasController::warning('Información duplicada.', 'El nombre de este tipo de practica ya se encuentra registrado en el sistema, verifique y vuelvalo a intentar.');
@@ -49,6 +60,13 @@ class TiposPracticaController
 
     public function update(array $request)
     {
+        // Verificar permiso de actualizar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_TIPOS_PRACTICA, PermisosHelper::ACTUALIZAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_TIPOS_PRACTICA, PermisosHelper::ACTUALIZAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data_antigua = $this->tipos_practicas->show($request['id_tipo_practica']);
         $bool = $this->tipos_practicas->update($request);
         if ($bool['error'] == 1) {
@@ -63,6 +81,13 @@ class TiposPracticaController
 
     public function delete(int $id_tipo_practica)
     {
+        // Verificar permiso de eliminar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_TIPOS_PRACTICA, PermisosHelper::ELIMINAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_TIPOS_PRACTICA, PermisosHelper::ELIMINAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data_a_eliminar = $this->tipos_practicas->show($id_tipo_practica);
         $bool = $this->tipos_practicas->delete($id_tipo_practica);
         if ($bool['error'] == 1) {

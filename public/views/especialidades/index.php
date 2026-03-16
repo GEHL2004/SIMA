@@ -1,4 +1,13 @@
 <?php require_once "./public/views/layouts/header.php"; ?>
+<?php
+use App\Config\PermisosHelper;
+
+// Verificar permisos para mostrar/ocultar botones
+$puedeRegistrar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::REGISTRAR);
+$puedeActualizar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::ACTUALIZAR);
+$puedeDeshabilitar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::DESHABILITAR);
+$puedeHabilitar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::HABILITAR);
+?>
 
 <div class="conatiner-fluid content-inner py-0">
     <div class="row">
@@ -14,17 +23,21 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div></div>
                                 <div>
-                                    <a href="/SIMA/especialidades-create">
-                                        <button type="button" class="btn btn-success btn-sm align-middle">
-                                            <i class="fa-solid fa-plus"></i> Nuevo
-                                        </button>
-                                    </a>
+                                    <?php if ($puedeRegistrar): ?>
+                                        <a href="/SIMA/especialidades-create">
+                                            <button type="button" class="btn btn-success btn-sm align-middle">
+                                                <i class="fa-solid fa-plus"></i> Nuevo
+                                            </button>
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                                 <div></div>
                                 <div>
-                                    <a href="/SIMA/especialidades-disable"><button type="button" class="btn btn-light btn-sm align-middle text-white" style="background-color: #052c65;">
+                                    <?php if ($puedeHabilitar): ?>
+                                        <a href="/SIMA/especialidades-disable"><button type="button" class="btn btn-light btn-sm align-middle text-white" style="background-color: #052c65;">
                                             <i class="fa-solid fa-check"></i> Habilitar
                                         </button></a>
+                                    <?php endif; ?>
                                 </div>
                                 <div></div>
                             </div>
@@ -79,30 +92,36 @@
         var dataD = JSON.parse(<?php echo $dataJ; ?>);
         var id_usuario = <?php echo $_SESSION['id_usuario']; ?>;
         var nivel_acceso = <?php echo $_SESSION['nivel_acceso']; ?>;
+        
+        // Permisos del usuario para JavaScript
+        var puedeActualizar = <?php echo $puedeActualizar ? 'true' : 'false'; ?>;
+        var puedeDeshabilitar = <?php echo $puedeDeshabilitar ? 'true' : 'false'; ?>;
 
         var data = [];
         var i = 0;
         dataD.forEach((elemento, index) => {
-            acciones = `
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="/SIMA/especialidades-edit/${
-                    elemento["id_especialidad"]
-                }"}>
-                    <button type="button" class="btn btn-warning btn-sm">
+            let acciones = '<div class="btn-group" role="group" aria-label="Basic example">';
+            
+            // Botón Editar
+                acciones += `<a href="/SIMA/especialidades-edit/${elemento['id_especialidad']}" onclick="return ${puedeActualizar}" >
+                    <button type="button" class="btn btn-warning btn-sm" ${puedeActualizar ? '' : 'disabled'}>
                         <i class="fa-regular fa-pen-to-square"></i>
                     </button>
-                </a>
-                <a href="/SIMA/especialidades-show/${
-                    elemento["id_especialidad"]
-                }">
-                    <button type="button" class="btn btn-info btn-sm">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </a>
-                <button type="button" class="btn btn-danger btn-sm" onclick="disable(${ elemento["id_especialidad"] });" ${elemento['conteo_de_medicos'] > 0 ? 'disabled' : ''}>
-                    <i class="fa-solid fa-x"></i>
+                </a>`;
+            
+            // Botón Ver (siempre visible)
+            acciones += `<a href="/SIMA/especialidades-show/${elemento['id_especialidad']}">
+                <button type="button" class="btn btn-info btn-sm">
+                    <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-            </div>`;
+            </a>`;
+            
+            // Botón Deshabilitar
+                acciones += `<button type="button" class="btn btn-danger btn-sm" onclick="disable(${ elemento['id_especialidad'] });" ${elemento['conteo_de_medicos'] > 0 ? 'disabled' : ''} ${puedeDeshabilitar ? '' : 'disabled'}>
+                    <i class="fa-solid fa-x"></i>
+                </button>`;
+            
+            acciones += '</div>';
 
             data[i] = {
                 contador: i + 1,

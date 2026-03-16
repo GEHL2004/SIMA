@@ -6,6 +6,7 @@ use App\Controllers\Mantenimientos\{AuditoriaController, LeerExcelController, Mu
 use App\Models\Mantenimientos\Grados;
 use App\Models\{BaseModels, Deportes, Medicos, MedicosCursos, MedicosDeportes, MedicosDetalles, MedicosDiplomados, MedicosDocumentos, MedicosEspecialidades, MedicosSubespecialidades};
 use App\Models\Mantenimientos\Usuarios;
+use App\Config\PermisosHelper;
 
 class MedicosController
 {
@@ -74,6 +75,13 @@ class MedicosController
 
     public function index()
     {
+        // Verificar permiso de ver
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::VER)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_MEDICOS, PermisosHelper::VER);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data = $this->medicos->index();
         foreach ($data as $i => $valor) {
             $data[$i]['nombres_apellidos'] = str_replace('_', ' ', $valor['nombres_apellidos']);
@@ -88,6 +96,13 @@ class MedicosController
 
     public function create()
     {
+        // Verificar permiso de registrar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::REGISTRAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_MEDICOS, PermisosHelper::REGISTRAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $grados = $this->grados->getAllGrados();
         $especialidades = $this->especialidades->getAllEspecialidades();
         $subespecialidades = $this->subespecialidades->getAllSubespecialidades();
@@ -123,6 +138,13 @@ class MedicosController
 
     public function store(array $request, array $files)
     {
+        // Verificar permiso de registrar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::REGISTRAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_MEDICOS, PermisosHelper::REGISTRAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $request = self::validarNullosPermitidos($request);
         if (!self::validarExistenciaCampos($request)) {
             AlertasController::error('Campos incompletos', 'Por favor complete todos los campos requeridos del formulario');
@@ -517,6 +539,13 @@ class MedicosController
 
     public function edit(int $id_medico)
     {
+        // Verificar permiso de actualizar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::ACTUALIZAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_MEDICOS, PermisosHelper::ACTUALIZAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $grados = $this->grados->getAllGrados();
         $especialidades = $this->especialidades->getAllEspecialidades();
         $subespecialidades = $this->subespecialidades->getAllSubespecialidades();
@@ -568,6 +597,13 @@ class MedicosController
 
     public function update(array $request, array $files)
     {
+        // Verificar permiso de actualizar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::ACTUALIZAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_MEDICOS, PermisosHelper::ACTUALIZAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $request = self::validarNullosPermitidos($request);
         // $datos = ['$request' => $request, '$files' => $files];
         // self::imprimirDatosRecibidos($datos, true);
@@ -809,6 +845,13 @@ class MedicosController
 
     public function show(int $id_medico)
     {
+        // Verificar permiso de ver
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::VER)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_MEDICOS, PermisosHelper::VER);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $grados = $this->grados->getAllGrados();
         $especialidades_medicos = $this->medicos_especialidades->show($id_medico);
         $subespecialidades_medicos = $this->medicos_subespecialidades->show($id_medico);
@@ -847,7 +890,17 @@ class MedicosController
         die();
     }
 
-    public function delete(int $id_medico) {}
+    public function delete(int $id_medico)
+    {
+        // Verificar permiso de eliminar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_MEDICOS, PermisosHelper::ELIMINAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_MEDICOS, PermisosHelper::ELIMINAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
+        // Aquí continúa la lógica de eliminación si existe
+    }
 
     public static function imprimirDatosRecibidos(array $datos, bool $imprimirIndice = false): void
     {

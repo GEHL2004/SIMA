@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\Mantenimientos\AuditoriaController;
 use App\Models\Categorias;
+use App\Config\PermisosHelper;
 
 class CategoriasController
 {
@@ -19,13 +20,16 @@ class CategoriasController
 
     public function index()
     {
+        // Verificar permiso de ver
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_CATEGORIAS, PermisosHelper::VER)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_CATEGORIAS, PermisosHelper::VER);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data = $this->categorias->index();
         $dataJ = json_encode($data);
         $dataJ = json_encode($dataJ);
-        // echo "<pre>";
-        // print_r($data_solicitudes);
-        // echo "</pre>";
-        // die();
         require_once "public/views/categorias/index.php";
     }
 
@@ -36,6 +40,13 @@ class CategoriasController
 
     public function store(array $request)
     {
+        // Verificar permiso de registrar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_CATEGORIAS, PermisosHelper::REGISTRAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_CATEGORIAS, PermisosHelper::REGISTRAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $bool = $this->categorias->store($request);
         if ($bool['error'] == 1) {
             AlertasController::warning('Información duplicada.', 'El nombre de está categoría ya se encuentra registrado en el sistema, verifique y vuelvalo a intentar.');
@@ -49,6 +60,13 @@ class CategoriasController
 
     public function update(array $request)
     {
+        // Verificar permiso de actualizar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_CATEGORIAS, PermisosHelper::ACTUALIZAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_CATEGORIAS, PermisosHelper::ACTUALIZAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data_antigua = $this->categorias->show($request['id_categoria']);
         $bool = $this->categorias->update($request);
         if ($bool['error'] == 1) {
@@ -63,6 +81,13 @@ class CategoriasController
 
     public function delete(int $id_categoria)
     {
+        // Verificar permiso de eliminar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_CATEGORIAS, PermisosHelper::ELIMINAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_CATEGORIAS, PermisosHelper::ELIMINAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data_a_eliminar = $this->categorias->show($id_categoria);
         $bool = $this->categorias->delete($id_categoria);
         if ($bool['error'] == 1) {

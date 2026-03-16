@@ -20,8 +20,8 @@ if (nivel_acceso == 1) {
             <div class="btn-group" role="group" aria-label="Basic example">
                             <a href="/SIMA/usuarios-edit/${
                                 elemento["id_usuario"]
-                            }"}>
-                                <button type="button" class="btn btn-warning btn-sm">
+                            }"} onclick="return ${puedeActualizar}">
+                                <button type="button" class="btn btn-warning btn-sm" ${puedeActualizar ? "" : "disabled"} >
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </button>
                             </a>
@@ -42,8 +42,8 @@ if (nivel_acceso == 1) {
                                         ? "disabled"
                                         : ""
                                 } onclick="pregunta2(1, ${
-                elemento["id_usuario"]
-            });">
+                                    elemento["id_usuario"]
+                                });" ${puedeEliminar ? "" : "disabled"} >
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                         </div>`;
@@ -51,8 +51,8 @@ if (nivel_acceso == 1) {
             acciones = `<div class="btn-group" role="group" aria-label="Basic example">
                             <a href="/SIMA/usuarios-edit/${
                                 elemento["id_usuario"]
-                            }"}>
-                                <button type="button" class="btn btn-warning btn-sm">
+                            }"} onclick="return ${puedeActualizar}">
+                                <button type="button" class="btn btn-warning btn-sm" ${puedeActualizar ? "" : "disabled"} >
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </button>
                             </a>
@@ -68,8 +68,8 @@ if (nivel_acceso == 1) {
                                         ? "disabled"
                                         : ""
                                 } onclick="pregunta2(1, ${
-                elemento["id_usuario"]
-            });">
+                                    elemento["id_usuario"]
+                                });" ${puedeEliminar ? "" : "disabled"} >
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                         </div>`;
@@ -115,8 +115,8 @@ if (nivel_acceso == 1) {
                             <button type="button" class="btn btn-warning btn-sm" id-usuario="${
                                 elemento["id_usuario"]
                             }" id-nivel="${
-                elemento["nivel"]
-            }" onclick="actualizarUsuario(this);">
+                                elemento["nivel"]
+                            }" onclick="actualizarUsuario(this);" ${puedeActualizar ? "" : "disabled"} >
                             <i class="fa-regular fa-pen-to-square"></i>
                             </button>
                             <a href="/SIMA/usuarios-show/${
@@ -136,8 +136,8 @@ if (nivel_acceso == 1) {
                                         ? "disabled"
                                         : ""
                                 } onclick="pregunta2(1, ${
-                elemento["id_usuario"]
-            });">
+                                    elemento["id_usuario"]
+                                });" ${puedeEliminar ? "" : "disabled"} >
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                         </div>`;
@@ -146,8 +146,8 @@ if (nivel_acceso == 1) {
                             <button type="button" class="btn btn-warning btn-sm" id-usuario="${
                                 elemento["id_usuario"]
                             }" id-nivel="${
-                elemento["nivel"]
-            }" onclick="actualizarUsuario(this);">
+                                elemento["nivel"]
+                            }" onclick="actualizarUsuario(this);" ${puedeActualizar ? "" : "disabled"} >
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </button>
                             <a href="/SIMA/usuarios-show/${
@@ -162,8 +162,8 @@ if (nivel_acceso == 1) {
                                         ? "disabled"
                                         : ""
                                 } onclick="pregunta2(1, ${
-                elemento["id_usuario"]
-            });">
+                                    elemento["id_usuario"]
+                                });" ${puedeEliminar ? "" : "disabled"} >
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                         </div>`;
@@ -272,6 +272,24 @@ function pregunta2(tipo, id) {
 async function actualizarUsuario(button) {
     let idUsuario = button.getAttribute("id-usuario");
     let nivelUsuario = button.getAttribute("id-nivel");
+
+    opciones = {};
+
+    if (nivelUsuario == 1) {
+        opciones = {
+            1: "Super Administrador(a)",
+            2: "Administrador(a)",
+            3: "Coordinador(a)",
+            4: "Secretario(a)",
+        };
+    } else {
+        opciones = {
+            2: "Administrador(a)",
+            3: "Coordinador(a)",
+            4: "Secretario(a)",
+        };
+    }
+
     const { value: nivel } = await Swal.fire({
         title: "Actualización de nivel de usuario",
         input: "select",
@@ -280,12 +298,7 @@ async function actualizarUsuario(button) {
         cancelButtonText: "Cancelar",
         cancelButtonColor: "#A0A5AB",
         reverseButtons: "true",
-        inputOptions: {
-            1: "Super Administrador(a)",
-            2: "Administrador(a)",
-            3: "Coordinador(a)",
-            4: "Secretario(a)",
-        },
+        inputOptions: opciones,
         inputPlaceholder: "- Seleccione -",
         inputValue: nivelUsuario,
         showCancelButton: true,
@@ -324,7 +337,7 @@ async function accion_a_tomar(id_solicitud) {
     } else if (motivo == "") {
         warning(
             "Campo Vacío",
-            "Debe rellenar el campo de motivó para continuar"
+            "Debe rellenar el campo de motivó para continuar",
         );
     }
 }

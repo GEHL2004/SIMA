@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\Mantenimientos\AuditoriaController;
 use App\Models\Especialidades;
+use App\Config\PermisosHelper;
 
 class EspecialidadesController
 {
@@ -25,13 +26,16 @@ class EspecialidadesController
 
     public function index()
     {
+        // Verificar permiso de ver
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::VER)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::VER);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data = $this->especialidades->index();
         $dataJ = json_encode($data);
         $dataJ = json_encode($dataJ);
-        // echo "<pre>";
-        // print_r($data_solicitudes);
-        // echo "</pre>";
-        // die();
         require_once "public/views/especialidades/index.php";
     }
 
@@ -43,6 +47,13 @@ class EspecialidadesController
 
     public function create()
     {
+        // Verificar permiso de registrar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::REGISTRAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::REGISTRAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $categorias = $this->categorias->getAllCategorias();
         $tipos_practicas = $this->tipos_practicas->getAllTiposPracticas();
         $sistemas_corporales = $this->sistemas_corporales->getAllSistemasCorporales();
@@ -51,6 +62,13 @@ class EspecialidadesController
 
     public function store(array $request)
     {
+        // Verificar permiso de registrar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::REGISTRAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::REGISTRAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $request['nombre'] = trim($request['nombre']);
         $request['descripcion'] = trim($request['descripcion']);
         $request['codigo'] = trim($request['codigo']);
@@ -58,7 +76,7 @@ class EspecialidadesController
         if ($bool['error'] == 1) {
             AlertasController::error('Nombre Duplicado', 'EL nombre de la especialidad ingresada ya se encuentra registrada, verifiquelo y vuelva a intentar.');
         } else if ($bool['error'] == 2) {
-            AlertasController::error('Código Duplicado', 'EL código de la especialidad ingresado ya se encuentra registrado, verifiquelo y vuelva a intentar.');
+            AlertasController::error('Código Duplicado', 'EL código de la especialidad ingresada ya se encuentra registrada, verifiquelo y vuelva a intentar.');
         } else {
             $this->audi->store(['ID' => $_SESSION["id_usuario"], 'accion' => 'El usuario ' . $_SESSION["nombres_apellidos"] . ' El usuario registro una nueva especialidad llamada: ' . $request['nombre']]);
             AlertasController::success('Registro exitoso.');
@@ -69,27 +87,33 @@ class EspecialidadesController
 
     public function edit(int $id_especialidad)
     {
+        // Verificar permiso de actualizar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::ACTUALIZAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::ACTUALIZAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $categorias = $this->categorias->getAllCategorias();
         $tipos_practicas = $this->tipos_practicas->getAllTiposPracticas();
         $sistemas_corporales = $this->sistemas_corporales->getAllSistemasCorporales();
         $data = $this->especialidades->show($id_especialidad);
-        // echo "<pre>";
-        // print_r($data);
-        // echo "<pre>";
-        // die();
         require_once "public/views/especialidades/edit.php";
     }
 
     public function update(array $request)
     {
+        // Verificar permiso de actualizar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::ACTUALIZAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::ACTUALIZAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data_antigua = $this->especialidades->show($request['id_especialidad']);
         $request['nombre'] = trim($request['nombre']);
         $request['descripcion'] = trim($request['descripcion']);
         $request['codigo'] = trim($request['codigo']);
-        // echo "<pre>";
-        // print_r($request);
-        // echo "<pre>";
-        // die();
         $bool = $this->especialidades->update($request);
         if ($bool['error'] == 1) {
             AlertasController::error('Nombre Duplicado', 'EL nombre ingresado para actualizar la especialidad ya se encuentra registrado, verifiquelo y vuelva a intentar.');
@@ -114,10 +138,17 @@ class EspecialidadesController
 
     public function delete(int $id_especialidad)
     {
+        // Verificar permiso de eliminar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::ELIMINAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::ELIMINAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data = $this->especialidades->show($id_especialidad);
         $bool = $this->especialidades->delete($id_especialidad);
         if ($bool['error'] == 1) {
-            AlertasController::error('ERROR', 'No c:\Users\Gabriel\Desktop\Conexion.phpse pudo eliminar esta especialidad.');
+            AlertasController::error('ERROR', 'No se pudo eliminar esta especialidad.');
         } else {
             $this->audi->store(['ID' => $_SESSION["id_usuario"], 'accion' => 'El usuario ' . $_SESSION["nombres_apellidos"] . ' El usuario eliminó la especialidad llamada: ' . $data[0]['nombre']]);
             AlertasController::success('Eliminación exitosa.');
@@ -128,6 +159,13 @@ class EspecialidadesController
 
     public function disable_specialties()
     {
+        // Verificar permiso de ver (para especialidades deshabilitadas)
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::VER)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::VER);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data = $this->especialidades->index_disable();
         $dataJ = json_encode($data);
         $dataJ = json_encode($dataJ);
@@ -136,6 +174,13 @@ class EspecialidadesController
 
     public function disable(int $id_especialidad)
     {
+        // Verificar permiso de deshabilitar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::DESHABILITAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::DESHABILITAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data = $this->especialidades->show($id_especialidad);
         $bool = $this->especialidades->disable($id_especialidad);
         if ($bool['error'] == 1) {
@@ -150,6 +195,13 @@ class EspecialidadesController
 
     public function enable(int $id_especialidad)
     {
+        // Verificar permiso de habilitar
+        if (!PermisosHelper::tienePermiso(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::HABILITAR)) {
+            PermisosHelper::registrarIntentoNoAutorizado(PermisosHelper::MODULO_ESPECIALIDADES, PermisosHelper::HABILITAR);
+            PermisosHelper::mostrarErrorAcceso();
+            return;
+        }
+        
         $data = $this->especialidades->show($id_especialidad);
         $bool = $this->especialidades->enable($id_especialidad);
         if ($bool['error'] == 1) {

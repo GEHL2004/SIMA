@@ -1,4 +1,11 @@
 <aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all ">
+<?php
+use App\Config\PermisosHelper;
+
+// Obtener el nivel de acceso actual
+$nivel_actual = PermisosHelper::getNivelActual();
+$nombre_rol = PermisosHelper::getNombreRol($nivel_actual);
+?>
   <div class="sidebar-header d-flex align-items-center justify-content-start">
     <a href="/SIMA/home" class="navbar-brand">
       <!--Logo start-->
@@ -161,7 +168,7 @@
                   <span class="item-name">Medicos</span>
                 </a>
               </li>
-              <?php if ($_SESSION["nivel_acceso"] != 4) { ?>
+              <?php if (PermisosHelper::tienePermiso(PermisosHelper::MODULO_CARGA_MASIVA, PermisosHelper::VER)) { ?>
               <li class="nav-item">
                 <a class="nav-link " href="/SIMA/medicos-carga-masiva">
                   <i class="icon">
@@ -303,7 +310,7 @@
               </i>
             </a>
             <ul class="sub-nav collapse" id="mantenimientos" data-bs-parent="#sidebar-menu">
-              <?php if ($_SESSION["nivel_acceso"] == 1 || $_SESSION["nivel_acceso"] == 2) { ?>
+              <?php if (PermisosHelper::tienePermiso(PermisosHelper::MODULO_AUDITORIAS, PermisosHelper::VER)) { ?>
                 <li class="nav-item">
                   <a class="nav-link " href="/SIMA/auditoria">
                     <i class="icon">
@@ -318,20 +325,22 @@
                   </a>
                 </li>
               <?php } ?>
-              <li class="nav-item">
-                <a class="nav-link " href="/SIMA/deportes">
-                  <i class="icon">
-                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                      <g>
-                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                      </g>
-                    </svg>
-                  </i>
-                  <i class="sidenav-mini-icon"> D </i>
-                  <span class="item-name"> Deportes </span>
-                </a>
-              </li>
-              <?php if ($_SESSION["nivel_acceso"] == 1 || $_SESSION["nivel_acceso"] == 2) { ?>
+              <?php if (PermisosHelper::tienePermiso(PermisosHelper::MODULO_DEPORTES, PermisosHelper::VER)) { ?>
+                <li class="nav-item">
+                  <a class="nav-link " href="/SIMA/deportes">
+                    <i class="icon">
+                      <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                        <g>
+                          <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                        </g>
+                      </svg>
+                    </i>
+                    <i class="sidenav-mini-icon"> D </i>
+                    <span class="item-name"> Deportes </span>
+                  </a>
+                </li>
+              <?php } ?>
+              <?php if (PermisosHelper::tienePermiso(PermisosHelper::MODULO_USUARIOS, PermisosHelper::VER)) { ?>
                 <li class="nav-item">
                   <a class="nav-link " href="/SIMA/usuarios">
                     <i class="icon">
@@ -346,7 +355,7 @@
                   </a>
                 </li>
               <?php } ?>
-              <?php if ($_SESSION["nivel_acceso"] == 1) { ?>
+              <?php if (PermisosHelper::tienePermiso(PermisosHelper::MODULO_SERVICIOS_BD, PermisosHelper::VER)) { ?>
                 <li class="nav-item">
                   <a class="nav-link " href="/SIMA/servicios-bd">
                     <i class="icon">
@@ -418,15 +427,7 @@
                 <img src="<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC']; ?>/assets/images/user.png" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded" onerror="this.onerror=null; this.src='<?php echo $_ENV['APP_URL'] . $_ENV['BASE_PATH'] . $_ENV['APP_PUBLIC'] ?? ''; ?>/assets/images/ImageDefault.svg'; this.alt='Imagen por defecto';">
                 <div class="caption ms-3 d-none d-md-block ">
                   <h6 class="mb-0 caption-title"><?php echo $_SESSION['nombres_apellidos']; ?></h6>
-                  <p class="mb-0 caption-sub-title"><?php if ($_SESSION['nivel_acceso'] == 1) {
-                                                      echo "Super Administrador (a)";
-                                                    } else if ($_SESSION['nivel_acceso'] == 1) {
-                                                      echo "Administrador (a)";
-                                                    } else if ($_SESSION['nivel_acceso'] == 1) {
-                                                      echo "Coordinador (a)";
-                                                    } else if ($_SESSION['nivel_acceso'] == 1) {
-                                                      echo "Secretario (a)";
-                                                    } ?></p>
+                  <p class="mb-0 caption-sub-title"><?php echo $nombre_rol; ?></p>
                 </div>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
