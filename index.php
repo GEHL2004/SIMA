@@ -6,7 +6,7 @@ require_once 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-use App\Controllers\{AuthController, HomeController, CategoriasController, TiposPracticaController, SistemasCorporalesController, EspecialidadesController, SubEspecialidadesController, MedicosController, MedicosReportesController, MedicosReportesDeportesController, MedicosReportesEspecialidadesController, MedicosReportesEstadosController, MedicosReportesGradosAcademicosController, MedicosReportesMunicpiosController, MedicosReportesParroquiasController, MedicosReportesSubespecialidadesController};
+use App\Controllers\{AuthController, HomeController, CategoriasController, TiposPracticaController, SistemasCorporalesController, EspecialidadesController, SubEspecialidadesController, MedicosController, MedicosReconocimientosController, MedicosReconocimientosReportesController, MedicosReportesController, MedicosReportesDeportesController, MedicosReportesEspecialidadesController, MedicosReportesEstadosController, MedicosReportesGradosAcademicosController, MedicosReportesMunicpiosController, MedicosReportesParroquiasController, MedicosReportesSubespecialidadesController};
 use App\Controllers\Mantenimientos\{AuditoriaController, DeportesController, MunicipiosController, ServiciosBaseDeDatosController, UsuariosController};
 
 $request_method = $_SERVER['REQUEST_METHOD'];
@@ -117,9 +117,13 @@ if ($request_method === 'GET' && strpos($route, '/BuscadorDeSitios/') === 0) {
     $cadena = substr($route, strlen('/medicos-delete/'));
     (new MedicosController())->changeStatus($cadena);
     exit;
-} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-individual/') === 0) {
-    $id = intval(substr($route, strlen('/medicos-generar-reporte-individual/')));
-    (new MedicosReportesController())->generarReporteMedicoIndividual($id);
+} else if ($request_method === 'GET' && strpos($route, '/medicos-delete/') === 0) {
+    $cadena = substr($route, strlen('/medicos-delete/'));
+    (new MedicosController())->changeStatus($cadena);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/reconocimientos-medico-buscar/') === 0) {
+    $id = intval(substr($route, strlen('/reconocimientos-medico-buscar/')));
+    (new MedicosReconocimientosController())->getDataMedico($id);
     exit;
 } else if ($request_method === 'GET' && strpos($route, '/medicos-ver-reporte-municipios/') === 0) {
     $id = intval(substr($route, strlen('/medicos-ver-reporte-municipios/')));
@@ -176,6 +180,10 @@ if ($request_method === 'GET' && strpos($route, '/BuscadorDeSitios/') === 0) {
 } else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-deportes/') === 0) {
     $id = intval(substr($route, strlen('/medicos-generar-reporte-deportes/')));
     (new MedicosReportesController())->generarReporteMedicoPorDeporte($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-reconocimientos-generar-reporte/') === 0) {
+    $cadena = substr($route, strlen('/medicos-reconocimientos-generar-reporte/'));
+    (new MedicosReconocimientosReportesController())->generar_reporte_pdf($cadena);
     exit;
 } else if ($request_method === 'GET' && strpos($route, '/auditoria-filtrar-usuario/') === 0) {
     $id = intval(substr($route, strlen('/auditoria-filtrar-usuario/')));
@@ -243,6 +251,10 @@ else if ($request_method === 'POST' && $route === '/categorias-store') {
     (new MedicosController())->update($_REQUEST, $_FILES);
 } else if ($request_method === 'POST' && $route === '/medicos-carga-masiva') {
     (new MedicosController())->carga_masiva($_FILES);
+} else if ($request_method === 'POST' && $route === '/medicos-reconocimientos-update') {
+    (new MedicosReconocimientosController())->update($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/medicos-reconocimientos-listado') {
+    (new MedicosReconocimientosReportesController())->vista_reporte($_REQUEST);
 } else if ($request_method === 'POST' && $route === '/serviciosBD-backup') {
     (new ServiciosBaseDeDatosController())->backup();
 } else if ($request_method === 'POST' && $route === '/serviciosBD-restore') {
@@ -328,6 +340,14 @@ switch ($route) {
         (new MedicosController())->create();
         break;
 
+    case '/medicos-carga-masiva':
+        (new MedicosController())->vista_carga_masiva();
+        break;
+
+    case '/medicos-reconocimientos':
+        (new MedicosReconocimientosController())->index();
+        break;
+
     case '/medicos-municipios':
         (new MedicosReportesMunicpiosController())->index();
         break;
@@ -354,10 +374,6 @@ switch ($route) {
 
     case '/medicos-deportes':
         (new MedicosReportesDeportesController())->index();
-        break;
-
-    case '/medicos-carga-masiva':
-        (new MedicosController())->vista_carga_masiva();
         break;
 
     case '/usuarios':

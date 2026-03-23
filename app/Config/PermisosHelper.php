@@ -36,6 +36,7 @@ class PermisosHelper
     const MODULO_SUBESPECIALIDADES = 'subespecialidades';
     const MODULO_MEDICOS = 'medicos';
     const MODULO_CARGA_MASIVA = 'carga_masiva';
+    const MODULO_RECONOCIMIENTOS = 'reconocimientos';
     const MODULO_REPORTES = 'reportes';
     const MODULO_MANTENIMIENTOS = 'mantenimientos';
     const MODULO_AUDITORIAS = 'auditorias';
@@ -91,6 +92,12 @@ class PermisosHelper
                 self::ELIMINAR => true,
             ],
             self::MODULO_CARGA_MASIVA => [
+                self::VER => true,
+                self::REGISTRAR => true,
+                self::ACTUALIZAR => true,
+                self::ELIMINAR => true,
+            ],
+            self::MODULO_RECONOCIMIENTOS => [
                 self::VER => true,
                 self::REGISTRAR => true,
                 self::ACTUALIZAR => true,
@@ -170,6 +177,12 @@ class PermisosHelper
                 self::ACTUALIZAR => true,
                 self::ELIMINAR => false,
             ],
+            self::MODULO_RECONOCIMIENTOS => [
+                self::VER => true,
+                self::REGISTRAR => true,
+                self::ACTUALIZAR => true,
+                self::ELIMINAR => false,
+            ],
             self::MODULO_REPORTES => [
                 self::VER => true,
             ],
@@ -244,6 +257,12 @@ class PermisosHelper
                 self::ACTUALIZAR => true,
                 self::ELIMINAR => false,
             ],
+            self::MODULO_RECONOCIMIENTOS => [
+                self::VER => true,
+                self::REGISTRAR => true,
+                self::ACTUALIZAR => true,
+                self::ELIMINAR => false,
+            ],
             self::MODULO_REPORTES => [
                 self::VER => true,
             ],
@@ -270,7 +289,7 @@ class PermisosHelper
             ],
         ],
 
-        // NIVEL 4: SECRETARIO - Solo registrar y ver,受限
+        // NIVEL 4: SECRETARIO - Solo registrar y ver, sin eliminar ni actualizar
         self::SECRETARIO => [
             self::MODULO_CATEGORIAS => [
                 self::VER => true,
@@ -315,6 +334,12 @@ class PermisosHelper
             self::MODULO_CARGA_MASIVA => [
                 self::VER => false,
                 self::REGISTRAR => false,
+                self::ACTUALIZAR => false,
+                self::ELIMINAR => false,
+            ],
+            self::MODULO_RECONOCIMIENTOS => [
+                self::VER => true,
+                self::REGISTRAR => true,
                 self::ACTUALIZAR => false,
                 self::ELIMINAR => false,
             ],

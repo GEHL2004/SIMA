@@ -183,15 +183,24 @@ $nombre_rol = PermisosHelper::getNombreRol($nivel_actual);
                 </a>
               </li>
               <?php } ?>
+              <?php if (PermisosHelper::tienePermiso(PermisosHelper::MODULO_RECONOCIMIENTOS, PermisosHelper::VER)) { ?>
+              <li class="nav-item">
+                <a class="nav-link " href="/SIMA/medicos-reconocimientos">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon">R</i>
+                  <span class="item-name">Reconocimientos</span>
+                </a>
+              </li>
+              <?php } ?>
             </ul>
           </li>
         <?php } ?>
-
-
-
-
-
-
         <?php if (isset($_SESSION["nivel_acceso"])) { ?>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#pagos" role="button" aria-expanded="false" aria-controls="medicos">

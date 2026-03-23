@@ -18,6 +18,7 @@ class MedicosController
     private $subespecialidades;
     private $deportes;
     private $medicos_especialidades;
+    private $medicos_reconocimientos;
     private $medicos_subespecialidades;
     private $medicos_documentos;
     private $medicos_cursos;
@@ -58,6 +59,7 @@ class MedicosController
         $this->especialidades = new EspecialidadesController();
         $this->subespecialidades = new SubEspecialidadesController();
         $this->medicos_especialidades = new MedicosEspecialidades();
+        $this->medicos_reconocimientos = new MedicosReconocimientosController();
         $this->medicos_subespecialidades = new MedicosSubespecialidades();
         $this->medicos_documentos = new MedicosDocumentos();
         $this->medicos_cursos = new MedicosCursos();
@@ -333,6 +335,7 @@ class MedicosController
             }
         }
         $this->cambios_estados->store($request['id_medico'], $request['estado']);
+        $this->medicos_reconocimientos->store($request['id_medico']); 
         if ($resultMedicos['error'] == 0 && $resultMedicosDetalles['error'] == 0) {
             $nombreMedico = str_replace('_', ' ', $request['nombres'] . $request['apellidos']);
             $this->audi->store(['ID' => $_SESSION["id_usuario"], 'accion' => 'El usuario ' . $_SESSION["nombres_apellidos"] . ' registro al médico ' . $nombreMedico . '.']);
@@ -506,6 +509,7 @@ class MedicosController
             $data['id_medico'] = $resultMedicos['id_medico'];
             $resultMedicosDetalles = $this->medicos_detalles->store($data);
             $this->cambios_estados->store($data['id_medico'], $valor['estado']);
+            $this->medicos_reconocimientos->store($data['id_medico']); 
             $resultados['registrados'][] = ['resultado' => 'registrado', 'id_medico' => $data['id_medico'], 'data' => $valor];
             $medicos_registrados += 1;
             $mensaje = "El usuario " . $_SESSION["nombres_apellidos"] . " registró al médico " . $valor['nombres'] . " " . $valor['apellidos'] . " (V-" . $valor['cedula'] . ")";

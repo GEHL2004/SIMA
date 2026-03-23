@@ -118,7 +118,7 @@ $puedeHabilitar = PermisosHelper::tienePermiso(PermisosHelper::MODULO_DEPORTES, 
     <!-- Modal de Actualización -->
     <div class="modal modal-lg fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
         <form action="/SIMA/deportes-update" method="POST" id="form-update">
-            <input type="text" name="id-deporte" id="id-deporte-edit" >
+            <input type="text" name="id-deporte" id="id-deporte-edit" hidden>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

@@ -355,6 +355,13 @@ CREATE TABLE medicos_deportes(
     id_deporte INT NOT NULL
 );
 
+CREATE TABLE medicos_reconocimientos(
+	id_medico_reconocimiento INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_medico INT NOT NULL,
+    tipo_reconocimiento INT NOT NULL,
+    fecha_de_entrega DATE NULL
+);
+
 /* RELACIONES ENTRE ENTIDADES*/
 /* |  |  |  |  |  |  |  |  | */
 /* |  |  |  |  |  |  |  |  | */
@@ -404,3 +411,5 @@ ALTER TABLE medicos_diplomados ADD FOREIGN KEY (id_medico) REFERENCES medicos(id
 ALTER TABLE medicos_deportes ADD FOREIGN KEY (id_deporte) REFERENCES deportes(id_deporte);
 
 ALTER TABLE medicos_deportes ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);
+
+ALTER TABLE medicos_reconocimientos ADD FOREIGN KEY (id_medico) REFERENCES medicos(id_medico);

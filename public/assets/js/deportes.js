@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalShow" data='${elemento.data}' id-deporte="${elemento["id_deporte"]}" onclick="cargar_modal(this, 2);">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento["id_deporte"]});" ${elemento["conteo_de_medicos"] > 0 ? "eliminard" : ""} ${puedeEliminar ? '' : 'disabled'}>
+                <button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${elemento["id_deporte"]});" ${elemento["conteo_de_medicos"] > 0 ? "disabled" : ""} ${puedeEliminar ? '' : 'disabled'}>
                     <i class="fa-solid fa-x"></i>
                 </button>
             </div>`;

@@ -17,8 +17,10 @@ class Deportes
     }
 
     public function index(){
-        $sql = "SELECT D.id_deporte, D.nombre, D.categoria, D.es_olimpico, D.popularidad, D.deporte_nacional
-                FROM deportes D;";
+        $sql = "SELECT D.id_deporte, D.nombre, D.categoria, D.es_olimpico, D.popularidad, D.deporte_nacional, COUNT(MD.id_medico) AS conteo_de_medicos 
+                FROM deportes D
+                LEFT JOIN medicos_deportes AS MD ON MD.id_deporte = D.id_deporte
+                GROUP BY D.id_deporte, D.nombre, D.categoria, D.es_olimpico, D.popularidad, D.deporte_nacional;";
         $parametros = [];
         $result = $this->conn->consultar($sql, $parametros);
         return $result;
