@@ -157,8 +157,8 @@ class MedicosController
         foreach (self::camposEsperados as $i => $valor) {
             $request[$valor] = trim($request[$valor]);
         }
-        $request['nombres'] = strtoupper(str_replace(' ', '_', $request['nombres']));
-        $request['apellidos'] = strtoupper(str_replace(' ', '_', $request['apellidos']));
+        $request['nombres'] = mb_strtoupper(str_replace(' ', '_', $request['nombres']), 'UTF-8');
+        $request['apellidos'] = mb_strtoupper(str_replace(' ', '_', $request['apellidos']), 'UTF-8');
         $validateDateDuplicate = $this->baseModel->validateData('medicos', 'cedula', $request['cedula']);
         if (!empty($validateDateDuplicate)) {
             AlertasController::warning('Dato duplicado', 'La cédula ingresada ya se encuentra registrada en el sistema, verifique y vuelvalo a intentar.');
@@ -357,36 +357,6 @@ class MedicosController
         die();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function vista_carga_masiva()
     {
         require_once "public/views/medicos/carga_masiva.php";
@@ -428,8 +398,8 @@ class MedicosController
             $datos[$i]['telefono_inicio'] = explode('-', $valor['telefono'])[0];
             $datos[$i]['telefono_restante'] = explode('-', $valor['telefono'])[1];
             $datos[$i]['nombre_foto'] = '';
-            $datos[$i]['nombres'] = strtoupper(str_replace(' ', '_', $valor['nombres']));
-            $datos[$i]['apellidos'] = strtoupper(str_replace(' ', '_', $valor['apellidos']));
+            $datos[$i]['nombres'] = mb_strtoupper(str_replace(' ', '_', $valor['nombres']), 'UTF-8');
+            $datos[$i]['apellidos'] = mb_strtoupper(str_replace(' ', '_', $valor['apellidos']), 'UTF-8');
             switch ($valor['estado']) {
                 case 'Activo':
                     $datos[$i]['estado'] = 1;
@@ -524,23 +494,6 @@ class MedicosController
         die();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function edit(int $id_medico)
     {
         // Verificar permiso de actualizar
@@ -621,8 +574,8 @@ class MedicosController
         foreach (self::camposEsperados as $i => $valor) {
             $request[$valor] = trim($request[$valor]);
         }
-        $request['nombres'] = strtoupper(str_replace(' ', '_', $request['nombres']));
-        $request['apellidos'] = strtoupper(str_replace(' ', '_', $request['apellidos']));
+        $request['nombres'] = mb_strtoupper(str_replace(' ', '_', $request['nombres']), 'UTF-8');
+        $request['apellidos'] = mb_strtoupper(str_replace(' ', '_', $request['apellidos']), 'UTF-8');
         $validateDateDuplicate = $this->baseModel->validateData('medicos', 'cedula', $request['cedula'], 'update', $request['id_medico'], 'id_medico');
         if (!empty($validateDateDuplicate)) {
             AlertasController::warning('Dato duplicado', 'La cédula ingresada ya se encuentra registrada en el sistema, verifique y vuelvalo a intentar.');
@@ -845,6 +798,18 @@ class MedicosController
             'usuario_creador' => $usuario_creador
         ];
         return $datos;
+    }
+
+    public function search(string $cadena){
+        $data = $this->medicos->search($cadena);
+        foreach ($data as $i => &$valor) {
+            $valor['nombres'] = str_replace('_', ' ', $valor['nombres']);
+            $valor['apellidos'] = str_replace('_', ' ',$valor['apellidos']);
+            $valor['nombres_apellidos'] = $valor['nombres'] . ' ' . $valor['apellidos'];
+        }
+        header('Content-Type: application/json');
+        $dataJSON = json_encode($data);
+        echo json_encode($data);
     }
 
     public function show(int $id_medico)

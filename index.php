@@ -121,9 +121,17 @@ if ($request_method === 'GET' && strpos($route, '/BuscadorDeSitios/') === 0) {
     $cadena = substr($route, strlen('/medicos-delete/'));
     (new MedicosController())->changeStatus($cadena);
     exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-search/') === 0) {
+    $cadena = substr($route, strlen('/medicos-search/'));
+    (new MedicosController())->search($cadena);
+    exit;
 } else if ($request_method === 'GET' && strpos($route, '/reconocimientos-medico-buscar/') === 0) {
     $id = intval(substr($route, strlen('/reconocimientos-medico-buscar/')));
     (new MedicosReconocimientosController())->getDataMedico($id);
+    exit;
+} else if ($request_method === 'GET' && strpos($route, '/medicos-generar-reporte-individual/') === 0) {
+    $id = intval(substr($route, strlen('/medicos-generar-reporte-individual/')));
+    (new MedicosReportesController())->generarReporteMedicoIndividual($id);
     exit;
 } else if ($request_method === 'GET' && strpos($route, '/medicos-ver-reporte-municipios/') === 0) {
     $id = intval(substr($route, strlen('/medicos-ver-reporte-municipios/')));
@@ -265,6 +273,10 @@ else if ($request_method === 'POST' && $route === '/categorias-store') {
     (new DeportesController())->store($_REQUEST);
 } else if ($request_method === 'POST' && $route === '/deportes-update') {
     (new DeportesController())->update($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/usuarios-store') {
+    (new UsuariosController())->store($_REQUEST);
+} else if ($request_method === 'POST' && $route === '/usuarios-update') {
+    (new UsuariosController())->update($_REQUEST);
 }
 
 // rutas normales

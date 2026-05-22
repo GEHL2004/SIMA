@@ -135,4 +135,17 @@ class Medicos
         return $result;
     }
 
+    public function search(string $cadena)
+    {
+        $sql = "SELECT  m.*, CONCAT(m.telefono_inicio, m.telefono_restante) AS 'telefono', CONCAT_WS('_', m.nombres, m.apellidos, m.cedula) AS directorio, mn.id_municipio, mn.id_municipio, m.id_parroquia, md.*
+                FROM medicos m
+                INNER JOIN medicos_detalles AS md ON md.id_medico = m.id_medico
+                INNER JOIN parroquias AS p ON p.id_parroquia = m.id_parroquia
+                INNER JOIN municipios AS mn ON mn.id_municipio = p.id_municipio
+                WHERE m.cedula = :cedula OR m.numero_colegio = :numero_colegio";
+        $parametros = [':cedula' => $cadena, ':numero_colegio' => $cadena];
+        $result = $this->conn->consultar($sql, $parametros);
+        return $result;
+    }
+
 }
